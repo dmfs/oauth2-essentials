@@ -1,0 +1,6 @@
+oauth2-essentials
+An OAuth2 client implementation based on http-client-essentials.
+
+Copyright 2016 Marten Gajda, licensed under Apache2.
+
+This product contains software developed at dmfs.org
