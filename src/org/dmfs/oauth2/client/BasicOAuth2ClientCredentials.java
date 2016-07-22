@@ -17,7 +17,7 @@
 
 package org.dmfs.oauth2.client;
 
-import org.dmfs.httpclient.HttpRequest;
+import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.oauth2.client.http.decorators.BasicAuthRequestDecorator;
 
 

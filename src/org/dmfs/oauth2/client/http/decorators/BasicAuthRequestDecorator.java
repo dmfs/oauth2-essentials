@@ -22,18 +22,18 @@ import java.io.UnsupportedEncodingException;
 
 import net.iharder.Base64;
 
-import org.dmfs.httpclient.HttpMethod;
-import org.dmfs.httpclient.HttpRequest;
-import org.dmfs.httpclient.HttpRequestEntity;
-import org.dmfs.httpclient.HttpResponse;
-import org.dmfs.httpclient.HttpResponseHandler;
-import org.dmfs.httpclient.converters.PlainStringHeaderConverter;
-import org.dmfs.httpclient.exceptions.ProtocolError;
-import org.dmfs.httpclient.exceptions.ProtocolException;
-import org.dmfs.httpclient.headers.BasicSingletonHeaderType;
-import org.dmfs.httpclient.headers.HeaderType;
-import org.dmfs.httpclient.headers.Headers;
-import org.dmfs.httpclient.headers.UpdatedHeaders;
+import org.dmfs.httpessentials.HttpMethod;
+import org.dmfs.httpessentials.client.HttpRequest;
+import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.client.HttpResponse;
+import org.dmfs.httpessentials.client.HttpResponseHandler;
+import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
+import org.dmfs.httpessentials.exceptions.ProtocolError;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.headers.BasicSingletonHeaderType;
+import org.dmfs.httpessentials.headers.HeaderType;
+import org.dmfs.httpessentials.headers.Headers;
+import org.dmfs.httpessentials.headers.UpdatedHeaders;
 
 
 /**

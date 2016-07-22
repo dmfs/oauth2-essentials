@@ -6,15 +6,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.dmfs.httpclient.HttpStatus;
-import org.dmfs.httpclient.exceptions.ProtocolError;
-import org.dmfs.httpclient.exceptions.ProtocolException;
-import org.dmfs.httpclient.headers.EmptyHeaders;
-import org.dmfs.httpclient.mockutils.entities.StaticMockResponseEntity;
-import org.dmfs.httpclient.mockutils.responses.StaticMockResponse;
-import org.dmfs.httpclient.types.StructuredMediaType;
+import org.dmfs.httpessentials.HttpStatus;
+import org.dmfs.httpessentials.exceptions.ProtocolError;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.headers.EmptyHeaders;
+import org.dmfs.httpessentials.mockutils.entities.StaticMockResponseEntity;
+import org.dmfs.httpessentials.mockutils.responses.StaticMockResponse;
+import org.dmfs.httpessentials.types.StructuredMediaType;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
-import org.dmfs.oauth2.client.http.responsehandlers.TokenResponseHandler;
 import org.dmfs.oauth2.client.scope.EmptyScope;
 import org.junit.Test;
 

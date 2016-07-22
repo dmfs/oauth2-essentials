@@ -20,11 +20,11 @@ package org.dmfs.oauth2.client.tokens;
 import java.net.URI;
 import java.util.NoSuchElementException;
 
-import org.dmfs.httpclient.converters.PlainStringHeaderConverter;
-import org.dmfs.httpclient.exceptions.ProtocolException;
-import org.dmfs.httpclient.parameters.BasicParameterType;
-import org.dmfs.httpclient.parameters.ParameterType;
-import org.dmfs.httpclient.typedentity.EntityConverter;
+import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.parameters.BasicParameterType;
+import org.dmfs.httpessentials.parameters.ParameterType;
+import org.dmfs.httpessentials.typedentity.EntityConverter;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;

@@ -20,8 +20,8 @@ package org.dmfs.oauth2.client;
 import java.io.Serializable;
 import java.net.URI;
 
-import org.dmfs.httpclient.exceptions.ProtocolError;
-import org.dmfs.httpclient.exceptions.ProtocolException;
+import org.dmfs.httpessentials.exceptions.ProtocolError;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
 
 
 /**

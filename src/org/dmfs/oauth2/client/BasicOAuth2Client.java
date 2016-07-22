@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.security.SecureRandom;
 
-import org.dmfs.httpclient.HttpRequest;
-import org.dmfs.httpclient.HttpRequestExecutor;
-import org.dmfs.httpclient.exceptions.ProtocolError;
-import org.dmfs.httpclient.exceptions.ProtocolException;
-import org.dmfs.httpclient.exceptions.RedirectionException;
-import org.dmfs.httpclient.exceptions.UnexpectedStatusException;
+import org.dmfs.httpessentials.client.HttpRequest;
+import org.dmfs.httpessentials.client.HttpRequestExecutor;
+import org.dmfs.httpessentials.exceptions.ProtocolError;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.exceptions.RedirectionException;
+import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
 import org.dmfs.rfc5545.Duration;
 
 

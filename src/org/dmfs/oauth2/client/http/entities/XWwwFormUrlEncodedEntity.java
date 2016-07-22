@@ -23,9 +23,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map.Entry;
 
-import org.dmfs.httpclient.HttpRequestEntity;
-import org.dmfs.httpclient.types.MediaType;
-import org.dmfs.httpclient.types.StructuredMediaType;
+import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.types.MediaType;
+import org.dmfs.httpessentials.types.StructuredMediaType;
 
 
 /**

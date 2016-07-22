@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.net.URI;
 
-import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
 import org.dmfs.oauth2.client.scope.BasicScope;
 import org.dmfs.oauth2.client.scope.EmptyScope;
 import org.junit.Test;

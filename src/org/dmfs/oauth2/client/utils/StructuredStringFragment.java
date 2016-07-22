@@ -21,9 +21,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
 
-import org.dmfs.httpclient.parameters.Parameter;
-import org.dmfs.httpclient.parameters.ParameterType;
-import org.dmfs.httpclient.parameters.Parametrized;
+import org.dmfs.httpessentials.parameters.Parameter;
+import org.dmfs.httpessentials.parameters.ParameterType;
+import org.dmfs.httpessentials.parameters.Parametrized;
 import org.dmfs.iterables.CsvIterable;
 import org.dmfs.iterators.AbstractConvertedIterator.Converter;
 import org.dmfs.iterators.AbstractFilteredIterator.IteratorFilter;

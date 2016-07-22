@@ -20,9 +20,9 @@ package org.dmfs.oauth2.client.grants;
 import java.io.IOException;
 import java.net.URI;
 
-import org.dmfs.httpclient.HttpRequestExecutor;
-import org.dmfs.httpclient.exceptions.ProtocolError;
-import org.dmfs.httpclient.exceptions.ProtocolException;
+import org.dmfs.httpessentials.client.HttpRequestExecutor;
+import org.dmfs.httpessentials.exceptions.ProtocolError;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.BasicOAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
 import org.dmfs.oauth2.client.OAuth2AccessToken;

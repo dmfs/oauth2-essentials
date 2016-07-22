@@ -17,8 +17,8 @@
 
 package org.dmfs.oauth2.client.http.requests;
 
-import org.dmfs.httpclient.HttpRequest;
-import org.dmfs.httpclient.HttpRequestEntity;
+import org.dmfs.httpessentials.client.HttpRequest;
+import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.utils.ImmutableEntry;

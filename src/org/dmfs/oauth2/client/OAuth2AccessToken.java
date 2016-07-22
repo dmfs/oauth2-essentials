@@ -19,7 +19,7 @@ package org.dmfs.oauth2.client;
 
 import java.util.NoSuchElementException;
 
-import org.dmfs.httpclient.exceptions.ProtocolException;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.rfc5545.DateTime;
 
 

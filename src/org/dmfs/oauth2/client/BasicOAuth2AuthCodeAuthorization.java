@@ -19,10 +19,10 @@ package org.dmfs.oauth2.client;
 
 import java.net.URI;
 
-import org.dmfs.httpclient.converters.PlainStringHeaderConverter;
-import org.dmfs.httpclient.exceptions.ProtocolException;
-import org.dmfs.httpclient.parameters.BasicParameterType;
-import org.dmfs.httpclient.parameters.ParameterType;
+import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
+import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.parameters.BasicParameterType;
+import org.dmfs.httpessentials.parameters.ParameterType;
 import org.dmfs.oauth2.client.utils.StructuredStringFragment;
 
 
