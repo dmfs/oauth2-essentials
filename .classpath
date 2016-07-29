@@ -6,12 +6,12 @@
 	<classpathentry kind="lib" path="libs/json_org.jar"/>
 	<classpathentry kind="lib" path="libs/rfc5545-datetime-0.2.3.jar"/>
 	<classpathentry kind="lib" path="libs/base64-2.3.9.jar"/>
-	<classpathentry kind="lib" path="libs/http-client-essentials-0.7.jar"/>
-	<classpathentry kind="lib" path="libs/http-client-headers-0.7.jar"/>
-	<classpathentry kind="lib" path="libs/http-client-mockutils-0.7.jar"/>
-	<classpathentry kind="lib" path="libs/http-client-types-0.7.jar"/>
 	<classpathentry kind="lib" path="libs/iterators-1.3.jar"/>
-	<classpathentry kind="lib" path="libs/http-client-basics-0.7.jar"/>
+	<classpathentry kind="lib" path="libs/http-client-essentials-0.8.jar"/>
+	<classpathentry kind="lib" path="libs/http-client-headers-0.8.jar"/>
+	<classpathentry kind="lib" path="libs/http-client-types-0.8.jar"/>
+	<classpathentry kind="lib" path="libs/http-client-basics-0.8.jar"/>
+	<classpathentry kind="lib" path="libs/http-client-mockutils-0.8.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

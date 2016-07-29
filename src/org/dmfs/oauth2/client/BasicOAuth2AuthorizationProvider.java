@@ -20,7 +20,6 @@ package org.dmfs.oauth2.client;
 import java.io.IOException;
 import java.net.URI;
 
-import org.dmfs.httpessentials.callbacks.FollowSecureRedirectCallback;
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
@@ -54,7 +53,7 @@ public final class BasicOAuth2AuthorizationProvider implements OAuth2Authorizati
 	public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
 		UnexpectedStatusException, IOException, ProtocolError, ProtocolException
 	{
-		return executor.execute(mTokenEndpoint, tokenRequest, FollowSecureRedirectCallback.getInstance());
+		return executor.execute(mTokenEndpoint, tokenRequest);
 	}
 
 
