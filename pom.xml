@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.dmfs</groupId>
 	<artifactId>oauth2-essentials</artifactId>
-	<version>0.3</version>
+	<version>0.3.1</version>
 	<packaging>jar</packaging>
 	<name>oauth2-essentials</name>
 	<description>An OAuth2 client implementation based on
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>org.dmfs</groupId>
 			<artifactId>http-client-headers</artifactId>
-			<version>0.8</version>
+			<version>0.8.1</version>
 		</dependency>
 
 		<dependency>

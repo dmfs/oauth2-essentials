@@ -31,6 +31,7 @@ import org.dmfs.httpessentials.headers.Headers;
 import org.dmfs.httpessentials.responsehandlers.FailResponseHandler;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
+import org.dmfs.oauth2.client.http.responsehandlers.TokenErrorResponseHandler;
 import org.dmfs.oauth2.client.http.responsehandlers.TokenResponseHandler;
 
 
@@ -69,8 +70,13 @@ public abstract class AbstractAccessTokenRequest implements HttpRequest<OAuth2Ac
 	{
 		if (!HttpStatus.OK.equals(response.status()))
 		{
-			// there was an error, let the fail handler handle this
-			return FailResponseHandler.getInstance();
+			if (!HttpStatus.BAD_REQUEST.equals(response.status()))
+			{
+				// there was an unexpected error, let the fail handler handle this
+				return FailResponseHandler.getInstance();
+			}
+			// the server returned a Bad Request
+			return new TokenErrorResponseHandler();
 		}
 		return new TokenResponseHandler(mScope);
 	}
