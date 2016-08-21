@@ -17,59 +17,59 @@
 
 package org.dmfs.oauth2.client.scope;
 
-import java.util.Iterator;
-
 import org.dmfs.iterators.CsvIterator;
 import org.dmfs.oauth2.client.OAuth2Scope;
+
+import java.util.Iterator;
 
 
 /**
  * An {@link OAuth2Scope} that interprets a space separated token list.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class StringScope implements OAuth2Scope
 {
-	private final String mScope;
+    private final String mScope;
 
 
-	/**
-	 * Creates an {@link OAuth2Scope} from the given space separated token list.
-	 * 
-	 * @param scope
-	 */
-	public StringScope(String scope)
-	{
-		mScope = scope;
-	}
+    /**
+     * Creates an {@link OAuth2Scope} from the given space separated token list.
+     *
+     * @param scope
+     */
+    public StringScope(String scope)
+    {
+        mScope = scope;
+    }
 
 
-	@Override
-	public boolean hasToken(String token)
-	{
-		Iterator<String> tokenIterator = new CsvIterator(mScope, ' ');
-		while (tokenIterator.hasNext())
-		{
-			if (tokenIterator.next().equals(token))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean hasToken(String token)
+    {
+        Iterator<String> tokenIterator = new CsvIterator(mScope, ' ');
+        while (tokenIterator.hasNext())
+        {
+            if (tokenIterator.next().equals(token))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
-	@Override
-	public boolean isEmpty()
-	{
-		return mScope.length() == 0;
-	}
+    @Override
+    public boolean isEmpty()
+    {
+        return mScope.length() == 0;
+    }
 
 
-	@Override
-	public String toString()
-	{
-		return mScope;
-	}
+    @Override
+    public String toString()
+    {
+        return mScope;
+    }
 
 }

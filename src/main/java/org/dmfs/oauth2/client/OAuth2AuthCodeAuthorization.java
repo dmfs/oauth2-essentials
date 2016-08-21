@@ -19,23 +19,22 @@ package org.dmfs.oauth2.client;
 
 /**
  * Represents an authorization that was issued by an OAuth2 authorization server.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2AuthCodeAuthorization
 {
-	/**
-	 * Returns the actual authorization code.
-	 * 
-	 * @return
-	 */
-	public String code();
+    /**
+     * Returns the actual authorization code.
+     *
+     * @return
+     */
+    public String code();
 
-
-	/**
-	 * Returns the scope that this authorization has been granted for.
-	 * 
-	 * @return
-	 */
-	public OAuth2Scope scope();
+    /**
+     * Returns the scope that this authorization has been granted for.
+     *
+     * @return
+     */
+    public OAuth2Scope scope();
 }

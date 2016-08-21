@@ -17,46 +17,47 @@
 
 package org.dmfs.oauth2.client.http.requests;
 
-import java.net.URI;
-
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.utils.ImmutableEntry;
 
+import java.net.URI;
+
 
 /**
  * Represents the requests to retrieve the token in an Authorization Code Grant.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequest
 {
-	private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "authorization_code");
-	private final OAuth2AuthCodeAuthorization mAuthorization;
-	private final URI mRedirectUri;
+    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "authorization_code");
+    private final OAuth2AuthCodeAuthorization mAuthorization;
+    private final URI mRedirectUri;
 
 
-	/**
-	 * Creates a token request for an authorization code flow.
-	 * 
-	 * @param authorization
-	 *            The authorization code as returned by the authorization endpoint.
-	 * @param redirecUri
-	 *            The redirect URI.
-	 */
-	public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirecUri)
-	{
-		super(authorization.scope());
-		mAuthorization = authorization;
-		mRedirectUri = redirecUri;
-	}
+    /**
+     * Creates a token request for an authorization code flow.
+     *
+     * @param authorization
+     *         The authorization code as returned by the authorization endpoint.
+     * @param redirecUri
+     *         The redirect URI.
+     */
+    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirecUri)
+    {
+        super(authorization.scope());
+        mAuthorization = authorization;
+        mRedirectUri = redirecUri;
+    }
 
 
-	@Override
-	public HttpRequestEntity requestEntity()
-	{
-		return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("code", mAuthorization.code()),
-			new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()) });
-	}
+    @Override
+    public HttpRequestEntity requestEntity()
+    {
+        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
+                GRANT_TYPE, new ImmutableEntry("code", mAuthorization.code()),
+                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()) });
+    }
 }

@@ -27,46 +27,47 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
 
 /**
  * {@link HttpRequest} to retrieve an access token in an OAuth2 Client Credentials Grant.
- * <p />
+ * <p/>
  * Note that this request must be authenticated using the client credentials.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequest
 {
-	private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "client_credentials");
-	private final OAuth2Scope mScope;
+    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "client_credentials");
+    private final OAuth2Scope mScope;
 
 
-	/**
-	 * Creates a {@link ClientCredentialsTokenRequest} without a specific scope.
-	 */
-	public ClientCredentialsTokenRequest()
-	{
-		this(EmptyScope.INSTANCE);
-	}
+    /**
+     * Creates a {@link ClientCredentialsTokenRequest} without a specific scope.
+     */
+    public ClientCredentialsTokenRequest()
+    {
+        this(EmptyScope.INSTANCE);
+    }
 
 
-	/**
-	 * Creates a {@link ClientCredentialsTokenRequest} with the given scopes.
-	 * 
-	 * @param scope
-	 *            The {@link OAuth2Scope} to request.
-	 */
-	public ClientCredentialsTokenRequest(OAuth2Scope scope)
-	{
-		super(scope);
-		mScope = scope;
-	}
+    /**
+     * Creates a {@link ClientCredentialsTokenRequest} with the given scopes.
+     *
+     * @param scope
+     *         The {@link OAuth2Scope} to request.
+     */
+    public ClientCredentialsTokenRequest(OAuth2Scope scope)
+    {
+        super(scope);
+        mScope = scope;
+    }
 
 
-	@Override
-	public HttpRequestEntity requestEntity()
-	{
-		if (mScope.isEmpty())
-		{
-			return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE });
-		}
-		return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("scope", mScope.toString()) });
-	}
+    @Override
+    public HttpRequestEntity requestEntity()
+    {
+        if (mScope.isEmpty())
+        {
+            return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE });
+        }
+        return new XWwwFormUrlEncodedEntity(
+                new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("scope", mScope.toString()) });
+    }
 }

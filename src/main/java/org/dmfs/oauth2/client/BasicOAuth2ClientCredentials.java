@@ -23,33 +23,33 @@ import org.dmfs.oauth2.client.http.decorators.BasicAuthRequestDecorator;
 
 /**
  * Basic implementation of {@link OAuth2ClientCredentials}.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BasicOAuth2ClientCredentials implements OAuth2ClientCredentials
 {
-	private final String mClientId;
-	private final String mClientSecret;
+    private final String mClientId;
+    private final String mClientSecret;
 
 
-	public BasicOAuth2ClientCredentials(String clientId, String clientSecret)
-	{
-		mClientId = clientId;
-		mClientSecret = clientSecret;
-	}
+    public BasicOAuth2ClientCredentials(String clientId, String clientSecret)
+    {
+        mClientId = clientId;
+        mClientSecret = clientSecret;
+    }
 
 
-	@Override
-	public <T> HttpRequest<T> authenticatedRequest(HttpRequest<T> request)
-	{
-		return new BasicAuthRequestDecorator<T>(request, mClientId, mClientSecret);
-	}
+    @Override
+    public <T> HttpRequest<T> authenticatedRequest(HttpRequest<T> request)
+    {
+        return new BasicAuthRequestDecorator<T>(request, mClientId, mClientSecret);
+    }
 
 
-	@Override
-	public String clientId()
-	{
-		return mClientId;
-	}
+    @Override
+    public String clientId()
+    {
+        return mClientId;
+    }
 
 }

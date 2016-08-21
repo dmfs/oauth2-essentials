@@ -17,8 +17,6 @@
 
 package org.dmfs.oauth2.client.grants;
 
-import java.io.IOException;
-
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
@@ -27,37 +25,42 @@ import org.dmfs.oauth2.client.OAuth2Client;
 import org.dmfs.oauth2.client.OAuth2Grant;
 import org.dmfs.oauth2.client.http.requests.RefreshTokenRequest;
 
+import java.io.IOException;
+
 
 /**
- * Implements the OAuth2 Client Credentials Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-6">RFC 6749, Section 6</a>.
- * 
+ * Implements the OAuth2 Client Credentials Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-6">RFC
+ * 6749, Section 6</a>.
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class TokenRefreshGrant implements OAuth2Grant
 {
-	private final OAuth2Client mClient;
-	private final OAuth2AccessToken mAccessToken;
+    private final OAuth2Client mClient;
+    private final OAuth2AccessToken mAccessToken;
 
 
-	/**
-	 * Creates an {@link OAuth2Grant} to refresh an {@link OAuth2AccessToken}.
-	 * 
-	 * @param client
-	 *            The {@link OAuth2Client}.
-	 * @param accessToken
-	 *            An {@link OAuth2AccessToken} that has a refresh token.
-	 * @throws ProtocolException
-	 */
-	public TokenRefreshGrant(OAuth2Client client, OAuth2AccessToken accessToken) throws ProtocolException
-	{
-		mClient = client;
-		mAccessToken = accessToken;
-	}
+    /**
+     * Creates an {@link OAuth2Grant} to refresh an {@link OAuth2AccessToken}.
+     *
+     * @param client
+     *         The {@link OAuth2Client}.
+     * @param accessToken
+     *         An {@link OAuth2AccessToken} that has a refresh token.
+     *
+     * @throws ProtocolException
+     */
+    public TokenRefreshGrant(OAuth2Client client, OAuth2AccessToken accessToken) throws ProtocolException
+    {
+        mClient = client;
+        mAccessToken = accessToken;
+    }
 
 
-	@Override
-	public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
-	{
-		return mClient.accessToken(new RefreshTokenRequest(mAccessToken.refreshToken(), mAccessToken.scope()), executor);
-	}
+    @Override
+    public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
+    {
+        return mClient.accessToken(new RefreshTokenRequest(mAccessToken.refreshToken(), mAccessToken.scope()),
+                executor);
+    }
 }

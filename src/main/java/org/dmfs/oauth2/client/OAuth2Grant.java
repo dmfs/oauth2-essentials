@@ -17,32 +17,34 @@
 
 package org.dmfs.oauth2.client;
 
-import java.io.IOException;
-
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 
+import java.io.IOException;
+
 
 /**
  * Interface of an object that knows how to get an access token using a specific OAuth2 grant type.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2Grant
 {
-	/**
-	 * Executes the grant and returns an {@link OAuth2AccessToken}.
-	 * 
-	 * @param executor
-	 *            An {@link HttpRequestExecutor} to execute the request.
-	 * @return An {@link OAuth2AccessToken}.
-	 * @throws IOException
-	 *             If the request failed on a low level.
-	 * @throws ProtocolError
-	 *             If the server responded with an error that's part of the protocol.
-	 * @throws ProtocolException
-	 *             If the server returned an invalid response.
-	 */
-	public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException;
+    /**
+     * Executes the grant and returns an {@link OAuth2AccessToken}.
+     *
+     * @param executor
+     *         An {@link HttpRequestExecutor} to execute the request.
+     *
+     * @return An {@link OAuth2AccessToken}.
+     *
+     * @throws IOException
+     *         If the request failed on a low level.
+     * @throws ProtocolError
+     *         If the server responded with an error that's part of the protocol.
+     * @throws ProtocolException
+     *         If the server returned an invalid response.
+     */
+    public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException;
 }

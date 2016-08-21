@@ -17,8 +17,6 @@
 
 package org.dmfs.oauth2.client.http.decorators;
 
-import java.io.IOException;
-
 import org.dmfs.httpessentials.HttpMethod;
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
@@ -31,64 +29,68 @@ import org.dmfs.httpessentials.headers.BasicSingletonHeaderType;
 import org.dmfs.httpessentials.headers.Headers;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 
+import java.io.IOException;
+
 
 /**
  * An {@link HttpRequest} decorator that adds a Bearer authorization header.
- * 
- * @author Marten Gajda <marten@dmfs.org>
- * 
+ *
  * @param <T>
- *            The type of the expected response.
+ *         The type of the expected response.
+ *
+ * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BearerAuthRequestDecorator<T> implements HttpRequest<T>
 {
-	// TODO: use a generic authorization header instead (once we have one)
-	private final static BasicSingletonHeaderType<String> AUTHORIZATION_HEADER = new BasicSingletonHeaderType<String>("Authorization",
-		new PlainStringHeaderConverter());
+    // TODO: use a generic authorization header instead (once we have one)
+    private final static BasicSingletonHeaderType<String> AUTHORIZATION_HEADER = new BasicSingletonHeaderType<String>(
+            "Authorization",
+            new PlainStringHeaderConverter());
 
-	private final OAuth2AccessToken mAccessToken;
-	private final HttpRequest<T> mDecorated;
-
-
-	public BearerAuthRequestDecorator(HttpRequest<T> decorated, OAuth2AccessToken accessToken)
-	{
-		mAccessToken = accessToken;
-		mDecorated = decorated;
-	}
+    private final OAuth2AccessToken mAccessToken;
+    private final HttpRequest<T> mDecorated;
 
 
-	@Override
-	public HttpMethod method()
-	{
-		return mDecorated.method();
-	}
+    public BearerAuthRequestDecorator(HttpRequest<T> decorated, OAuth2AccessToken accessToken)
+    {
+        mAccessToken = accessToken;
+        mDecorated = decorated;
+    }
 
 
-	@Override
-	public Headers headers()
-	{
-		try
-		{
-			return mDecorated.headers().withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + mAccessToken.accessToken()));
-		}
-		catch (ProtocolException e)
-		{
-			throw new RuntimeException("Can't authenticate request", e);
-		}
-	}
+    @Override
+    public HttpMethod method()
+    {
+        return mDecorated.method();
+    }
 
 
-	@Override
-	public HttpRequestEntity requestEntity()
-	{
-		return mDecorated.requestEntity();
-	}
+    @Override
+    public Headers headers()
+    {
+        try
+        {
+            return mDecorated.headers()
+                    .withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + mAccessToken.accessToken()));
+        }
+        catch (ProtocolException e)
+        {
+            throw new RuntimeException("Can't authenticate request", e);
+        }
+    }
 
 
-	@Override
-	public HttpResponseHandler<T> responseHandler(HttpResponse response) throws IOException, ProtocolError, ProtocolException
-	{
-		return mDecorated.responseHandler(response);
-	}
+    @Override
+    public HttpRequestEntity requestEntity()
+    {
+        return mDecorated.requestEntity();
+    }
+
+
+    @Override
+    public HttpResponseHandler<T> responseHandler(HttpResponse response) throws IOException, ProtocolError, ProtocolException
+    {
+        return mDecorated.responseHandler(response);
+    }
 
 }

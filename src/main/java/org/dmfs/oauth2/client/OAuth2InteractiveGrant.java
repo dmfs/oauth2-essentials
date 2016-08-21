@@ -17,72 +17,78 @@
 
 package org.dmfs.oauth2.client;
 
-import java.io.Serializable;
-import java.net.URI;
-
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 
+import java.io.Serializable;
+import java.net.URI;
+
 
 /**
- * Interface of an OAuth2 grant types that requires interaction with the user. This interaction is usually carried out by a browser component that is launched
- * with an initial authorization request URI. The back channel is provided by a redirect that contains the response values in the URI fragment part.
- * 
+ * Interface of an OAuth2 grant types that requires interaction with the user. This interaction is usually carried out
+ * by a browser component that is launched with an initial authorization request URI. The back channel is provided by a
+ * redirect that contains the response values in the URI fragment part.
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2InteractiveGrant extends OAuth2Grant
 {
 
-	/**
-	 * Returns the initial URL to load in the user agent.
-	 * 
-	 * @return A {@link URI}.
-	 */
-	public URI authorizationUrl();
+    /**
+     * Returns the initial URL to load in the user agent.
+     *
+     * @return A {@link URI}.
+     */
+    public URI authorizationUrl();
 
+    /**
+     * Update the authentication flow with the redirect URI that was returned by the user agent. Unless this throws an
+     * Exception, the caller can assume that it's safe to call {@link #accessToken(org.dmfs.httpclient.HttpRequestExecutor)}
+     * on the returned object.
+     *
+     * @param redirectUri
+     *         The redirect {@link URI} as returned by the user agent.
+     *
+     * @return A new {@link OAuth2InteractiveGrant} object that represents the new state.
+     *
+     * @throws ProtocolError
+     *         If the server returned an error.
+     * @throws ProtocolException
+     *         If the redirectUri is invalid.
+     */
+    public OAuth2InteractiveGrant withRedirect(URI redirectUri) throws ProtocolError, ProtocolException;
 
-	/**
-	 * Update the authentication flow with the redirect URI that was returned by the user agent. Unless this throws an Exception, the caller can assume that
-	 * it's safe to call {@link #accessToken(org.dmfs.httpclient.HttpRequestExecutor)} on the returned object.
-	 * 
-	 * @param redirectUri
-	 *            The redirect {@link URI} as returned by the user agent.
-	 * @return A new {@link OAuth2InteractiveGrant} object that represents the new state.
-	 * @throws ProtocolError
-	 *             If the server returned an error.
-	 * @throws ProtocolException
-	 *             If the redirectUri is invalid.
-	 */
-	public OAuth2InteractiveGrant withRedirect(URI redirectUri) throws ProtocolError, ProtocolException;
+    /**
+     * Return a {@link Serializable} state object that can be used to retain the current authentication flow state
+     * whenever the original {@link OAuth2InteractiveGrant} can't be preserved. The state object later can be used to
+     * create a new {@link OAuth2InteractiveGrant} that allows to continue the authentication flow.
+     * <p/>
+     * Note that not all {@link OAuth2InteractiveGrant} implementations may support this at any stage.
+     *
+     * @return An {@link OAuth2GrantState}.
+     *
+     * @throws {@link
+     *         UnsupportedOperationException} if this grant type does not support exporting the current state.
+     */
+    public OAuth2GrantState state() throws UnsupportedOperationException;
 
-
-	/**
-	 * Return a {@link Serializable} state object that can be used to retain the current authentication flow state whenever the original
-	 * {@link OAuth2InteractiveGrant} can't be preserved. The state object later can be used to create a new {@link OAuth2InteractiveGrant} that allows to
-	 * continue the authentication flow.
-	 * <p />
-	 * Note that not all {@link OAuth2InteractiveGrant} implementations may support this at any stage.
-	 * 
-	 * @return An {@link OAuth2GrantState}.
-	 * 
-	 * @throws {@link UnsupportedOperationException} if this grant type does not support exporting the current state.
-	 */
-	public OAuth2GrantState state() throws UnsupportedOperationException;
-
-	/**
-	 * The interface of a simple {@link Serializable} object that represents the state of an interactive grant.
-	 */
-	public interface OAuth2GrantState extends Serializable
-	{
-		/**
-		 * Creates an {@link OAuth2InteractiveGrant} from this state for the given client.
-		 * <p />
-		 * Note: you must provide the same client that was provided to the {@link OAuth2InteractiveGrant} that returned this {@link OAuth2GrantState}.
-		 * 
-		 * @param client
-		 *            The {@link OAuth2Client} that was used by the {@link OAuth2InteractiveGrant} that issued this {@link OAuth2GrantState}.
-		 * @return An {@link OAuth2InteractiveGrant} that can be used to continue the authentication flow.
-		 */
-		public OAuth2InteractiveGrant grant(OAuth2Client client);
-	}
+    /**
+     * The interface of a simple {@link Serializable} object that represents the state of an interactive grant.
+     */
+    public interface OAuth2GrantState extends Serializable
+    {
+        /**
+         * Creates an {@link OAuth2InteractiveGrant} from this state for the given client.
+         * <p/>
+         * Note: you must provide the same client that was provided to the {@link OAuth2InteractiveGrant} that returned
+         * this {@link OAuth2GrantState}.
+         *
+         * @param client
+         *         The {@link OAuth2Client} that was used by the {@link OAuth2InteractiveGrant} that issued this {@link
+         *         OAuth2GrantState}.
+         *
+         * @return An {@link OAuth2InteractiveGrant} that can be used to continue the authentication flow.
+         */
+        public OAuth2InteractiveGrant grant(OAuth2Client client);
+    }
 }

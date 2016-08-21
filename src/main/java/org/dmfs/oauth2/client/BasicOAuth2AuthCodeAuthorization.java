@@ -17,58 +17,60 @@
 
 package org.dmfs.oauth2.client;
 
-import java.net.URI;
-
 import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.parameters.BasicParameterType;
 import org.dmfs.httpessentials.parameters.ParameterType;
 import org.dmfs.oauth2.client.utils.StructuredStringFragment;
 
+import java.net.URI;
+
 
 /**
  * A basic {@link OAuth2AuthCodeAuthorization} implementation.
- * <p />
+ * <p/>
  * Note: Usually you don't need to instantiate this directly.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAuthorization
 {
-	private static final ParameterType<String> AUTH_CODE = new BasicParameterType<String>("access_token", PlainStringHeaderConverter.INSTANCE);
-	private static final ParameterType<String> STATE = new BasicParameterType<String>("state", PlainStringHeaderConverter.INSTANCE);
+    private static final ParameterType<String> AUTH_CODE = new BasicParameterType<String>("access_token",
+            PlainStringHeaderConverter.INSTANCE);
+    private static final ParameterType<String> STATE = new BasicParameterType<String>("state",
+            PlainStringHeaderConverter.INSTANCE);
 
-	private final StructuredStringFragment mFragment;
-	private final OAuth2Scope mScope;
-
-
-	public BasicOAuth2AuthCodeAuthorization(URI redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
-	{
-		mFragment = new StructuredStringFragment(redirectUri.toASCIIString());
-		if (!state.equals(mFragment.firstParameter(STATE, "")))
-		{
-			throw new ProtocolException("State in redirect uri doesn't match the original state!");
-		}
-		if (!mFragment.hasParameter(AUTH_CODE))
-		{
-			// fail early, because we can't do that in #code()
-			throw new ProtocolException(String.format("Missing access_token in fragment '%s'", mFragment.toString()));
-		}
-		mScope = requestedScope;
-	}
+    private final StructuredStringFragment mFragment;
+    private final OAuth2Scope mScope;
 
 
-	@Override
-	public String code()
-	{
-		return mFragment.firstParameter(AUTH_CODE, "").value();
-	}
+    public BasicOAuth2AuthCodeAuthorization(URI redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
+    {
+        mFragment = new StructuredStringFragment(redirectUri.toASCIIString());
+        if (!state.equals(mFragment.firstParameter(STATE, "")))
+        {
+            throw new ProtocolException("State in redirect uri doesn't match the original state!");
+        }
+        if (!mFragment.hasParameter(AUTH_CODE))
+        {
+            // fail early, because we can't do that in #code()
+            throw new ProtocolException(String.format("Missing access_token in fragment '%s'", mFragment.toString()));
+        }
+        mScope = requestedScope;
+    }
 
 
-	@Override
-	public OAuth2Scope scope()
-	{
-		return mScope;
-	}
+    @Override
+    public String code()
+    {
+        return mFragment.firstParameter(AUTH_CODE, "").value();
+    }
+
+
+    @Override
+    public OAuth2Scope scope()
+    {
+        return mScope;
+    }
 
 }

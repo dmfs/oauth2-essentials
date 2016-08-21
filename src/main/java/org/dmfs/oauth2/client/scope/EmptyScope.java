@@ -22,32 +22,32 @@ import org.dmfs.oauth2.client.OAuth2Scope;
 
 /**
  * An {@link OAuth2Scope} that contains no scope tokens.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class EmptyScope implements OAuth2Scope
 {
-	public final static EmptyScope INSTANCE = new EmptyScope();
+    public final static EmptyScope INSTANCE = new EmptyScope();
 
 
-	@Override
-	public boolean isEmpty()
-	{
-		return true;
-	}
+    @Override
+    public boolean isEmpty()
+    {
+        return true;
+    }
 
 
-	@Override
-	public boolean hasToken(String token)
-	{
-		// no tokens in here
-		return false;
-	}
+    @Override
+    public boolean hasToken(String token)
+    {
+        // no tokens in here
+        return false;
+    }
 
 
-	@Override
-	public String toString()
-	{
-		return "";
-	}
+    @Override
+    public String toString()
+    {
+        return "";
+    }
 }

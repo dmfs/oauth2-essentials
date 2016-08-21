@@ -26,36 +26,37 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
 
 /**
  * An {@link HttpRequest} to refresh an OAuth2 access token.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class RefreshTokenRequest extends AbstractAccessTokenRequest
 {
-	private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "refresh_token");
-	private final String mRefreshToken;
-	private final OAuth2Scope mScope;
+    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "refresh_token");
+    private final String mRefreshToken;
+    private final OAuth2Scope mScope;
 
 
-	/**
-	 * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
-	 * 
-	 * @param refreshToken
-	 *            The refresh token.
-	 * @param scope
-	 *            An {@link OAuth2Scope}.
-	 */
-	public RefreshTokenRequest(String refreshToken, OAuth2Scope scope)
-	{
-		super(scope);
-		mRefreshToken = refreshToken;
-		mScope = scope;
-	}
+    /**
+     * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
+     *
+     * @param refreshToken
+     *         The refresh token.
+     * @param scope
+     *         An {@link OAuth2Scope}.
+     */
+    public RefreshTokenRequest(String refreshToken, OAuth2Scope scope)
+    {
+        super(scope);
+        mRefreshToken = refreshToken;
+        mScope = scope;
+    }
 
 
-	@Override
-	public HttpRequestEntity requestEntity()
-	{
-		return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("refresh_token", mRefreshToken),
-			new ImmutableEntry("scope", mScope.toString()) });
-	}
+    @Override
+    public HttpRequestEntity requestEntity()
+    {
+        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
+                GRANT_TYPE, new ImmutableEntry("refresh_token", mRefreshToken),
+                new ImmutableEntry("scope", mScope.toString()) });
+    }
 }

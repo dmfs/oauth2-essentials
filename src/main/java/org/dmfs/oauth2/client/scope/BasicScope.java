@@ -22,66 +22,66 @@ import org.dmfs.oauth2.client.OAuth2Scope;
 
 /**
  * A basic {@link OAuth2Scope} that gets the scope tokens in an array.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BasicScope implements OAuth2Scope
 {
-	public final String[] mTokens;
+    public final String[] mTokens;
 
 
-	/**
-	 * Creates a new {@link OAuth2Scope} that contains the given tokens.
-	 * 
-	 * @param tokens
-	 *            The scope tokens in this scope. Must not contain <code>null</code> or empty {@link String}s.
-	 */
-	public BasicScope(String... tokens)
-	{
-		mTokens = tokens.clone();
-	}
+    /**
+     * Creates a new {@link OAuth2Scope} that contains the given tokens.
+     *
+     * @param tokens
+     *         The scope tokens in this scope. Must not contain <code>null</code> or empty {@link String}s.
+     */
+    public BasicScope(String... tokens)
+    {
+        mTokens = tokens.clone();
+    }
 
 
-	@Override
-	public boolean isEmpty()
-	{
-		return mTokens.length == 0;
-	}
+    @Override
+    public boolean isEmpty()
+    {
+        return mTokens.length == 0;
+    }
 
 
-	@Override
-	public boolean hasToken(String token)
-	{
-		for (String scopeToken : mTokens)
-		{
-			if (scopeToken.equals(token))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean hasToken(String token)
+    {
+        for (String scopeToken : mTokens)
+        {
+            if (scopeToken.equals(token))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
-	@Override
-	public String toString()
-	{
-		StringBuilder result = new StringBuilder(mTokens.length * 30);
-		boolean first = true;
+    @Override
+    public String toString()
+    {
+        StringBuilder result = new StringBuilder(mTokens.length * 30);
+        boolean first = true;
 
-		for (String token : mTokens)
-		{
-			if (first)
-			{
-				first = false;
-			}
-			else
-			{
-				result.append(' ');
-			}
-			result.append(token);
-		}
-		return result.toString();
-	}
+        for (String token : mTokens)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                result.append(' ');
+            }
+            result.append(token);
+        }
+        return result.toString();
+    }
 
 }

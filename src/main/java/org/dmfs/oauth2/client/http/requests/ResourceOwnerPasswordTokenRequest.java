@@ -26,42 +26,43 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
 
 /**
  * {@link HttpRequest} to retrieve an access token in an OAuth2 Resource Owner Password Credentials Grant.
- * <p />
+ * <p/>
  * Note that this request must be authenticated using the client credentials.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessTokenRequest
 {
-	private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "password");
-	private final String mUsername;
-	private final String mPassword;
-	private final OAuth2Scope mScope;
+    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "password");
+    private final String mUsername;
+    private final String mPassword;
+    private final OAuth2Scope mScope;
 
 
-	/**
-	 * Creates a {@link ResourceOwnerPasswordTokenRequest} with the given scopes.
-	 * 
-	 * @param scope
-	 *            An {@link OAuth2Scope}.
-	 * @param username
-	 *            The user name of the resource owner.
-	 * @param password
-	 *            The password of the resource owner.
-	 */
-	public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, String username, String password)
-	{
-		super(scope);
-		mUsername = username;
-		mPassword = password;
-		mScope = scope;
-	}
+    /**
+     * Creates a {@link ResourceOwnerPasswordTokenRequest} with the given scopes.
+     *
+     * @param scope
+     *         An {@link OAuth2Scope}.
+     * @param username
+     *         The user name of the resource owner.
+     * @param password
+     *         The password of the resource owner.
+     */
+    public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, String username, String password)
+    {
+        super(scope);
+        mUsername = username;
+        mPassword = password;
+        mScope = scope;
+    }
 
 
-	@Override
-	public HttpRequestEntity requestEntity()
-	{
-		return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("username", mUsername),
-			new ImmutableEntry("password", mPassword), new ImmutableEntry("scope", mScope.toString()) });
-	}
+    @Override
+    public HttpRequestEntity requestEntity()
+    {
+        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
+                GRANT_TYPE, new ImmutableEntry("username", mUsername),
+                new ImmutableEntry("password", mPassword), new ImmutableEntry("scope", mScope.toString()) });
+    }
 }

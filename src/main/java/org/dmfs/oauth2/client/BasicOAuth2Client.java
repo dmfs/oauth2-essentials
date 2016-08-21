@@ -17,84 +17,91 @@
 
 package org.dmfs.oauth2.client;
 
-import java.io.IOException;
-import java.net.URI;
-import java.security.SecureRandom;
-
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.exceptions.RedirectionException;
 import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
+import org.dmfs.httpessentials.executors.useragent.Branded;
+import org.dmfs.httpessentials.types.Product;
+import org.dmfs.httpessentials.types.VersionedProduct;
 import org.dmfs.rfc5545.Duration;
+
+import java.io.IOException;
+import java.net.URI;
+import java.security.SecureRandom;
 
 
 /**
  * Basic implementation of an {@link OAuth2Client}.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BasicOAuth2Client implements OAuth2Client
 {
-	private final static String STATE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+    private final static String STATE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+    // TODO: get these values from a BuildConfig
+    private final static Product PRODUCT = new VersionedProduct("oauth2-essentials", "0.4.1");
 
-	private final OAuth2AuthorizationProvider mProvider;
-	private final OAuth2ClientCredentials mCredentials;
-	private final URI mRedirectUri;
-
-
-	public BasicOAuth2Client(OAuth2AuthorizationProvider provider, OAuth2ClientCredentials credentials, URI redirectUri)
-	{
-		mProvider = provider;
-		mCredentials = credentials;
-		mRedirectUri = redirectUri;
-	}
+    private final OAuth2AuthorizationProvider mProvider;
+    private final OAuth2ClientCredentials mCredentials;
+    private final URI mRedirectUri;
 
 
-	@Override
-	public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-		UnexpectedStatusException, IOException, ProtocolError, ProtocolException
-	{
-		return mProvider.accessToken(mCredentials.authenticatedRequest(tokenRequest), executor);
-	}
+    public BasicOAuth2Client(OAuth2AuthorizationProvider provider, OAuth2ClientCredentials credentials, URI redirectUri)
+    {
+        mProvider = provider;
+        mCredentials = credentials;
+        mRedirectUri = redirectUri;
+    }
 
 
-	@Override
-	public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest)
-	{
-		return mProvider.authorizationUrl(authorizationRequest.withClientId(mCredentials.clientId()).withRedirectUri(mRedirectUri));
-	}
+    @Override
+    public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
+            UnexpectedStatusException, IOException, ProtocolError, ProtocolException
+    {
+        return mProvider.accessToken(mCredentials.authenticatedRequest(tokenRequest), new Branded(executor, PRODUCT));
+    }
 
 
-	@Override
-	public URI redirectUri()
-	{
-		return mRedirectUri;
-	}
+    @Override
+    public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest)
+    {
+        return mProvider.authorizationUrl(
+                authorizationRequest.withClientId(mCredentials.clientId()).withRedirectUri(mRedirectUri));
+    }
 
 
-	@Override
-	public Duration defaultTokenTtl()
-	{
-		return mProvider.defaultTokenTtl();
-	}
+    @Override
+    public URI redirectUri()
+    {
+        return mRedirectUri;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 * <p />
-	 * Note: Client on platforms with insecure {@link SecureRandom} implementations should decorate this implementation and return a secure random string.
-	 */
-	@Override
-	public String generatedRandomState()
-	{
-		StringBuilder result = new StringBuilder(64);
-		SecureRandom random = new SecureRandom();
-		for (int i = 0, count = result.capacity(); i < count; ++i)
-		{
-			result.append(STATE_CHARS.charAt(random.nextInt(STATE_CHARS.length())));
-		}
-		return result.toString();
-	}
+    @Override
+    public Duration defaultTokenTtl()
+    {
+        return mProvider.defaultTokenTtl();
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * Note: Client on platforms with insecure {@link SecureRandom} implementations should decorate this implementation
+     * and return a secure random string.
+     */
+    @Override
+    public String generatedRandomState()
+    {
+        StringBuilder result = new StringBuilder(64);
+        SecureRandom random = new SecureRandom();
+        for (int i = 0, count = result.capacity(); i < count; ++i)
+        {
+            result.append(STATE_CHARS.charAt(random.nextInt(STATE_CHARS.length())));
+        }
+        return result.toString();
+    }
 }

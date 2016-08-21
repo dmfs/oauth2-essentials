@@ -17,9 +17,6 @@
 
 package org.dmfs.oauth2.client;
 
-import java.io.IOException;
-import java.net.URI;
-
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
@@ -28,45 +25,48 @@ import org.dmfs.httpessentials.exceptions.RedirectionException;
 import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
 import org.dmfs.rfc5545.Duration;
 
+import java.io.IOException;
+import java.net.URI;
+
 
 /**
  * Basic implementation of an OAuth2 authorization provider.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class BasicOAuth2AuthorizationProvider implements OAuth2AuthorizationProvider
 {
-	private final URI mAuthorizationEndpoint;
-	private final URI mTokenEndpoint;
-	private final Duration mDefaultTokenTtl;
+    private final URI mAuthorizationEndpoint;
+    private final URI mTokenEndpoint;
+    private final Duration mDefaultTokenTtl;
 
 
-	public BasicOAuth2AuthorizationProvider(URI authorizationEndpoint, URI tokenEndpoint, Duration defaultTokenTtl)
-	{
-		mAuthorizationEndpoint = authorizationEndpoint;
-		mTokenEndpoint = tokenEndpoint;
-		mDefaultTokenTtl = defaultTokenTtl;
-	}
+    public BasicOAuth2AuthorizationProvider(URI authorizationEndpoint, URI tokenEndpoint, Duration defaultTokenTtl)
+    {
+        mAuthorizationEndpoint = authorizationEndpoint;
+        mTokenEndpoint = tokenEndpoint;
+        mDefaultTokenTtl = defaultTokenTtl;
+    }
 
 
-	@Override
-	public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-		UnexpectedStatusException, IOException, ProtocolError, ProtocolException
-	{
-		return executor.execute(mTokenEndpoint, tokenRequest);
-	}
+    @Override
+    public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
+            UnexpectedStatusException, IOException, ProtocolError, ProtocolException
+    {
+        return executor.execute(mTokenEndpoint, tokenRequest);
+    }
 
 
-	@Override
-	public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest)
-	{
-		return authorizationRequest.authorizationUri(mAuthorizationEndpoint);
-	}
+    @Override
+    public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest)
+    {
+        return authorizationRequest.authorizationUri(mAuthorizationEndpoint);
+    }
 
 
-	@Override
-	public Duration defaultTokenTtl()
-	{
-		return mDefaultTokenTtl;
-	}
+    @Override
+    public Duration defaultTokenTtl()
+    {
+        return mDefaultTokenTtl;
+    }
 }

@@ -19,34 +19,34 @@ package org.dmfs.oauth2.client;
 
 /**
  * Represents an OAuth2 scope.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2Scope
 {
-	/**
-	 * Returns whether this scope is empty.
-	 * 
-	 * @return <code>true</code> if this scope is empty, <code>false</code> otherwise.
-	 */
-	public boolean isEmpty();
+    /**
+     * Returns whether this scope is empty.
+     *
+     * @return <code>true</code> if this scope is empty, <code>false</code> otherwise.
+     */
+    public boolean isEmpty();
 
+    /**
+     * Returns whether this scope contains the given scope token or not.
+     *
+     * @param token
+     *         The scope token to check for.
+     *
+     * @return <code>true</code> if the scope token is contained in this scope, <code>false</code> otherwise.
+     */
+    public boolean hasToken(String token);
 
-	/**
-	 * Returns whether this scope contains the given scope token or not.
-	 * 
-	 * @param token
-	 *            The scope token to check for.
-	 * @return <code>true</code> if the scope token is contained in this scope, <code>false</code> otherwise.
-	 */
-	public boolean hasToken(String token);
-
-
-	/**
-	 * Returns a string version of this scope as described in <a href="https://tools.ietf.org/html/rfc6749#section-3.3">RFC 6749, section 3.3</a>, i.e. a list
-	 * of scope tokens separated by spaces.
-	 * 
-	 * @return A String containing a list scope tokens, separated by spaces, or an empty String if {@link #isEmpty()} returns <code>true</code>.
-	 */
-	public String toString();
+    /**
+     * Returns a string version of this scope as described in <a href="https://tools.ietf.org/html/rfc6749#section-3.3">RFC
+     * 6749, section 3.3</a>, i.e. a list of scope tokens separated by spaces.
+     *
+     * @return A String containing a list scope tokens, separated by spaces, or an empty String if {@link #isEmpty()}
+     * returns <code>true</code>.
+     */
+    public String toString();
 }

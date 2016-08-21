@@ -31,6 +31,7 @@ dependencies {
     compile 'org.dmfs:http-client-headers:0.9'
     compile 'org.dmfs:http-client-types:0.9'
     compile 'org.dmfs:http-client-basics:0.9'
+    compile 'org.dmfs:http-executor-decorators:0.9'
     testCompile 'org.dmfs:http-client-mockutils:0.9'
     compile 'org.dmfs:rfc5545-datetime:0.2.4'
     compile 'org.json:json:20160212'

@@ -17,8 +17,6 @@
 
 package org.dmfs.oauth2.client.tokens;
 
-import java.util.NoSuchElementException;
-
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
@@ -27,99 +25,101 @@ import org.dmfs.rfc5545.Duration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.NoSuchElementException;
+
 
 /**
  * An access token loaded from an {@link JSONObject} instance.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class JsonAccessToken implements OAuth2AccessToken
 {
-	private final JSONObject mTokenResponse;
-	private final OAuth2Scope mScope;
-	private final DateTime mIssueDate;
+    private final JSONObject mTokenResponse;
+    private final OAuth2Scope mScope;
+    private final DateTime mIssueDate;
 
 
-	public JsonAccessToken(JSONObject tokenResponse, OAuth2Scope scope)
-	{
-		mScope = scope;
-		mTokenResponse = tokenResponse;
-		mIssueDate = DateTime.now();
-	}
+    public JsonAccessToken(JSONObject tokenResponse, OAuth2Scope scope)
+    {
+        mScope = scope;
+        mTokenResponse = tokenResponse;
+        mIssueDate = DateTime.now();
+    }
 
 
-	@Override
-	public String accessToken() throws ProtocolException
-	{
-		try
-		{
-			return mTokenResponse.getString("access_token");
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException("Can't read access_token from token response", e);
-		}
-	}
+    @Override
+    public String accessToken() throws ProtocolException
+    {
+        try
+        {
+            return mTokenResponse.getString("access_token");
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException("Can't read access_token from token response", e);
+        }
+    }
 
 
-	@Override
-	public String tokenType() throws ProtocolException
-	{
-		try
-		{
-			return mTokenResponse.getString("token_type");
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException("Can't read token_type from token response", e);
-		}
-	}
+    @Override
+    public String tokenType() throws ProtocolException
+    {
+        try
+        {
+            return mTokenResponse.getString("token_type");
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException("Can't read token_type from token response", e);
+        }
+    }
 
 
-	@Override
-	public boolean hasRefreshToken()
-	{
-		return mTokenResponse.optString("refresh_token", null) != null;
-	}
+    @Override
+    public boolean hasRefreshToken()
+    {
+        return mTokenResponse.optString("refresh_token", null) != null;
+    }
 
 
-	@Override
-	public String refreshToken() throws ProtocolException
-	{
-		if (!hasRefreshToken())
-		{
-			throw new NoSuchElementException("No refresh token found");
-		}
+    @Override
+    public String refreshToken() throws ProtocolException
+    {
+        if (!hasRefreshToken())
+        {
+            throw new NoSuchElementException("No refresh token found");
+        }
 
-		try
-		{
-			return mTokenResponse.getString("refresh_token");
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException("Can't read refresh_token from token response", e);
-		}
-	}
-
-
-	@Override
-	public DateTime expiriationDate() throws ProtocolException
-	{
-		try
-		{
-			return mIssueDate.addDuration(new Duration(1, 0, mTokenResponse.getInt("expires_in")));
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException("Can't read expires_in from token response", e);
-		}
-	}
+        try
+        {
+            return mTokenResponse.getString("refresh_token");
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException("Can't read refresh_token from token response", e);
+        }
+    }
 
 
-	@Override
-	public OAuth2Scope scope() throws ProtocolException
-	{
-		return mScope;
-	}
+    @Override
+    public DateTime expiriationDate() throws ProtocolException
+    {
+        try
+        {
+            return mIssueDate.addDuration(new Duration(1, 0, mTokenResponse.getInt("expires_in")));
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException("Can't read expires_in from token response", e);
+        }
+    }
+
+
+    @Override
+    public OAuth2Scope scope() throws ProtocolException
+    {
+        return mScope;
+    }
 
 }

@@ -17,8 +17,6 @@
 
 package org.dmfs.oauth2.client.http.responsehandlers;
 
-import java.io.IOException;
-
 import org.dmfs.httpessentials.client.HttpResponse;
 import org.dmfs.httpessentials.client.HttpResponseHandler;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
@@ -31,40 +29,43 @@ import org.dmfs.oauth2.client.errors.TokenRequestError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 
 /**
  * {@link HttpResponseHandler} for OAuth2 token request errors with status code 400.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class TokenErrorResponseHandler implements HttpResponseHandler<OAuth2AccessToken>
 {
-	private final static MediaType APPLICATION_JSON = new StructuredMediaType("application", "json");
+    private final static MediaType APPLICATION_JSON = new StructuredMediaType("application", "json");
 
 
-	public TokenErrorResponseHandler()
-	{
-		// nothing to do here
-	}
+    public TokenErrorResponseHandler()
+    {
+        // nothing to do here
+    }
 
 
-	@Override
-	public OAuth2AccessToken handleResponse(HttpResponse response) throws IOException, ProtocolError, ProtocolException
-	{
-		if (!APPLICATION_JSON.equals(response.responseEntity().contentType()))
-		{
-			throw new ProtocolException(
-				String.format("Illegal response content-type %s, exected %s", response.responseEntity().contentType(), APPLICATION_JSON));
-		}
+    @Override
+    public OAuth2AccessToken handleResponse(HttpResponse response) throws IOException, ProtocolError, ProtocolException
+    {
+        if (!APPLICATION_JSON.equals(response.responseEntity().contentType()))
+        {
+            throw new ProtocolException(
+                    String.format("Illegal response content-type %s, exected %s",
+                            response.responseEntity().contentType(), APPLICATION_JSON));
+        }
 
-		String responseString = new StringResponseHandler("UTF-8").handleResponse(response);
-		try
-		{
-			throw new TokenRequestError(new JSONObject(responseString));
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException(String.format("Can't decode JSON response %s", responseString), e);
-		}
-	}
+        String responseString = new StringResponseHandler("UTF-8").handleResponse(response);
+        try
+        {
+            throw new TokenRequestError(new JSONObject(responseString));
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException(String.format("Can't decode JSON response %s", responseString), e);
+        }
+    }
 }

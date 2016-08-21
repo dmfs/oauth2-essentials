@@ -17,8 +17,6 @@
 
 package org.dmfs.oauth2.client.http.responsehandlers;
 
-import java.io.IOException;
-
 import org.dmfs.httpessentials.client.HttpResponse;
 import org.dmfs.httpessentials.client.HttpResponseHandler;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
@@ -32,42 +30,45 @@ import org.dmfs.oauth2.client.tokens.JsonAccessToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 
 /**
  * {@link HttpResponseHandler} for OAuth2 token responses.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class TokenResponseHandler implements HttpResponseHandler<OAuth2AccessToken>
 {
-	private final static MediaType APPLICATION_JSON = new StructuredMediaType("application", "json");
+    private final static MediaType APPLICATION_JSON = new StructuredMediaType("application", "json");
 
-	private final OAuth2Scope mScope;
-
-
-	public TokenResponseHandler(OAuth2Scope scope)
-	{
-		mScope = scope;
-	}
+    private final OAuth2Scope mScope;
 
 
-	@Override
-	public OAuth2AccessToken handleResponse(HttpResponse response) throws IOException, ProtocolError, ProtocolException
-	{
-		if (!APPLICATION_JSON.equals(response.responseEntity().contentType()))
-		{
-			throw new ProtocolException(
-				String.format("Illegal response content-type %s, exected %s", response.responseEntity().contentType(), APPLICATION_JSON));
-		}
+    public TokenResponseHandler(OAuth2Scope scope)
+    {
+        mScope = scope;
+    }
 
-		String responseString = new StringResponseHandler("UTF-8").handleResponse(response);
-		try
-		{
-			return new JsonAccessToken(new JSONObject(responseString), mScope);
-		}
-		catch (JSONException e)
-		{
-			throw new ProtocolException(String.format("Can't decode JSON response %s", responseString), e);
-		}
-	}
+
+    @Override
+    public OAuth2AccessToken handleResponse(HttpResponse response) throws IOException, ProtocolError, ProtocolException
+    {
+        if (!APPLICATION_JSON.equals(response.responseEntity().contentType()))
+        {
+            throw new ProtocolException(
+                    String.format("Illegal response content-type %s, exected %s",
+                            response.responseEntity().contentType(), APPLICATION_JSON));
+        }
+
+        String responseString = new StringResponseHandler("UTF-8").handleResponse(response);
+        try
+        {
+            return new JsonAccessToken(new JSONObject(responseString), mScope);
+        }
+        catch (JSONException e)
+        {
+            throw new ProtocolException(String.format("Can't decode JSON response %s", responseString), e);
+        }
+    }
 }

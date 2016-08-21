@@ -22,49 +22,49 @@ import java.util.Map;
 
 /**
  * Simple immutable implementation of {@link Map.Entry} of Strings.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class ImmutableEntry implements Map.Entry<String, String>
 {
 
-	private final String mKey;
-	private final String mValue;
+    private final String mKey;
+    private final String mValue;
 
 
-	/**
-	 * Creates an immutable {@link Map.Entry} with the given key and value.
-	 * 
-	 * @param key
-	 *            The key of the entry.
-	 * @param value
-	 *            The value of the entry.
-	 */
-	public ImmutableEntry(String key, String value)
-	{
-		mKey = key;
-		mValue = value;
-	}
+    /**
+     * Creates an immutable {@link Map.Entry} with the given key and value.
+     *
+     * @param key
+     *         The key of the entry.
+     * @param value
+     *         The value of the entry.
+     */
+    public ImmutableEntry(String key, String value)
+    {
+        mKey = key;
+        mValue = value;
+    }
 
 
-	@Override
-	public String getKey()
-	{
-		return mKey;
-	}
+    @Override
+    public String getKey()
+    {
+        return mKey;
+    }
 
 
-	@Override
-	public String getValue()
-	{
-		return mValue;
-	}
+    @Override
+    public String getValue()
+    {
+        return mValue;
+    }
 
 
-	@Override
-	public String setValue(String value)
-	{
-		throw new UnsupportedOperationException("Can not set value of an ImmutableEntry!");
-	}
+    @Override
+    public String setValue(String value)
+    {
+        throw new UnsupportedOperationException("Can not set value of an ImmutableEntry!");
+    }
 
 }

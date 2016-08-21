@@ -22,27 +22,27 @@ import org.dmfs.httpessentials.client.HttpRequest;
 
 /**
  * Interface of an object that knows the client credentials of an OAuth2 client.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2ClientCredentials
 {
 
-	/**
-	 * Authenticates the given request using the <code>Basic<code> authentication scheme.
-	 * 
-	 * @param request
-	 *            The {@link HttpRequest} to authenticate.
-	 * @return An authenticated {@link HttpRequest}.
-	 */
-	public <T> HttpRequest<T> authenticatedRequest(HttpRequest<T> request);
+    /**
+     * Authenticates the given request using the <code>Basic<code> authentication scheme.
+     *
+     * @param request
+     *         The {@link HttpRequest} to authenticate.
+     *
+     * @return An authenticated {@link HttpRequest}.
+     */
+    public <T> HttpRequest<T> authenticatedRequest(HttpRequest<T> request);
 
-
-	/**
-	 * Returns the client ID of the client.
-	 * 
-	 * @return The client ID.
-	 */
-	public String clientId();
+    /**
+     * Returns the client ID of the client.
+     *
+     * @return The client ID.
+     */
+    public String clientId();
 
 }

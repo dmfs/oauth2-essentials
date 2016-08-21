@@ -17,10 +17,6 @@
 
 package org.dmfs.oauth2.client.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Iterator;
-
 import org.dmfs.httpessentials.parameters.Parameter;
 import org.dmfs.httpessentials.parameters.ParameterType;
 import org.dmfs.httpessentials.parameters.Parametrized;
@@ -30,85 +26,91 @@ import org.dmfs.iterators.AbstractFilteredIterator.IteratorFilter;
 import org.dmfs.iterators.ConvertedIterator;
 import org.dmfs.iterators.FilteredIterator;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Iterator;
+
 
 /**
  * Provides access to individual fields of x-www-form-url-encoded fragments.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public final class StructuredStringFragment implements Parametrized
 {
 
-	private final String mFragment;
-	private final Iterable<String> mParts;
+    private final String mFragment;
+    private final Iterable<String> mParts;
 
 
-	public StructuredStringFragment(String fragment)
-	{
-		mFragment = fragment;
-		mParts = new CsvIterable(fragment, '&');
-	}
+    public StructuredStringFragment(String fragment)
+    {
+        mFragment = fragment;
+        mParts = new CsvIterable(fragment, '&');
+    }
 
 
-	@Override
-	public <T> Parameter<T> firstParameter(final ParameterType<T> parameterType, final T defaultValue)
-	{
-		Iterator<Parameter<T>> iterator = parameters(parameterType);
-		if (iterator.hasNext())
-		{
-			return iterator.next();
-		}
-		return parameterType.entity(defaultValue);
-	}
+    @Override
+    public <T> Parameter<T> firstParameter(final ParameterType<T> parameterType, final T defaultValue)
+    {
+        Iterator<Parameter<T>> iterator = parameters(parameterType);
+        if (iterator.hasNext())
+        {
+            return iterator.next();
+        }
+        return parameterType.entity(defaultValue);
+    }
 
 
-	@Override
-	public <T> Iterator<Parameter<T>> parameters(final ParameterType<T> parameterType)
-	{
-		return new ConvertedIterator<Parameter<T>, String>(new FilteredIterator<String>(mParts.iterator(), new IteratorFilter<String>()
-		{
-			public boolean iterate(String element)
-			{
-				String paramName = parameterType.name();
-				int paramNameLen = paramName.length();
-				return element.startsWith(paramName)
-					&& (element.length() == paramNameLen || element.length() > paramNameLen && element.charAt(paramNameLen) == '=');
-			}
-		}), new Converter<Parameter<T>, String>()
-		{
+    @Override
+    public <T> Iterator<Parameter<T>> parameters(final ParameterType<T> parameterType)
+    {
+        return new ConvertedIterator<Parameter<T>, String>(
+                new FilteredIterator<String>(mParts.iterator(), new IteratorFilter<String>()
+                {
+                    public boolean iterate(String element)
+                    {
+                        String paramName = parameterType.name();
+                        int paramNameLen = paramName.length();
+                        return element.startsWith(paramName)
+                                && (element.length() == paramNameLen || element.length() > paramNameLen && element.charAt(
+                                paramNameLen) == '=');
+                    }
+                }), new Converter<Parameter<T>, String>()
+        {
 
-			@Override
-			public Parameter<T> convert(String element)
-			{
-				String value = element.substring(parameterType.name().length());
-				if (value.length() > 0)
-				{
-					try
-					{
-						return parameterType.entityFromString(URLDecoder.decode(value.substring(1), "UTF-8"));
-					}
-					catch (UnsupportedEncodingException e)
-					{
-						throw new RuntimeException("UTF-8 encoding not supported!", e);
-					}
-				}
-				return parameterType.entityFromString("");
-			}
-		});
-	}
-
-
-	@Override
-	public <T> boolean hasParameter(final ParameterType<T> parameterType)
-	{
-		return parameters(parameterType).hasNext();
-	}
+            @Override
+            public Parameter<T> convert(String element)
+            {
+                String value = element.substring(parameterType.name().length());
+                if (value.length() > 0)
+                {
+                    try
+                    {
+                        return parameterType.entityFromString(URLDecoder.decode(value.substring(1), "UTF-8"));
+                    }
+                    catch (UnsupportedEncodingException e)
+                    {
+                        throw new RuntimeException("UTF-8 encoding not supported!", e);
+                    }
+                }
+                return parameterType.entityFromString("");
+            }
+        });
+    }
 
 
-	@Override
-	public String toString()
-	{
-		return mFragment;
-	}
+    @Override
+    public <T> boolean hasParameter(final ParameterType<T> parameterType)
+    {
+        return parameters(parameterType).hasNext();
+    }
+
+
+    @Override
+    public String toString()
+    {
+        return mFragment;
+    }
 
 }

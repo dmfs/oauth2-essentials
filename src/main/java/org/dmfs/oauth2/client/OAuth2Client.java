@@ -17,9 +17,6 @@
 
 package org.dmfs.oauth2.client;
 
-import java.io.IOException;
-import java.net.URI;
-
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
@@ -28,63 +25,65 @@ import org.dmfs.httpessentials.exceptions.RedirectionException;
 import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
 import org.dmfs.rfc5545.Duration;
 
+import java.io.IOException;
+import java.net.URI;
+
 
 /**
  * Represents an OAuth2 client to a specific {@link OAuth2AuthorizationProvider}.
- * 
+ *
  * @author Marten Gajda <marten@dmfs.org>
  */
 public interface OAuth2Client
 {
 
-	/**
-	 * Executes the given {@link HttpRequest} and returns an {@link OAuth2AccessToken}.
-	 * 
-	 * @param tokenRequest
-	 *            An {@link HttpRequest} to execute.
-	 * @param executor
-	 *            An {@link HttpRequestExecutor} to execute the request.
-	 * @return An {@link OAuth2AccessToken}
-	 * @throws RedirectionException
-	 * @throws UnexpectedStatusException
-	 * @throws IOException
-	 * @throws ProtocolError
-	 * @throws ProtocolException
-	 */
-	public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-		UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
+    /**
+     * Executes the given {@link HttpRequest} and returns an {@link OAuth2AccessToken}.
+     *
+     * @param tokenRequest
+     *         An {@link HttpRequest} to execute.
+     * @param executor
+     *         An {@link HttpRequestExecutor} to execute the request.
+     *
+     * @return An {@link OAuth2AccessToken}
+     *
+     * @throws RedirectionException
+     * @throws UnexpectedStatusException
+     * @throws IOException
+     * @throws ProtocolError
+     * @throws ProtocolException
+     */
+    public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
+            UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
 
+    /**
+     * Constructs the initial URL for an interactive authorization grant.
+     *
+     * @param authorizationRequest
+     *         The {@link OAuth2AuthorizationRequest} to launch.
+     *
+     * @return The URL that needs to be opened in a user agent.
+     */
+    public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
 
-	/**
-	 * Constructs the initial URL for an interactive authorization grant.
-	 * 
-	 * @param authorizationRequest
-	 *            The {@link OAuth2AuthorizationRequest} to launch.
-	 * @return The URL that needs to be opened in a user agent.
-	 */
-	public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
+    /**
+     * Generates a random state String to be used in interactive grants.
+     *
+     * @return A random {@link String}.
+     */
+    public String generatedRandomState();
 
+    /**
+     * The redirect URI of this client as registered with the server.
+     *
+     * @return A {@link URI}.
+     */
+    public URI redirectUri();
 
-	/**
-	 * Generates a random state String to be used in interactive grants.
-	 * 
-	 * @return A random {@link String}.
-	 */
-	public String generatedRandomState();
-
-
-	/**
-	 * The redirect URI of this client as registered with the server.
-	 * 
-	 * @return A {@link URI}.
-	 */
-	public URI redirectUri();
-
-
-	/**
-	 * Returns the default lifetime of an access token.
-	 * 
-	 * @return A {@link Duration}.
-	 */
-	public Duration defaultTokenTtl();
+    /**
+     * Returns the default lifetime of an access token.
+     *
+     * @return A {@link Duration}.
+     */
+    public Duration defaultTokenTtl();
 }
