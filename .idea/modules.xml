@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials_main.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials_main.iml" group="oauth2-essentials" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials_test.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials_test.iml" group="oauth2-essentials" />
+    </modules>
+  </component>
+</project>

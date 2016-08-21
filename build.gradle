@@ -1,0 +1,37 @@
+apply plugin: 'java'
+
+def gitVersion = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+group 'org.dmfs'
+version gitVersion()
+
+sourceCompatibility = 1.7
+
+configurations {
+    pom
+}
+
+apply from: 'publish.gradle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'net.iharder:base64:2.3.9'
+    compile 'org.dmfs:http-client-essentials:0.9'
+    compile 'org.dmfs:http-client-headers:0.9'
+    compile 'org.dmfs:http-client-types:0.9'
+    compile 'org.dmfs:http-client-basics:0.9'
+    testCompile 'org.dmfs:http-client-mockutils:0.9'
+    compile 'org.dmfs:rfc5545-datetime:0.2.4'
+    compile 'org.json:json:20160212'
+}

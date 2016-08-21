@@ -57,6 +57,7 @@ public class BasicOAuth2AuthorizationRequestTest
 	@Test
 	public void testWithRedirectUri()
 	{
+
 		fail("not implemented yet");
 	}
 }
