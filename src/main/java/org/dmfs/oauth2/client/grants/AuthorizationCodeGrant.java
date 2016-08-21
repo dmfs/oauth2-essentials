@@ -59,7 +59,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     {
         mClient = client;
         mScope = scope;
-        mState = client.generatedRandomState();
+        mState = state;
     }
 
 
