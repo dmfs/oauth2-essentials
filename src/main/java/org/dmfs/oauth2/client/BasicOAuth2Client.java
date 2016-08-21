@@ -41,8 +41,7 @@ import java.security.SecureRandom;
 public final class BasicOAuth2Client implements OAuth2Client
 {
     private final static String STATE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
-    // TODO: get these values from a BuildConfig
-    private final static Product PRODUCT = new VersionedProduct("oauth2-essentials", "0.4.1");
+    private final static Product PRODUCT = new VersionedProduct(BuildConfig.NAME, BuildConfig.VERSION);
 
     private final OAuth2AuthorizationProvider mProvider;
     private final OAuth2ClientCredentials mCredentials;
