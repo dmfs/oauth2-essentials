@@ -2,6 +2,8 @@
 
 An OAuth2 client implementation based on http-client-essentials.
 
+[![Build Status](https://travis-ci.org/dmfs/oauth2-essentials.svg?branch=master)](https://travis-ci.org/dmfs/oauth2-essentials)
+
 ## Requirements
 
 This library builds upon [http-client-essentials](https://github.com/dmfs/http-client-essentials).
