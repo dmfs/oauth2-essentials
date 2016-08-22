@@ -59,12 +59,10 @@ OAuth2InteractiveGrant grant = new AuthorizationCodeGrant(
     client, new BasicScope("scope"));
 
 // Get the authorization URL and open it in a WebView
-
 URI authorizationUrl = grant.authorizationUrl();
 
 // Open the URL in a WebView and wait for the redirect to the redirect URL
 // After the redirect, feed the URL to the grant to retrieve the access token
-
 OAuth2AccessToken token = grant.withRedirect(redirectUrl).accessToken(executor);
 ```
 
@@ -75,12 +73,10 @@ OAuth2AccessToken token = grant.withRedirect(redirectUrl).accessToken(executor);
 OAuth2InteractiveGrant grant = new ImplicitGrant(client, new BasicScope("scope"));
 
 // Get the authorization URL and open it in a WebView
-
 URI authorizationUrl = grant.authorizationUrl();
 
 // Open the URL in a WebView and wait for the redirect to the redirect URL
 // After the redirect, feed it to the grant to retrieve the access token
-
 OAuth2AccessToken token = grant.withRedirect(redirectUrl).accessToken(executor);
 ```
 
@@ -96,16 +92,14 @@ OAuth2AccessToken token = new ResourceOwnerPasswordGrant(
 
 ```java
 // Request access token using a Client Credentials Grant
-OAuth2AccessToken token = new ClientCredentialsGrant(
-    client, new BasicScope("scope")).accessToken(executor);
+OAuth2AccessToken token = new ClientCredentialsGrant(client, new BasicScope("scope")).accessToken(executor);
 ```
 
 ### Refresh Token Grant
 
 ```java
 // Request new access token, providing the previous one
-OAuth2AccessToken token = new TokenRefreshGrant(
-    client, oldToken).accessToken(executor);
+OAuth2AccessToken token = new TokenRefreshGrant(client, oldToken).accessToken(executor);
 ```
 
 ## Requirements
