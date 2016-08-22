@@ -29,6 +29,12 @@ buildConfig {
     packageName = 'org.dmfs.oauth2.client'
 }
 
+tasks.withType(Jar) {
+    eachFile {
+        it.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
+
 sourceCompatibility = 1.7
 
 configurations {
