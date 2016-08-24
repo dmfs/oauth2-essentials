@@ -4,6 +4,13 @@
 
 An OAuth2 client implementation based on http-client-essentials-suite.
 
+## Rationale
+
+[OAuth2](https://tools.ietf.org/html/rfc6749) is an authentication frameworks that's standardized in RFC 6749. There are a couple of Java implementations for OAuth2 clients available,
+but most of them either depend on a specific platform (e.g. Android), pull in large dependencies (usually a specific HTTP client implementation) or are incomplete.
+This library aims to provide a complete, platform independent Java implementation of RFC 6749 that can be used with any HTTP client implementation. The later is achieved by using the
+http-client-essentials abstraction framework for HTTP clients.
+
 ## Supported Grants
 
 * [Authorization Code Grant (requires a webwiev)](https://tools.ietf.org/html/rfc6749#section-4.1)
@@ -13,16 +20,6 @@ An OAuth2 client implementation based on http-client-essentials-suite.
 * [Refresh Token Grant](https://tools.ietf.org/html/rfc6749#section-6)
 
 ## Examples
-
-### Add Gradle dependency
-
-    dependencies {
-        // oauth2-essentials
-        compile 'org.dmfs:oauth2-essentials:0.4.3'
-        // optional to use httpurlconnection-executor, any other HttpRequestExecutor
-        // implementation will do
-        compile 'org.dmfs:httpurlconnection-executor:0.9'
-    }
 
 ### Initialize the client
 
@@ -102,9 +99,51 @@ OAuth2AccessToken token = new ClientCredentialsGrant(client, new BasicScope("sco
 OAuth2AccessToken token = new TokenRefreshGrant(client, oldToken).accessToken(executor);
 ```
 
-## Requirements
+### Authenticate a request
 
-This library builds upon [http-client-essentials-suite](https://github.com/dmfs/http-client-essentials-suite).
+After receiving the access token you usually want to use it to authenticate connections. In general this depends on the http framework in use.
+
+#### Using http-client-essentials
+
+To authenticate a request using http-client-essentials just use a `BearerAuthRequestDecorator` like so
+
+```java
+// 'request' is a HttpRequest instance that's to be authenticated
+result = executor.execute(url, new BearerAuthRequestDecorator(request, token));
+```
+
+#### Using another http client or a non-http protocol
+
+When not using http-client-essentials you can generate and add the `Authorization` header yourself.
+
+```java
+// build the value of the Authorization header
+String authorization = String.format("Bearer %s", token.accessToken());
+
+// add the header to your request
+// For HttpUrlConnection this looks like:
+myConnection.setRequestProperty("Authorization", authorization);
+```
+
+## Choice of HTTP client
+
+This library doesn't depend on any specific HTTP client implementation. Instead it builds upon [http-client-essentials-suite](https://github.com/dmfs/http-client-essentials-suite) to allow any 3rd party HTTP client to be used.
+
+## Download
+
+Get the latest version via [Maven](https://search.maven.org/remote_content?g=org.dmfs&a=oauth2-essentials&v=LATEST)
+
+Or add it to your build.gradle:
+
+
+    dependencies {
+        // oauth2-essentials
+        compile 'org.dmfs:oauth2-essentials:0.4.3'
+        // optional to use httpurlconnection-executor, any other HttpRequestExecutor
+        // implementation will do
+        compile 'org.dmfs:httpurlconnection-executor:0.9'
+    }
+
 
 ## License
 

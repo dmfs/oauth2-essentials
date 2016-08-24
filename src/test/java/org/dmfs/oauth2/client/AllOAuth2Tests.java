@@ -11,8 +11,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)
-@SuiteClasses({ BasicScopeTest.class, EmptyScopeTest.class, StringScopeTest.class, BasicOAuth2AuthorizationRequestTest.class, TokenResponseHandlerTest.class,
-	TokenErrorResponseHandlerTest.class })
+@SuiteClasses({
+        BasicScopeTest.class, EmptyScopeTest.class, StringScopeTest.class, BasicOAuth2AuthorizationRequestTest.class,
+        TokenResponseHandlerTest.class,
+        TokenErrorResponseHandlerTest.class })
 public class AllOAuth2Tests
 {
 

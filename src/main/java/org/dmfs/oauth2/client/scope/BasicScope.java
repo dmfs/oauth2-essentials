@@ -27,7 +27,7 @@ import org.dmfs.oauth2.client.OAuth2Scope;
  */
 public final class BasicScope implements OAuth2Scope
 {
-    public final String[] mTokens;
+    private final String[] mTokens;
 
 
     /**
