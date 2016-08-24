@@ -1,2 +1,3 @@
 rootProject.name = 'oauth2-essentials'
+include 'oauth2-providers'
 

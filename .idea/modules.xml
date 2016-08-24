@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials_main.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials_main.iml" group="oauth2-essentials" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-essentials_test.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-essentials_test.iml" group="oauth2-essentials" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers.iml" group="oauth2-providers" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers_main.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers_main.iml" group="oauth2-providers" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers_test.iml" filepath="$PROJECT_DIR$/.idea/modules/oauth2-providers/oauth2-providers_test.iml" group="oauth2-providers" />
     </modules>
   </component>
 </project>

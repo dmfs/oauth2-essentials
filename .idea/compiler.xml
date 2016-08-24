@@ -21,6 +21,8 @@
     <bytecodeTargetLevel>
       <module name="oauth2-essentials_main" target="1.7" />
       <module name="oauth2-essentials_test" target="1.7" />
+      <module name="oauth2-providers_main" target="1.7" />
+      <module name="oauth2-providers_test" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

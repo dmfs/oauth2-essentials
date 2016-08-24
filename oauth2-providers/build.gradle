@@ -1,0 +1,31 @@
+apply plugin: 'java'
+
+def gitVersion = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+group 'org.dmfs'
+version gitVersion()
+
+sourceCompatibility = 1.7
+
+configurations {
+    pom
+}
+
+apply from: '../publish.gradle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile rootProject
+    testCompile 'org.dmfs:httpurlconnection-executor:0.9'
+}
