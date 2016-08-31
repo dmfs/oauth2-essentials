@@ -38,7 +38,8 @@ import java.util.Map.Entry;
  */
 public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
 {
-    private final static MediaType CONTENT_TYPE = new StructuredMediaType("application", "x-www-form-urlencoded");
+    private static final MediaType CONTENT_TYPE = new StructuredMediaType("application", "x-www-form-urlencoded");
+    private static final String ENCODING = "UTF-8";
 
     private final Entry<String, String>[] mValues;
 
@@ -59,47 +60,53 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
     @Override
     public long contentLength() throws IOException
     {
-        return toString().getBytes("UTF-8").length;
+        return toString().getBytes(ENCODING).length;
     }
 
 
     @Override
     public void writeContent(OutputStream out) throws IOException
     {
-        out.write(toString().getBytes("UTF-8"));
+        out.write(toString().getBytes(ENCODING));
     }
 
 
     @Override
     public String toString()
     {
+        final StringBuilder builder = new StringBuilder(mValues.length * 32);
+        boolean first = true;
+        for (Entry<String, String> value : mValues)
+        {
+            if (value != null && value.getKey() != null && value.getValue() != null)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    builder.append('&');
+                }
+
+                builder.append(urlEncode(value.getKey()));
+                builder.append('=');
+                builder.append(urlEncode(value.getValue()));
+            }
+        }
+        return builder.toString();
+    }
+
+
+    private String urlEncode(String valueToEncode)
+    {
         try
         {
-            final StringBuilder builder = new StringBuilder(mValues.length * 32);
-            boolean first = true;
-            for (Entry<String, String> value : mValues)
-            {
-                if (value != null && value.getKey() != null && value.getValue() != null)
-                {
-                    if (first)
-                    {
-                        first = false;
-                    }
-                    else
-                    {
-                        builder.append('&');
-                    }
-
-                    builder.append(URLEncoder.encode(value.getKey(), "UTF-8"));
-                    builder.append('=');
-                    builder.append(URLEncoder.encode(value.getValue(), "UTF-8"));
-                }
-            }
-            return builder.toString();
+            return URLEncoder.encode(valueToEncode, ENCODING);
         }
         catch (UnsupportedEncodingException e)
         {
-            throw new RuntimeException("Runtime doesn't support required encoding UTF-8", e);
+            throw new RuntimeException(String.format("Runtime doesn't support required encoding %s", ENCODING), e);
         }
     }
 }
