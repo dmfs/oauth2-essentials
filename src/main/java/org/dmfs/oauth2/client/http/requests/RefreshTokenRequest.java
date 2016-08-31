@@ -55,8 +55,8 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
-                GRANT_TYPE, new ImmutableEntry("refresh_token", mRefreshToken),
-                new ImmutableEntry("scope", mScope.toString()) });
+        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
+                new ImmutableEntry("refresh_token", mRefreshToken),
+                new ImmutableEntry("scope", mScope.toString()));
     }
 }

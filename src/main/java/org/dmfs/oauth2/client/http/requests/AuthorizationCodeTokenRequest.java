@@ -56,8 +56,8 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
-                GRANT_TYPE, new ImmutableEntry("code", mAuthorization.code()),
-                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()) });
+        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
+                new ImmutableEntry("code", mAuthorization.code()),
+                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()));
     }
 }

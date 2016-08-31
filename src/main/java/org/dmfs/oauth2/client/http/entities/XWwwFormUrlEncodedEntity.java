@@ -43,7 +43,7 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
     private final Entry<String, String>[] mValues;
 
 
-    public XWwwFormUrlEncodedEntity(Entry<String, String>[] values)
+    public XWwwFormUrlEncodedEntity(Entry<String, String>... values)
     {
         mValues = values.clone();
     }

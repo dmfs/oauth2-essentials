@@ -61,8 +61,8 @@ public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessToken
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
-                GRANT_TYPE, new ImmutableEntry("username", mUsername),
-                new ImmutableEntry("password", mPassword), new ImmutableEntry("scope", mScope.toString()) });
+        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
+                new ImmutableEntry("username", mUsername),
+                new ImmutableEntry("password", mPassword), new ImmutableEntry("scope", mScope.toString()));
     }
 }
