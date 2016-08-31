@@ -103,7 +103,7 @@ public final class JsonAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public DateTime expiriationDate() throws ProtocolException
+    public DateTime expirationDate() throws ProtocolException
     {
         try
         {

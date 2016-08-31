@@ -42,14 +42,14 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
      *
      * @param authorization
      *         The authorization code as returned by the authorization endpoint.
-     * @param redirecUri
+     * @param redirectUri
      *         The redirect URI.
      */
-    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirecUri)
+    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirectUri)
     {
         super(authorization.scope());
         mAuthorization = authorization;
-        mRedirectUri = redirecUri;
+        mRedirectUri = redirectUri;
     }
 
 
