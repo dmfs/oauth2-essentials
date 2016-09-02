@@ -32,7 +32,7 @@ import java.util.Map.Entry;
  * An {@link HttpRequestEntity} that encodes key-value pairs using <code>application/x-www-form-urlencoded</code>
  * encoding.
  * <p/>
- * This implementation will just ignore any {@link Entry}s with a <code>null</code> key or value.
+ * This implementation will just ignore any {@link Entry}s with a <code>null</code> key or value or empty key.
  *
  * @author Marten Gajda <marten@dmfs.org>
  */
@@ -78,7 +78,7 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
         boolean first = true;
         for (Entry<String, String> value : mValues)
         {
-            if (value != null && value.getKey() != null && value.getValue() != null)
+            if (value != null && value.getKey() != null && !value.getKey().isEmpty() && value.getValue() != null)
             {
                 if (first)
                 {

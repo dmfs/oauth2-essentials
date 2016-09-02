@@ -128,23 +128,33 @@ public class XWwwFormUrlEncodedEntityTest
         assertEquals("key%22doublequote=",
                 new XWwwFormUrlEncodedEntity(new ImmutableEntry("key\"doublequote", "")).toString());
 
-        assertEquals("=%7B",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("", "{")).toString());
+        assertEquals("aa=%7B",
+                new XWwwFormUrlEncodedEntity(new ImmutableEntry("aa", "{")).toString());
+
+        // equals ('=')
+        assertEquals("key%3Dwith%3Dequals=value%3Dwith%3Dequals",
+                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key=with=equals", "value=with=equals")).toString());
+
+        // and ('&')
+        assertEquals("key%26with%26and=value%26with%26and",
+                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key&with&and", "value&with&and")).toString());
     }
 
     @Test
-    public void testWithNullKeysAndValues()
+    public void testIgnoreEntries_whenEntryIsNull_orKeyIsNullOrEmpty_orValueIsNull()
     {
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(
                 new ImmutableEntry("key0", "value0"),
                 new ImmutableEntry(null, "value1"),
                 new ImmutableEntry("key2", null),
                 new ImmutableEntry(null, null),
-                new ImmutableEntry("key4", "value4")
+                new ImmutableEntry("key4", "value4"),
+                new ImmutableEntry("", "value5"),
+                null,
+                new ImmutableEntry("key7", "value7")
         );
 
-        assertEquals("key0=value0&key4=value4", entity.toString());
-
+        assertEquals("key0=value0&key4=value4&key7=value7", entity.toString());
     }
 
 }
