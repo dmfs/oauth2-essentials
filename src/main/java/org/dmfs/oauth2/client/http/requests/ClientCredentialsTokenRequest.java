@@ -65,9 +65,8 @@ public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequ
     {
         if (mScope.isEmpty())
         {
-            return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] { GRANT_TYPE });
+            return new XWwwFormUrlEncodedEntity(GRANT_TYPE);
         }
-        return new XWwwFormUrlEncodedEntity(
-                new ImmutableEntry[] { GRANT_TYPE, new ImmutableEntry("scope", mScope.toString()) });
+        return new XWwwFormUrlEncodedEntity(GRANT_TYPE, new ImmutableEntry("scope", mScope.toString()));
     }
 }

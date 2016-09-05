@@ -42,22 +42,22 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
      *
      * @param authorization
      *         The authorization code as returned by the authorization endpoint.
-     * @param redirecUri
+     * @param redirectUri
      *         The redirect URI.
      */
-    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirecUri)
+    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirectUri)
     {
         super(authorization.scope());
         mAuthorization = authorization;
-        mRedirectUri = redirecUri;
+        mRedirectUri = redirectUri;
     }
 
 
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(new ImmutableEntry[] {
-                GRANT_TYPE, new ImmutableEntry("code", mAuthorization.code()),
-                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()) });
+        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
+                new ImmutableEntry("code", mAuthorization.code()),
+                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()));
     }
 }

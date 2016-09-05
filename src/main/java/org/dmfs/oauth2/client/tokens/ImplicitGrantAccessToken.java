@@ -157,7 +157,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public DateTime expiriationDate() throws ProtocolException
+    public DateTime expirationDate() throws ProtocolException
     {
         return mIssueDate.addDuration(mRedirectUriFragment.firstParameter(EXPIRES_IN, mDefaultExpiresIn).value());
     }

@@ -74,7 +74,7 @@ public interface OAuth2AccessToken
      *
      * @throws ProtocolException
      */
-    public DateTime expiriationDate() throws ProtocolException;
+    public DateTime expirationDate() throws ProtocolException;
 
     /**
      * The scope this {@link OAuth2AccessToken} was issued for. May be an empty scope if the scope is not known.
