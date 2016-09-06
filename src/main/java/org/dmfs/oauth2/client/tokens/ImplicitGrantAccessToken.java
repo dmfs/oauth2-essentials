@@ -21,11 +21,12 @@ import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.parameters.BasicParameterType;
 import org.dmfs.httpessentials.parameters.ParameterType;
+import org.dmfs.httpessentials.parameters.Parametrized;
 import org.dmfs.httpessentials.typedentity.EntityConverter;
+import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
-import org.dmfs.oauth2.client.utils.StructuredStringFragment;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
 
@@ -54,11 +55,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
                 {
                     return value.toString();
                 }
-
-
-                ;
             });
-
     private static final ParameterType<String> ACCESS_TOKEN = new BasicParameterType<String>("access_token",
             PlainStringHeaderConverter.INSTANCE);
     private static final ParameterType<String> TOKEN_TYPE = new BasicParameterType<String>("token_type",
@@ -82,7 +79,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
                 }
             });
 
-    private final StructuredStringFragment mRedirectUriFragment;
+    private final Parametrized mRedirectUriFragment;
     private final DateTime mIssueDate;
     private final OAuth2Scope mScope;
     private final Duration mDefaultExpiresIn;
@@ -105,7 +102,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
      */
     public ImplicitGrantAccessToken(URI redirectUri, OAuth2Scope scope, String state, Duration defaultExpiresIn) throws ProtocolException
     {
-        mRedirectUriFragment = new StructuredStringFragment(redirectUri.getFragment());
+        mRedirectUriFragment = new UrlFormEncodedKeyValues(redirectUri.getFragment());
         if (!state.equals(mRedirectUriFragment.firstParameter(STATE, "")))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");

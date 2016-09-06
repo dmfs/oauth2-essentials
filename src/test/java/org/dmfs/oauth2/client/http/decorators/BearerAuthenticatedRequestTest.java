@@ -77,7 +77,7 @@ public class BearerAuthenticatedRequestTest
     public void testThatNonHeaderPropertiesAreNotAffected() throws Exception
     {
         // ARRANGE
-        new Expectations()
+        new StrictExpectations()
         {{
             // @formatter:off
             originalRequest.method(); result = originalHttpMethod;

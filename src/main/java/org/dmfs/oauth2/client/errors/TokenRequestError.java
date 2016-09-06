@@ -52,6 +52,17 @@ public final class TokenRequestError extends ProtocolError
 
 
     /**
+     * Returns the error code token that was returned by the server.
+     *
+     * @return A String containing the error code token.
+     */
+    public String error()
+    {
+        return errorObject().optString("error", "unknown");
+    }
+
+
+    /**
      * Returns the error description that was returned by the server.
      *
      * @return A String containing the error description.

@@ -21,7 +21,8 @@ import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.parameters.BasicParameterType;
 import org.dmfs.httpessentials.parameters.ParameterType;
-import org.dmfs.oauth2.client.utils.StructuredStringFragment;
+import org.dmfs.httpessentials.parameters.Parametrized;
+import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
 
 import java.net.URI;
 
@@ -40,13 +41,13 @@ public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAut
     private static final ParameterType<String> STATE = new BasicParameterType<String>("state",
             PlainStringHeaderConverter.INSTANCE);
 
-    private final StructuredStringFragment mFragment;
+    private final Parametrized mFragment;
     private final OAuth2Scope mScope;
 
 
     public BasicOAuth2AuthCodeAuthorization(URI redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
     {
-        mFragment = new StructuredStringFragment(redirectUri.toASCIIString());
+        mFragment = new UrlFormEncodedKeyValues(redirectUri.toASCIIString());
         if (!state.equals(mFragment.firstParameter(STATE, "")))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");
