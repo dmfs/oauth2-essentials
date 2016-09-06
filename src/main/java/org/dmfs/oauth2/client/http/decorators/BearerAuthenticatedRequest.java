@@ -40,7 +40,7 @@ import java.io.IOException;
  *
  * @author Marten Gajda <marten@dmfs.org>
  */
-public final class BearerAuthRequestDecorator<T> implements HttpRequest<T>
+public final class BearerAuthenticatedRequest<T> implements HttpRequest<T>
 {
     // TODO: use a generic authorization header instead (once we have one)
     private final static BasicSingletonHeaderType<String> AUTHORIZATION_HEADER = new BasicSingletonHeaderType<String>(
@@ -51,7 +51,7 @@ public final class BearerAuthRequestDecorator<T> implements HttpRequest<T>
     private final HttpRequest<T> mDecorated;
 
 
-    public BearerAuthRequestDecorator(HttpRequest<T> decorated, OAuth2AccessToken accessToken)
+    public BearerAuthenticatedRequest(HttpRequest<T> decorated, OAuth2AccessToken accessToken)
     {
         mAccessToken = accessToken;
         mDecorated = decorated;
