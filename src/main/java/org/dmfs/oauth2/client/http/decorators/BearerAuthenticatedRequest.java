@@ -53,8 +53,8 @@ public final class BearerAuthenticatedRequest<T> implements HttpRequest<T>
 
     public BearerAuthenticatedRequest(HttpRequest<T> decorated, OAuth2AccessToken accessToken)
     {
-        mAccessToken = accessToken;
         mDecorated = decorated;
+        mAccessToken = accessToken;
     }
 
 
@@ -68,10 +68,15 @@ public final class BearerAuthenticatedRequest<T> implements HttpRequest<T>
     @Override
     public Headers headers()
     {
+        return mDecorated.headers().withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + getAccessToken()));
+    }
+
+
+    private String getAccessToken()
+    {
         try
         {
-            return mDecorated.headers()
-                    .withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + mAccessToken.accessToken()));
+            return mAccessToken.accessToken();
         }
         catch (ProtocolException e)
         {
