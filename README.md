@@ -105,11 +105,11 @@ After receiving the access token you usually want to use it to authenticate conn
 
 #### Using http-client-essentials
 
-To authenticate a request using http-client-essentials just use a `BearerAuthRequestDecorator` like so
+To authenticate a request using http-client-essentials just use a `BearerAuthenticatedRequest` like so
 
 ```java
 // 'request' is a HttpRequest instance that's to be authenticated
-result = executor.execute(url, new BearerAuthRequestDecorator(request, token));
+result = executor.execute(url, new BearerAuthenticatedRequest(request, token));
 ```
 
 #### Using another http client or a non-http protocol
