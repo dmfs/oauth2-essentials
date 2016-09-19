@@ -30,9 +30,12 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Header decoration for adding a Basic Authorization header.
+ * <p>
+ * Null username or password is treated as empty strings.
  *
  * @author Marten Gajda <marten@dmfs.org>
  * @author Gabor Keszthelyi
+ * @see <a href="https://tools.ietf.org/html/rfc2617#section-2">RFC2617</a>
  */
 public final class BasicAuthHeaderDecoration implements Decoration<Headers>
 {
@@ -46,8 +49,9 @@ public final class BasicAuthHeaderDecoration implements Decoration<Headers>
 
     public BasicAuthHeaderDecoration(String username, String password)
     {
-        mUsername = username;
-        mPassword = password;
+        // RFC allows empty username and password so nulls are allowed here.
+        mUsername = username != null ? username : "";
+        mPassword = password != null ? password : "";
     }
 
 
