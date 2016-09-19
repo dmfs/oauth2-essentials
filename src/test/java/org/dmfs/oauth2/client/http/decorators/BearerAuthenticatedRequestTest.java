@@ -17,7 +17,6 @@
 
 package org.dmfs.oauth2.client.http.decorators;
 
-import mockit.Expectations;
 import mockit.Injectable;
 import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
@@ -51,6 +50,7 @@ import static org.junit.Assert.fail;
 public class BearerAuthenticatedRequestTest
 {
 
+    // TODO: use a generic authorization header instead (once we have one)
     private final static BasicSingletonHeaderType<String> AUTHORIZATION_HEADER = new BasicSingletonHeaderType<String>(
             "Authorization",
             new PlainStringHeaderConverter());
