@@ -49,9 +49,16 @@ public final class BasicAuthHeaderDecoration implements Decoration<Headers>
 
     public BasicAuthHeaderDecoration(String username, String password)
     {
-        // RFC allows empty username and password so nulls are allowed here.
-        mUsername = username != null ? username : "";
-        mPassword = password != null ? password : "";
+        if (username == null)
+        {
+            throw new IllegalArgumentException("username must not be null");
+        }
+        if (password == null)
+        {
+            throw new IllegalArgumentException("password must not be null");
+        }
+        mUsername = username;
+        mPassword = password;
     }
 
 

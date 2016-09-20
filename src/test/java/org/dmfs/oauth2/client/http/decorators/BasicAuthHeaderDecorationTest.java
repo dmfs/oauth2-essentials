@@ -59,32 +59,16 @@ public class BasicAuthHeaderDecorationTest
         assertTrue(result.contains(HttpHeaders.CONTENT_LENGTH));
     }
 
-    @Test
-    public void test_thatNullUsernameConvertsToEmpty() throws Exception
+    @Test(expected = IllegalArgumentException.class)
+    public void test_whenUsernameIsNull_shouldThrowException() throws Exception
     {
-        // ARRANGE
-        BasicAuthHeaderDecoration decoration = new BasicAuthHeaderDecoration(null, "pw");
-
-        // ACT
-        Headers result = decoration.decorated(EmptyHeaders.INSTANCE);
-
-        // ASSERT
-        String expectedHeader = "Basic " + Base64.encodeBytes(":pw".getBytes("UTF-8"));
-        assertEquals(expectedHeader, result.header(AUTHORIZATION_HEADER_TYPE).value());
+        new BasicAuthHeaderDecoration(null, "pw");
     }
 
-    @Test
-    public void test_thatNullPasswordConvertsToEmpty() throws Exception
+    @Test(expected = IllegalArgumentException.class)
+    public void test_whenPasswordIsNull_shouldThrowException() throws Exception
     {
-        // ARRANGE
-        BasicAuthHeaderDecoration decoration = new BasicAuthHeaderDecoration("username", null);
-
-        // ACT
-        Headers result = decoration.decorated(EmptyHeaders.INSTANCE);
-
-        // ASSERT
-        String expectedHeader = "Basic " + Base64.encodeBytes("username:".getBytes("UTF-8"));
-        assertEquals(expectedHeader, result.header(AUTHORIZATION_HEADER_TYPE).value());
+        new BasicAuthHeaderDecoration("user name", null);
     }
 
     @Test
