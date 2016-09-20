@@ -18,7 +18,8 @@
 package org.dmfs.oauth2.client;
 
 import org.dmfs.httpessentials.client.HttpRequest;
-import org.dmfs.oauth2.client.http.decorators.BasicAuthRequestDecorator;
+import org.dmfs.httpessentials.decoration.HeaderDecorated;
+import org.dmfs.oauth2.client.http.decorators.BasicAuthHeaderDecoration;
 
 
 /**
@@ -42,7 +43,7 @@ public final class BasicOAuth2ClientCredentials implements OAuth2ClientCredentia
     @Override
     public <T> HttpRequest<T> authenticatedRequest(HttpRequest<T> request)
     {
-        return new BasicAuthRequestDecorator<T>(request, mClientId, mClientSecret);
+        return new HeaderDecorated<>(request, new BasicAuthHeaderDecoration(mClientId, mClientSecret));
     }
 
 
