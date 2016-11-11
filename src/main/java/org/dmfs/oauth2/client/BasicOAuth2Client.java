@@ -89,8 +89,7 @@ public final class BasicOAuth2Client implements OAuth2Client
     /**
      * {@inheritDoc}
      * <p/>
-     * Note: Client on platforms with insecure {@link SecureRandom} implementations should decorate this implementation
-     * and return a secure random string.
+     * Note: Client on platforms with insecure {@link SecureRandom} implementations should decorate this implementation and return a secure random string.
      */
     @Override
     public String generatedRandomState()

@@ -37,8 +37,7 @@ public final class TokenRequestError extends ProtocolError
     private final String mErrorResponse;
 
     /**
-     * {@link JSONObject} is not a {@link Serializable}, so we mark it transient and restore it from String if
-     * necessary.
+     * {@link JSONObject} is not a {@link Serializable}, so we mark it transient and restore it from String if necessary.
      */
     private transient JSONObject mErrorObject;
 

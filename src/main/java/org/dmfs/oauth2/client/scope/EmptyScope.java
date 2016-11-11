@@ -46,8 +46,27 @@ public final class EmptyScope implements OAuth2Scope
 
 
     @Override
+    public int tokenCount()
+    {
+        return 0;
+    }
+
+
+    @Override
     public String toString()
     {
         return "";
+    }
+
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof OAuth2Scope))
+        {
+            return false;
+        }
+
+        return ((OAuth2Scope) obj).isEmpty();
     }
 }

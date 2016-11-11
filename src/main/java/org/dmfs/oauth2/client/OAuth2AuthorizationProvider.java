@@ -67,8 +67,8 @@ public interface OAuth2AuthorizationProvider
     public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
 
     /**
-     * Default access token time to live for this server. This is the time to live that's applied if a server doesn't
-     * return any <code>expires_in</code> values.
+     * Default access token time to live for this server. This is the time to live that's applied if a server doesn't return any <code>expires_in</code>
+     * values.
      *
      * @return A {@link Duration}.
      */

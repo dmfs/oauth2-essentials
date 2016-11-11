@@ -36,7 +36,7 @@ import java.net.URI;
  */
 public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAuthorization
 {
-    private static final ParameterType<String> AUTH_CODE = new BasicParameterType<String>("access_token",
+    private static final ParameterType<String> AUTH_CODE = new BasicParameterType<String>("code",
             PlainStringHeaderConverter.INSTANCE);
     private static final ParameterType<String> STATE = new BasicParameterType<String>("state",
             PlainStringHeaderConverter.INSTANCE);
@@ -47,8 +47,8 @@ public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAut
 
     public BasicOAuth2AuthCodeAuthorization(URI redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
     {
-        mFragment = new UrlFormEncodedKeyValues(redirectUri.toASCIIString());
-        if (!state.equals(mFragment.firstParameter(STATE, "")))
+        mFragment = new UrlFormEncodedKeyValues(redirectUri.getRawQuery());
+        if (!state.equals(mFragment.firstParameter(STATE, "").value()))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");
         }

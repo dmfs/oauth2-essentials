@@ -56,8 +56,7 @@ public interface OAuth2AccessToken
     public boolean hasRefreshToken();
 
     /**
-     * Returns the refresh token. Before calling this use {@link #hasRefreshToken()} to check if there actually is a
-     * refresh token.
+     * Returns the refresh token. Before calling this use {@link #hasRefreshToken()} to check if there actually is a refresh token.
      *
      * @return
      *

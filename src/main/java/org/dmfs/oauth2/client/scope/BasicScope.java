@@ -64,6 +64,13 @@ public final class BasicScope implements OAuth2Scope
 
 
     @Override
+    public int tokenCount()
+    {
+        return mTokens.length;
+    }
+
+
+    @Override
     public String toString()
     {
         StringBuilder result = new StringBuilder(mTokens.length * 30);
@@ -84,4 +91,33 @@ public final class BasicScope implements OAuth2Scope
         return result.toString();
     }
 
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof OAuth2Scope))
+        {
+            return false;
+        }
+
+        OAuth2Scope other = (OAuth2Scope) obj;
+        if (isEmpty() && other.isEmpty())
+        {
+            return true;
+        }
+
+        if (tokenCount() != other.tokenCount())
+        {
+            return false;
+        }
+
+        for (String token : mTokens)
+        {
+            if (!other.hasToken(token))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

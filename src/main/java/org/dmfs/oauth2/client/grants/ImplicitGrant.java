@@ -20,7 +20,11 @@ package org.dmfs.oauth2.client.grants;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.oauth2.client.*;
+import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
+import org.dmfs.oauth2.client.OAuth2AccessToken;
+import org.dmfs.oauth2.client.OAuth2Client;
+import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
+import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.oauth2.client.tokens.ImplicitGrantAccessToken;
 
@@ -29,8 +33,7 @@ import java.net.URI;
 
 
 /**
- * Implements the OAuth2 Implicit Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.2">RFC
- * 6749, Section 4.2</a>.
+ * Implements the OAuth2 Implicit Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.2">RFC 6749, Section 4.2</a>.
  *
  * @author Marten Gajda <marten@dmfs.org>
  */
@@ -101,8 +104,8 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
 
 
     /**
-     * An {@link OAuth2InteractiveGrant} that represents the authorized state of an Implicit Grant. That means, the user
-     * has granted access and an access token was issued by the server.
+     * An {@link OAuth2InteractiveGrant} that represents the authorized state of an Implicit Grant. That means, the user has granted access and an access token
+     * was issued by the server.
      * <p>
      * The next step is to retrieve the {@link OAuth2AccessToken}.
      */
@@ -155,8 +158,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
 
 
     /**
-     * An {@link OAuth2GrantState} that represents the state of an Implicit Grant that was not confirmed by the user so
-     * far.
+     * An {@link OAuth2GrantState} that represents the state of an Implicit Grant that was not confirmed by the user so far.
      */
     private final static class InitialImplicitGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {

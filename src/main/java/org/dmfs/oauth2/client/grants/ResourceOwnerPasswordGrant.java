@@ -30,8 +30,7 @@ import java.io.IOException;
 
 
 /**
- * Implements the OAuth2 Resource Owner Password Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC
- * 6749, Section 4.3</a>.
+ * Implements the OAuth2 Resource Owner Password Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC 6749, Section 4.3</a>.
  *
  * @author Marten Gajda <marten@dmfs.org>
  */

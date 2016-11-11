@@ -29,8 +29,7 @@ import java.util.Map.Entry;
 
 
 /**
- * An {@link HttpRequestEntity} that encodes key-value pairs using <code>application/x-www-form-urlencoded</code>
- * encoding.
+ * An {@link HttpRequestEntity} that encodes key-value pairs using <code>application/x-www-form-urlencoded</code> encoding.
  * <p/>
  * This implementation will just ignore any {@link Entry}s with a <code>null</code> key or value or empty key.
  *

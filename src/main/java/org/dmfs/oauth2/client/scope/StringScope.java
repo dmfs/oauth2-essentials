@@ -60,9 +60,22 @@ public final class StringScope implements OAuth2Scope
 
 
     @Override
+    public int tokenCount()
+    {
+        int count = 0;
+        Iterator<String> tokenIterator = new CsvIterator(mScope, ' ');
+        while (tokenIterator.hasNext())
+        {
+            count += 1;
+        }
+        return count;
+    }
+
+
+    @Override
     public boolean isEmpty()
     {
-        return mScope.length() == 0;
+        return mScope.isEmpty();
     }
 
 
@@ -72,4 +85,34 @@ public final class StringScope implements OAuth2Scope
         return mScope;
     }
 
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof OAuth2Scope))
+        {
+            return false;
+        }
+
+        OAuth2Scope other = (OAuth2Scope) obj;
+        if (isEmpty() && other.isEmpty())
+        {
+            return true;
+        }
+
+        if (tokenCount() != other.tokenCount())
+        {
+            return false;
+        }
+
+        Iterator<String> tokens = new CsvIterator(mScope, ' ');
+        while (tokens.hasNext())
+        {
+            if (!other.hasToken(tokens.next()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
