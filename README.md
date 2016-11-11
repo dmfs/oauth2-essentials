@@ -138,10 +138,10 @@ Or add it to your build.gradle:
 
     dependencies {
         // oauth2-essentials
-        compile 'org.dmfs:oauth2-essentials:0.4.3'
+        compile 'org.dmfs:oauth2-essentials:0.5.1'
         // optional to use httpurlconnection-executor, any other HttpRequestExecutor
         // implementation will do
-        compile 'org.dmfs:httpurlconnection-executor:0.9'
+        compile 'org.dmfs:httpurlconnection-executor:0.10'
     }
 
 
