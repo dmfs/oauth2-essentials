@@ -42,7 +42,7 @@ import java.net.URI;
 public final class GoogleAuthorizationProvider implements OAuth2AuthorizationProvider
 {
     private final static String GOOGLE_AUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
-    private final static String GOOGLE_TOKEN_ENDPOINT = "https://accounts.google.com/oauth2/v4/token";
+    private final static String GOOGLE_TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token";
 
     private final OAuth2AuthorizationProvider delegate;
 
