@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Marten Gajda <marten@dmfs.org>
+ * Copyright 2016 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  */
 
 package org.dmfs.oauth2.client.http.requests;
@@ -27,7 +26,7 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
 /**
  * An {@link HttpRequest} to refresh an OAuth2 access token.
  *
- * @author Marten Gajda <marten@dmfs.org>
+ * @author Marten Gajda
  */
 public final class RefreshTokenRequest extends AbstractAccessTokenRequest
 {

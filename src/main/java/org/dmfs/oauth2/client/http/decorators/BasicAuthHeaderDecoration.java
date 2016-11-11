@@ -1,6 +1,5 @@
 /*
- * Copyright 2016 Marten Gajda <marten@dmfs.org>
- *
+ * Copyright 2016 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +32,7 @@ import java.io.UnsupportedEncodingException;
  * <p>
  * Null username or password is treated as empty strings.
  *
- * @author Marten Gajda <marten@dmfs.org>
+ * @author Marten Gajda
  * @author Gabor Keszthelyi
  * @see <a href="https://tools.ietf.org/html/rfc2617#section-2">RFC2617</a>
  */

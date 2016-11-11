@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Marten Gajda <marten@dmfs.org>
+ * Copyright 2016 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  */
 
 package org.dmfs.oauth2.client;
@@ -23,13 +22,13 @@ import org.dmfs.httpessentials.client.HttpRequest;
 /**
  * Interface of an object that knows the client credentials of an OAuth2 client.
  *
- * @author Marten Gajda <marten@dmfs.org>
+ * @author Marten Gajda
  */
 public interface OAuth2ClientCredentials
 {
 
     /**
-     * Authenticates the given request using the <code>Basic<code> authentication scheme.
+     * Authenticates the given request using the <code>Basic</code> authentication scheme.
      *
      * @param request
      *         The {@link HttpRequest} to authenticate.

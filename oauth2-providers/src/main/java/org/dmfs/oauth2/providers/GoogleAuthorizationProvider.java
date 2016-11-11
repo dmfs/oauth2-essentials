@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2016 Marten Gajda <marten@dmfs.org>
- *
+ * Copyright 2016 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +33,10 @@ import java.net.URI;
 
 
 /**
- * The Google OAuth2 authorization provider. A list of valid scopes is available at <a
- * href="https://developers.google.com/identity/protocols/googlescopes">OAuth 2.0 Scopes for Google APIs</a>.
+ * The Google OAuth2 authorization provider. A list of valid scopes is available at <a href="https://developers.google.com/identity/protocols/googlescopes">OAuth
+ * 2.0 Scopes for Google APIs</a>.
  *
- * @author Marten Gajda <marten@dmfs.org>
+ * @author Marten Gajda
  * @see <a href="https://developers.google.com/identity/protocols/OAuth2InstalledApp">https://developers.google.com/identity/protocols/OAuth2InstalledApp</a>
  */
 public final class GoogleAuthorizationProvider implements OAuth2AuthorizationProvider

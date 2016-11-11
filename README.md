@@ -147,5 +147,5 @@ Or add it to your build.gradle:
 
 ## License
 
-Copyright (c) Marten Gajda 2016, licensed under Apache2.
+Copyright dmfs GmbH 2016, licensed under Apache2.
 

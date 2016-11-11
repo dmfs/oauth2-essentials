@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Marten Gajda <marten@dmfs.org>
+ * Copyright (C) 2016 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ import java.io.IOException;
 /**
  * Implements the OAuth2 Resource Owner Password Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC 6749, Section 4.3</a>.
  *
- * @author Marten Gajda <marten@dmfs.org>
+ * @author Marten Gajda
  */
 public final class ResourceOwnerPasswordGrant implements OAuth2Grant
 {
