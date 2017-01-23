@@ -17,6 +17,7 @@
 package org.dmfs.oauth2.client;
 
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
 import org.dmfs.oauth2.client.utils.ImmutableEntry;
 
 import java.net.URI;
@@ -68,7 +69,15 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
     }
 
 
-    private OAuth2AuthorizationRequest withEntry(ImmutableEntry entry)
+    @Override
+    public OAuth2AuthorizationRequest withCodeChallenge(PkceCodeChallenge codeChallenge)
+    {
+        return withEntry(new ImmutableEntry("code_challenge_method", codeChallenge.method().toString()))
+                .withEntry(new ImmutableEntry("code_challenge", codeChallenge.challenge().toString()));
+    }
+
+
+    private BasicOAuth2AuthorizationRequest withEntry(ImmutableEntry entry)
     {
         // prepare a result that can hold an additional value
         final ImmutableEntry[] result = new ImmutableEntry[mParameters.length + 1];

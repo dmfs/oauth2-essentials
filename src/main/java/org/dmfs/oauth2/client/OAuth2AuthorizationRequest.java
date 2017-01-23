@@ -16,6 +16,8 @@
 
 package org.dmfs.oauth2.client;
 
+import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
+
 import java.net.URI;
 
 
@@ -35,7 +37,7 @@ public interface OAuth2AuthorizationRequest
      *
      * @return A new {@link OAuth2AuthorizationRequest} with the updated value.
      */
-    public OAuth2AuthorizationRequest withClientId(String clientId);
+    OAuth2AuthorizationRequest withClientId(String clientId);
 
     /**
      * Creates a new {@link OAuth2AuthorizationRequest} using the given redirect {@link URI}.
@@ -45,7 +47,16 @@ public interface OAuth2AuthorizationRequest
      *
      * @return A new {@link OAuth2AuthorizationRequest} with the updated value.
      */
-    public OAuth2AuthorizationRequest withRedirectUri(URI redirectUri);
+    OAuth2AuthorizationRequest withRedirectUri(URI redirectUri);
+
+    /**
+     * Creates a new {@link OAuth2AuthorizationRequest} using the given {@link PkceCodeChallenge}.
+     *
+     * @param codeChallenge
+     *
+     * @return A new {@link OAuth2AuthorizationRequest} with a code challenge.
+     */
+    OAuth2AuthorizationRequest withCodeChallenge(PkceCodeChallenge codeChallenge);
 
     /**
      * Constructs the initial request URL using the given authorization endpoint URI.
@@ -58,5 +69,5 @@ public interface OAuth2AuthorizationRequest
      * @throws IllegalStateException
      *         if a required value has not been passed yet.
      */
-    public URI authorizationUri(URI authorizationEndpoint);
+    URI authorizationUri(URI authorizationEndpoint);
 }
