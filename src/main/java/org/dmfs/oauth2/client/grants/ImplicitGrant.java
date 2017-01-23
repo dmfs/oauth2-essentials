@@ -150,8 +150,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         @Override
         public OAuth2GrantState state()
         {
-            throw new UnsupportedOperationException(
-                    "There is no need to store the state of an Implicit grant that was already authorized. Just get the access token.");
+            return new AuthorizedImplicitGrantState(mRedirectUri, mScope, mState);
         }
     }
 
@@ -180,6 +179,33 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         {
             return new ImplicitGrant(client, new StringScope(mScopeString), mState);
         }
+    }
 
+
+    /**
+     * An {@link OAuth2GrantState} that represents the state of an authorized Implicit Grant.
+     */
+    private final static class AuthorizedImplicitGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
+    {
+        private static final long serialVersionUID = 1L;
+
+        private final URI mRedirectUri;
+        private final String mScopeString;
+        private final String mState;
+
+
+        private AuthorizedImplicitGrantState(URI redirectUri, OAuth2Scope scope, String state)
+        {
+            mRedirectUri = redirectUri;
+            mScopeString = scope.toString();
+            mState = state;
+        }
+
+
+        @Override
+        public OAuth2InteractiveGrant grant(OAuth2Client client)
+        {
+            return new AuthorizedImplicitGrant(client, mRedirectUri, new StringScope(mScopeString), mState);
+        }
     }
 }
