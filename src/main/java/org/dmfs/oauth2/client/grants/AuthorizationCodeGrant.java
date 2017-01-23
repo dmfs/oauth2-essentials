@@ -22,10 +22,12 @@ import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.BasicOAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
+import org.dmfs.oauth2.client.OAuth2AuthorizationRequest;
 import org.dmfs.oauth2.client.OAuth2Client;
 import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.requests.AuthorizationCodeTokenRequest;
+import org.dmfs.oauth2.client.pkce.S256CodeChallenge;
 import org.dmfs.oauth2.client.scope.StringScope;
 
 import java.io.IOException;
@@ -34,6 +36,8 @@ import java.net.URI;
 
 /**
  * Implements the OAuth2 Authorization Code Grant as specified in <a href="https://tools.ietf.org/html/rfc6749#section-4.1">RFC 6749, Section 4.1</a>.
+ * <p>
+ * Note this automatically uses the PKCE extension as specified in <a href="https://tools.ietf.org/html/rfc7636">RFC 7636</a>
  *
  * @author Marten Gajda
  */
@@ -42,6 +46,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     private final OAuth2Client mClient;
     private final OAuth2Scope mScope;
     private final String mState;
+    private final String mCodeVerifier;
 
 
     /**
@@ -54,36 +59,39 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      */
     public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope)
     {
-        this(client, scope, client.generatedRandomState());
+        this(client, scope, client.generatedRandomState(), client.generatedRandomState());
     }
 
 
-    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, String state)
+    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, String state, String codeVerifier)
     {
         mClient = client;
         mScope = scope;
         mState = state;
+        mCodeVerifier = codeVerifier;
     }
 
 
     @Override
     public URI authorizationUrl()
     {
+        OAuth2AuthorizationRequest authorizationRequest;
         if (mScope.isEmpty())
         {
-            return mClient.authorizationUrl(new BasicOAuth2AuthorizationRequest("code", mState));
+            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mState);
         }
         else
         {
-            return mClient.authorizationUrl(new BasicOAuth2AuthorizationRequest("code", mScope, mState));
+            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mScope, mState);
         }
+        return mClient.authorizationUrl(authorizationRequest.withCodeChallenge(new S256CodeChallenge(mCodeVerifier)));
     }
 
 
     @Override
     public OAuth2InteractiveGrant withRedirect(final URI redirectUri) throws ProtocolError
     {
-        return new AuthorizedAuthorizationCodeGrant(mClient, redirectUri, mScope, mState);
+        return new AuthorizedAuthorizationCodeGrant(mClient, redirectUri, mScope, mState, mCodeVerifier);
     }
 
 
@@ -98,7 +106,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     @Override
     public OAuth2InteractiveGrant.OAuth2GrantState state()
     {
-        return new InitialAuthorizationCodeGrantState(mScope, mState);
+        return new InitialAuthorizationCodeGrantState(mScope, mState, mCodeVerifier);
     }
 
 
@@ -114,14 +122,16 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final URI mRedirectUri;
         private final OAuth2Scope mScope;
         private final String mState;
+        private final String mCodeVerifier;
 
 
-        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, URI redirectUri, OAuth2Scope scope, String state)
+        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, URI redirectUri, OAuth2Scope scope, String state, String codeVerifier)
         {
             mClient = client;
             mRedirectUri = redirectUri;
             mScope = scope;
             mState = state;
+            mCodeVerifier = codeVerifier;
         }
 
 
@@ -130,7 +140,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         {
             return mClient.accessToken(
                     new AuthorizationCodeTokenRequest(
-                            new BasicOAuth2AuthCodeAuthorization(mRedirectUri, mScope, mState), mClient.redirectUri()),
+                            new BasicOAuth2AuthCodeAuthorization(mRedirectUri, mScope, mState), mClient.redirectUri(), mCodeVerifier),
                     executor);
         }
 
@@ -153,7 +163,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         @Override
         public OAuth2GrantState state()
         {
-            return new AuthorizedAuthorizationCodeGrantState(mScope, mRedirectUri, mState);
+            return new AuthorizedAuthorizationCodeGrantState(mScope, mRedirectUri, mState, mCodeVerifier);
         }
     }
 
@@ -168,19 +178,21 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
 
         private final String mScopeString;
         private final String mState;
+        private final String mCodeVerifier;
 
 
-        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, String state)
+        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, String state, String codeVerifier)
         {
             mScopeString = scope.toString();
             mState = state;
+            mCodeVerifier = codeVerifier;
         }
 
 
         @Override
         public AuthorizationCodeGrant grant(OAuth2Client client)
         {
-            return new AuthorizationCodeGrant(client, new StringScope(mScopeString), mState);
+            return new AuthorizationCodeGrant(client, new StringScope(mScopeString), mState, mCodeVerifier);
         }
 
     }
@@ -197,20 +209,22 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final String mScopeString;
         private final URI mRedirectUri;
         private final String mState;
+        private final String mCodeVerifier;
 
 
-        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, URI redirectUri, String state)
+        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, URI redirectUri, String state, String codeVerifier)
         {
             mScopeString = scope.toString();
             mRedirectUri = redirectUri;
             mState = state;
+            mCodeVerifier = codeVerifier;
         }
 
 
         @Override
         public OAuth2InteractiveGrant grant(final OAuth2Client client)
         {
-            return new AuthorizedAuthorizationCodeGrant(client, mRedirectUri, new StringScope(mScopeString), mState);
+            return new AuthorizedAuthorizationCodeGrant(client, mRedirectUri, new StringScope(mScopeString), mState, mCodeVerifier);
         }
     }
 }

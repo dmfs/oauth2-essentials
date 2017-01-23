@@ -34,6 +34,7 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
     private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "authorization_code");
     private final OAuth2AuthCodeAuthorization mAuthorization;
     private final URI mRedirectUri;
+    private final String mCodeVerifier;
 
 
     /**
@@ -42,13 +43,15 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
      * @param authorization
      *         The authorization code as returned by the authorization endpoint.
      * @param redirectUri
-     *         The redirect URI.
+     * @param codeVerifier
+     *         The code verifier that was send with the authorization request.
      */
-    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirectUri)
+    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirectUri, String codeVerifier)
     {
         super(authorization.scope());
         mAuthorization = authorization;
         mRedirectUri = redirectUri;
+        mCodeVerifier = codeVerifier;
     }
 
 
@@ -57,6 +60,7 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
     {
         return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
                 new ImmutableEntry("code", mAuthorization.code()),
-                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()));
+                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()),
+                new ImmutableEntry("code_verifier", mCodeVerifier));
     }
 }
