@@ -58,17 +58,20 @@ public class BasicAuthHeaderDecorationTest
         assertTrue(result.contains(HttpHeaders.CONTENT_LENGTH));
     }
 
+
     @Test(expected = IllegalArgumentException.class)
     public void test_whenUsernameIsNull_shouldThrowException() throws Exception
     {
         new BasicAuthHeaderDecoration(null, "pw");
     }
 
+
     @Test(expected = IllegalArgumentException.class)
     public void test_whenPasswordIsNull_shouldThrowException() throws Exception
     {
         new BasicAuthHeaderDecoration("user name", null);
     }
+
 
     @Test
     public void test_thatExistingAuthHeaderIsOverridden() throws Exception

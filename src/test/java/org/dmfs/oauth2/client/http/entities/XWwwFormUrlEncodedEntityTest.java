@@ -139,6 +139,7 @@ public class XWwwFormUrlEncodedEntityTest
                 new XWwwFormUrlEncodedEntity(new ImmutableEntry("key&with&and", "value&with&and")).toString());
     }
 
+
     @Test
     public void testIgnoreEntries_whenEntryIsNull_orKeyIsNullOrEmpty_orValueIsNull()
     {

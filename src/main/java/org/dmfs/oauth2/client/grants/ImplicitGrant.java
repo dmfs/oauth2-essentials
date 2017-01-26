@@ -26,6 +26,7 @@ import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.oauth2.client.tokens.ImplicitGrantAccessToken;
+import org.dmfs.rfc3986.Uri;
 
 import java.io.IOException;
 import java.net.URI;
@@ -81,7 +82,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
 
 
     @Override
-    public OAuth2InteractiveGrant withRedirect(final URI redirectUri)
+    public OAuth2InteractiveGrant withRedirect(final Uri redirectUri)
     {
         return new AuthorizedImplicitGrant(mClient, redirectUri, mScope, mState);
     }
@@ -111,12 +112,12 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
     private final static class AuthorizedImplicitGrant implements OAuth2InteractiveGrant
     {
         private final OAuth2Client mClient;
-        private final URI mRedirectUri;
+        private final Uri mRedirectUri;
         private final OAuth2Scope mScope;
         private final String mState;
 
 
-        private AuthorizedImplicitGrant(OAuth2Client client, URI redirectUri, OAuth2Scope scope, String state)
+        private AuthorizedImplicitGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, String state)
         {
             mClient = client;
             mRedirectUri = redirectUri;
@@ -140,7 +141,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
 
 
         @Override
-        public OAuth2InteractiveGrant withRedirect(URI redirectUri)
+        public OAuth2InteractiveGrant withRedirect(Uri redirectUri)
         {
             throw new IllegalStateException(
                     "This grant has already been completed. You can't feed another redirect URI.");
@@ -189,12 +190,12 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
     {
         private static final long serialVersionUID = 1L;
 
-        private final URI mRedirectUri;
+        private final Uri mRedirectUri;
         private final String mScopeString;
         private final String mState;
 
 
-        private AuthorizedImplicitGrantState(URI redirectUri, OAuth2Scope scope, String state)
+        private AuthorizedImplicitGrantState(Uri redirectUri, OAuth2Scope scope, String state)
         {
             mRedirectUri = redirectUri;
             mScopeString = scope.toString();

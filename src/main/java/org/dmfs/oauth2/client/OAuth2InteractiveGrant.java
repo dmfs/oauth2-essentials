@@ -19,6 +19,7 @@ package org.dmfs.oauth2.client;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.rfc3986.Uri;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -54,7 +55,7 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      * @throws ProtocolException
      *         If the redirectUri is invalid.
      */
-    public OAuth2InteractiveGrant withRedirect(URI redirectUri) throws ProtocolError, ProtocolException;
+    public OAuth2InteractiveGrant withRedirect(Uri redirectUri) throws ProtocolError, ProtocolException;
 
     /**
      * Return a {@link Serializable} state object that can be used to retain the current authentication flow state whenever the original {@link

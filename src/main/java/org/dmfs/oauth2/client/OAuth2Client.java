@@ -22,6 +22,7 @@ import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.exceptions.RedirectionException;
 import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
+import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc5545.Duration;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public interface OAuth2Client
      * @throws ProtocolError
      * @throws ProtocolException
      */
-    public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
+    OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
             UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
 
     /**
@@ -63,26 +64,26 @@ public interface OAuth2Client
      *
      * @return The URL that needs to be opened in a user agent.
      */
-    public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
+    URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
 
     /**
      * Generates a random state String to be used in interactive grants.
      *
      * @return A random {@link String}.
      */
-    public String generatedRandomState();
+    String generatedRandomState();
 
     /**
      * The redirect URI of this client as registered with the server.
      *
      * @return A {@link URI}.
      */
-    public URI redirectUri();
+    Uri redirectUri();
 
     /**
      * Returns the default lifetime of an access token.
      *
      * @return A {@link Duration}.
      */
-    public Duration defaultTokenTtl();
+    Duration defaultTokenTtl();
 }

@@ -29,6 +29,7 @@ import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.requests.AuthorizationCodeTokenRequest;
 import org.dmfs.oauth2.client.pkce.S256CodeChallenge;
 import org.dmfs.oauth2.client.scope.StringScope;
+import org.dmfs.rfc3986.Uri;
 
 import java.io.IOException;
 import java.net.URI;
@@ -89,7 +90,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
 
 
     @Override
-    public OAuth2InteractiveGrant withRedirect(final URI redirectUri) throws ProtocolError
+    public OAuth2InteractiveGrant withRedirect(final Uri redirectUri) throws ProtocolError
     {
         return new AuthorizedAuthorizationCodeGrant(mClient, redirectUri, mScope, mState, mCodeVerifier);
     }
@@ -119,13 +120,13 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     private final static class AuthorizedAuthorizationCodeGrant implements OAuth2InteractiveGrant
     {
         private final OAuth2Client mClient;
-        private final URI mRedirectUri;
+        private final Uri mRedirectUri;
         private final OAuth2Scope mScope;
         private final String mState;
         private final String mCodeVerifier;
 
 
-        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, URI redirectUri, OAuth2Scope scope, String state, String codeVerifier)
+        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, String state, String codeVerifier)
         {
             mClient = client;
             mRedirectUri = redirectUri;
@@ -153,7 +154,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
 
 
         @Override
-        public OAuth2InteractiveGrant withRedirect(URI redirectUri)
+        public OAuth2InteractiveGrant withRedirect(Uri redirectUri)
         {
             throw new IllegalStateException(
                     "This grant has already been completed. You can't feed another redirect URI.");
@@ -203,16 +204,15 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      */
     private final static class AuthorizedAuthorizationCodeGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {
-
         private static final long serialVersionUID = 1L;
 
         private final String mScopeString;
-        private final URI mRedirectUri;
+        private final Uri mRedirectUri;
         private final String mState;
         private final String mCodeVerifier;
 
 
-        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, URI redirectUri, String state, String codeVerifier)
+        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, Uri redirectUri, String state, String codeVerifier)
         {
             mScopeString = scope.toString();
             mRedirectUri = redirectUri;

@@ -26,10 +26,10 @@ import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
+import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
 
-import java.net.URI;
 import java.util.NoSuchElementException;
 
 
@@ -99,9 +99,9 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
      * @throws ProtocolException
      *         If the state doesn't match the one returned by the server.
      */
-    public ImplicitGrantAccessToken(URI redirectUri, OAuth2Scope scope, String state, Duration defaultExpiresIn) throws ProtocolException
+    public ImplicitGrantAccessToken(Uri redirectUri, OAuth2Scope scope, String state, Duration defaultExpiresIn) throws ProtocolException
     {
-        mRedirectUriFragment = new UrlFormEncodedKeyValues(redirectUri.getFragment());
+        mRedirectUriFragment = new UrlFormEncodedKeyValues(redirectUri.fragment().toString());
         if (!state.equals(mRedirectUriFragment.firstParameter(STATE, "")))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");

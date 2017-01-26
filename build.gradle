@@ -72,6 +72,7 @@ dependencies {
     compile 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
     compile 'org.dmfs:rfc5545-datetime:0.2.4'
     compile 'org.json:json:20160212'
+    compile 'org.dmfs:rfc3986-uri:0.1.3'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile 'org.dmfs:http-client-mockutils:' + HTTP_CLIENT_ESSENTIALS_VERSION
     testCompile 'org.jmockit:jmockit:1.27'
