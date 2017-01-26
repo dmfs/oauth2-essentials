@@ -19,6 +19,7 @@ package org.dmfs.oauth2.client;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
 import org.dmfs.oauth2.client.utils.ImmutableEntry;
+import org.dmfs.rfc3986.Uri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -63,9 +64,9 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
 
 
     @Override
-    public OAuth2AuthorizationRequest withRedirectUri(URI redirectUri)
+    public OAuth2AuthorizationRequest withRedirectUri(Uri redirectUri)
     {
-        return withEntry(new ImmutableEntry("redirect_uri", redirectUri.toASCIIString()));
+        return withEntry(new ImmutableEntry("redirect_uri", redirectUri.toString()));
     }
 
 

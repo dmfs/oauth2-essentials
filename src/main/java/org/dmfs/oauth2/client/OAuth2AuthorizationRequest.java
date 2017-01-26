@@ -17,6 +17,7 @@
 package org.dmfs.oauth2.client;
 
 import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
+import org.dmfs.rfc3986.Uri;
 
 import java.net.URI;
 
@@ -47,7 +48,7 @@ public interface OAuth2AuthorizationRequest
      *
      * @return A new {@link OAuth2AuthorizationRequest} with the updated value.
      */
-    OAuth2AuthorizationRequest withRedirectUri(URI redirectUri);
+    OAuth2AuthorizationRequest withRedirectUri(Uri redirectUri);
 
     /**
      * Creates a new {@link OAuth2AuthorizationRequest} using the given {@link PkceCodeChallenge}.

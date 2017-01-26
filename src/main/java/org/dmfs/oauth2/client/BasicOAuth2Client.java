@@ -25,6 +25,7 @@ import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
 import org.dmfs.httpessentials.executors.useragent.Branded;
 import org.dmfs.httpessentials.types.Product;
 import org.dmfs.httpessentials.types.VersionedProduct;
+import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc5545.Duration;
 
 import java.io.IOException;
@@ -44,10 +45,10 @@ public final class BasicOAuth2Client implements OAuth2Client
 
     private final OAuth2AuthorizationProvider mProvider;
     private final OAuth2ClientCredentials mCredentials;
-    private final URI mRedirectUri;
+    private final Uri mRedirectUri;
 
 
-    public BasicOAuth2Client(OAuth2AuthorizationProvider provider, OAuth2ClientCredentials credentials, URI redirectUri)
+    public BasicOAuth2Client(OAuth2AuthorizationProvider provider, OAuth2ClientCredentials credentials, Uri redirectUri)
     {
         mProvider = provider;
         mCredentials = credentials;
@@ -72,7 +73,7 @@ public final class BasicOAuth2Client implements OAuth2Client
 
 
     @Override
-    public URI redirectUri()
+    public Uri redirectUri()
     {
         return mRedirectUri;
     }

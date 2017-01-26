@@ -22,8 +22,7 @@ import org.dmfs.httpessentials.parameters.BasicParameterType;
 import org.dmfs.httpessentials.parameters.ParameterType;
 import org.dmfs.httpessentials.parameters.Parametrized;
 import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
-
-import java.net.URI;
+import org.dmfs.rfc3986.Uri;
 
 
 /**
@@ -44,9 +43,9 @@ public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAut
     private final OAuth2Scope mScope;
 
 
-    public BasicOAuth2AuthCodeAuthorization(URI redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
+    public BasicOAuth2AuthCodeAuthorization(Uri redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
     {
-        mFragment = new UrlFormEncodedKeyValues(redirectUri.getRawQuery());
+        mFragment = new UrlFormEncodedKeyValues(redirectUri.query().toString());
         if (!state.equals(mFragment.firstParameter(STATE, "").value()))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");

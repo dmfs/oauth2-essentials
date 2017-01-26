@@ -20,8 +20,7 @@ import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.utils.ImmutableEntry;
-
-import java.net.URI;
+import org.dmfs.rfc3986.Uri;
 
 
 /**
@@ -33,7 +32,7 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
 {
     private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "authorization_code");
     private final OAuth2AuthCodeAuthorization mAuthorization;
-    private final URI mRedirectUri;
+    private final Uri mRedirectUri;
     private final String mCodeVerifier;
 
 
@@ -46,7 +45,7 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
      * @param codeVerifier
      *         The code verifier that was send with the authorization request.
      */
-    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, URI redirectUri, String codeVerifier)
+    public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, Uri redirectUri, String codeVerifier)
     {
         super(authorization.scope());
         mAuthorization = authorization;
@@ -60,7 +59,7 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
     {
         return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
                 new ImmutableEntry("code", mAuthorization.code()),
-                new ImmutableEntry("redirect_uri", mRedirectUri.toASCIIString()),
+                new ImmutableEntry("redirect_uri", mRedirectUri.toString()),
                 new ImmutableEntry("code_verifier", mCodeVerifier));
     }
 }

@@ -18,9 +18,8 @@ package org.dmfs.oauth2.client;
 
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.scope.BasicScope;
+import org.dmfs.rfc3986.uris.StringUri;
 import org.junit.Test;
-
-import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,7 +32,10 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     @Test(expected = ProtocolException.class)
     public void invalidState() throws Exception
     {
-        new BasicOAuth2AuthCodeAuthorization(URI.create("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"), new BasicScope("scope"), "abc");
+        new BasicOAuth2AuthCodeAuthorization(
+                new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                new BasicScope("scope"),
+                "abc");
     }
 
 
@@ -41,7 +43,9 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void code() throws Exception
     {
         assertEquals("SplxlOBeZQQYbYS6WxSbIA",
-                new BasicOAuth2AuthCodeAuthorization(URI.create("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"), new BasicScope("scope"),
+                new BasicOAuth2AuthCodeAuthorization(
+                        new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                        new BasicScope("scope"),
                         "xyz").code());
     }
 
@@ -50,7 +54,9 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void scope() throws Exception
     {
         assertEquals(new BasicScope("scope"),
-                new BasicOAuth2AuthCodeAuthorization(URI.create("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"), new BasicScope("scope"),
+                new BasicOAuth2AuthCodeAuthorization(
+                        new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                        new BasicScope("scope"),
                         "xyz").scope());
     }
 
