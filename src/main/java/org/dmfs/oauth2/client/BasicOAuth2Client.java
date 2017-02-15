@@ -67,8 +67,7 @@ public final class BasicOAuth2Client implements OAuth2Client
     @Override
     public URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest)
     {
-        return mProvider.authorizationUrl(
-                authorizationRequest.withClientId(mCredentials.clientId()).withRedirectUri(mRedirectUri));
+        return mProvider.authorizationUrl(authorizationRequest.withClientId(mCredentials.clientId()).withRedirectUri(mRedirectUri));
     }
 
 
@@ -92,7 +91,7 @@ public final class BasicOAuth2Client implements OAuth2Client
      * Note: Client on platforms with insecure {@link SecureRandom} implementations should decorate this implementation and return a secure random string.
      */
     @Override
-    public String generatedRandomState()
+    public CharSequence randomChars()
     {
         StringBuilder result = new StringBuilder(64);
         SecureRandom random = new SecureRandom();

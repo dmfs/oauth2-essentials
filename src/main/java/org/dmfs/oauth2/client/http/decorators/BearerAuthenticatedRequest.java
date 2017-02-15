@@ -67,11 +67,11 @@ public final class BearerAuthenticatedRequest<T> implements HttpRequest<T>
     @Override
     public Headers headers()
     {
-        return mDecorated.headers().withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + getAccessToken()));
+        return mDecorated.headers().withHeader(AUTHORIZATION_HEADER.entityFromString("Bearer " + getAccessToken().toString()));
     }
 
 
-    private String getAccessToken()
+    private CharSequence getAccessToken()
     {
         try
         {

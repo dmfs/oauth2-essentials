@@ -39,10 +39,9 @@ import java.net.URI;
  */
 public final class ImplicitGrant implements OAuth2InteractiveGrant
 {
-
     private final OAuth2Client mClient;
     private final OAuth2Scope mScope;
-    private final String mState;
+    private final CharSequence mState;
 
 
     /**
@@ -55,11 +54,11 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
      */
     public ImplicitGrant(OAuth2Client client, OAuth2Scope scope)
     {
-        this(client, scope, client.generatedRandomState());
+        this(client, scope, client.randomChars());
     }
 
 
-    private ImplicitGrant(OAuth2Client client, OAuth2Scope scope, String state)
+    private ImplicitGrant(OAuth2Client client, OAuth2Scope scope, CharSequence state)
     {
         mClient = client;
         mScope = scope;
@@ -91,8 +90,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
     @Override
     public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
     {
-        throw new IllegalStateException(
-                "first use withRedirectUri(URI) to pass the redirect URI returned by the authorization endpoint.");
+        throw new IllegalStateException("first use withRedirectUri(URI) to pass the redirect URI returned by the authorization endpoint.");
     }
 
 
@@ -114,10 +112,10 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         private final OAuth2Client mClient;
         private final Uri mRedirectUri;
         private final OAuth2Scope mScope;
-        private final String mState;
+        private final CharSequence mState;
 
 
-        private AuthorizedImplicitGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, String state)
+        private AuthorizedImplicitGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, CharSequence state)
         {
             mClient = client;
             mRedirectUri = redirectUri;
@@ -143,8 +141,7 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         @Override
         public OAuth2InteractiveGrant withRedirect(Uri redirectUri)
         {
-            throw new IllegalStateException(
-                    "This grant has already been completed. You can't feed another redirect URI.");
+            throw new IllegalStateException("This grant has already been completed. You can't feed another redirect URI.");
         }
 
 
@@ -168,10 +165,11 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         private final String mState;
 
 
-        public InitialImplicitGrantState(OAuth2Scope scope, String state)
+        public InitialImplicitGrantState(OAuth2Scope scope, CharSequence state)
         {
             mScopeString = scope.toString();
-            mState = state;
+            // convert state to String, because a CharSequence may not be serializable
+            mState = state.toString();
         }
 
 
@@ -195,11 +193,12 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         private final String mState;
 
 
-        private AuthorizedImplicitGrantState(Uri redirectUri, OAuth2Scope scope, String state)
+        private AuthorizedImplicitGrantState(Uri redirectUri, OAuth2Scope scope, CharSequence state)
         {
             mRedirectUri = redirectUri;
             mScopeString = scope.toString();
-            mState = state;
+            // convert state to String, because a CharSequence may not be serializable
+            mState = state.toString();
         }
 
 

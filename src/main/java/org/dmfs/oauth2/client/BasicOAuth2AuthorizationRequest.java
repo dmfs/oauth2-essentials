@@ -16,13 +16,23 @@
 
 package org.dmfs.oauth2.client;
 
-import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
-import org.dmfs.oauth2.client.utils.ImmutableEntry;
 import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
+import org.dmfs.rfc3986.parameters.FluentParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.Fluent;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import static org.dmfs.oauth2.client.utils.Parameters.CLIENT_ID;
+import static org.dmfs.oauth2.client.utils.Parameters.CODE_CHALLENGE;
+import static org.dmfs.oauth2.client.utils.Parameters.CODE_CHALLENGE_METHOD;
+import static org.dmfs.oauth2.client.utils.Parameters.REDIRECT_URI;
+import static org.dmfs.oauth2.client.utils.Parameters.RESPONSE_TYPE;
+import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
+import static org.dmfs.oauth2.client.utils.Parameters.STATE;
 
 
 /**
@@ -34,23 +44,22 @@ import java.net.URISyntaxException;
  */
 public final class BasicOAuth2AuthorizationRequest implements OAuth2AuthorizationRequest
 {
-    private final ImmutableEntry[] mParameters;
+    private final FluentParameterList mParameters;
 
 
-    public BasicOAuth2AuthorizationRequest(String responseType, String state)
+    public BasicOAuth2AuthorizationRequest(String responseType, CharSequence state)
     {
-        this(new ImmutableEntry("response_type", responseType), new ImmutableEntry("state", state));
+        this(new Fluent(new BasicParameterList(RESPONSE_TYPE.parameter(responseType), STATE.parameter(state))));
     }
 
 
-    public BasicOAuth2AuthorizationRequest(String responseType, OAuth2Scope scope, String state)
+    public BasicOAuth2AuthorizationRequest(String responseType, OAuth2Scope scope, CharSequence state)
     {
-        this(new ImmutableEntry("response_type", responseType), new ImmutableEntry("scope", scope.toString()),
-                new ImmutableEntry("state", state));
+        this(new Fluent(new BasicParameterList(RESPONSE_TYPE.parameter(responseType), SCOPE.parameter(scope), STATE.parameter(state))));
     }
 
 
-    private BasicOAuth2AuthorizationRequest(ImmutableEntry... parameters)
+    private BasicOAuth2AuthorizationRequest(FluentParameterList parameters)
     {
         mParameters = parameters;
     }
@@ -59,46 +68,23 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
     @Override
     public OAuth2AuthorizationRequest withClientId(String clientId)
     {
-        return withEntry(new ImmutableEntry("client_id", clientId));
+        return new BasicOAuth2AuthorizationRequest(mParameters.ratherWith(CLIENT_ID.parameter(clientId)));
     }
 
 
     @Override
     public OAuth2AuthorizationRequest withRedirectUri(Uri redirectUri)
     {
-        return withEntry(new ImmutableEntry("redirect_uri", redirectUri.toString()));
+        return new BasicOAuth2AuthorizationRequest(mParameters.ratherWith(REDIRECT_URI.parameter(redirectUri)));
     }
 
 
     @Override
     public OAuth2AuthorizationRequest withCodeChallenge(PkceCodeChallenge codeChallenge)
     {
-        return withEntry(new ImmutableEntry("code_challenge_method", codeChallenge.method().toString()))
-                .withEntry(new ImmutableEntry("code_challenge", codeChallenge.challenge().toString()));
-    }
-
-
-    private BasicOAuth2AuthorizationRequest withEntry(ImmutableEntry entry)
-    {
-        // prepare a result that can hold an additional value
-        final ImmutableEntry[] result = new ImmutableEntry[mParameters.length + 1];
-
-        for (int i = 0, count = mParameters.length; i < count; ++i)
-        {
-            ImmutableEntry parameter = mParameters[i];
-            if (parameter.getKey().equals(entry.getKey()))
-            {
-                // the key already exists, take the shortcut and update a cloned array
-                ImmutableEntry[] clonedResult = mParameters.clone();
-                clonedResult[i] = entry;
-                return new BasicOAuth2AuthorizationRequest(clonedResult);
-            }
-            // copy the value
-            result[i] = mParameters[i];
-        }
-
-        result[mParameters.length] = entry;
-        return new BasicOAuth2AuthorizationRequest(result);
+        return new BasicOAuth2AuthorizationRequest(mParameters.ratherWith(
+                CODE_CHALLENGE_METHOD.parameter(codeChallenge.method()),
+                CODE_CHALLENGE.parameter(codeChallenge.challenge())));
     }
 
 
@@ -108,12 +94,8 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
         // TODO: refuse to return a URI without a client id.
         try
         {
-            // this is not optimal, but we need to create two URIs to make sure we don't append our query to an existing query. That's probably the easiest way
-            // for now.
-            return URI.create(String.format("%s?%s",
-                    new URI(authorizationEndpoint.getScheme(), authorizationEndpoint.getAuthority(),
-                            authorizationEndpoint.getPath(), null, null).toASCIIString(),
-                    new XWwwFormUrlEncodedEntity(mParameters).toString()));
+            return URI.create(new URI(authorizationEndpoint.getScheme(), authorizationEndpoint.getAuthority(),
+                    authorizationEndpoint.getPath(), null, null) + "?" + new XWwwFormUrlEncoded(mParameters).toString());
         }
         catch (URISyntaxException e)
         {

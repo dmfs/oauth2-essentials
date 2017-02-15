@@ -21,7 +21,12 @@ import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.oauth2.client.scope.EmptyScope;
-import org.dmfs.oauth2.client.utils.ImmutableEntry;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.Appending;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
+
+import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
+import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
 
 
 /**
@@ -33,7 +38,6 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
  */
 public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequest
 {
-    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "client_credentials");
     private final OAuth2Scope mScope;
 
 
@@ -62,10 +66,7 @@ public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequ
     @Override
     public HttpRequestEntity requestEntity()
     {
-        if (mScope.isEmpty())
-        {
-            return new XWwwFormUrlEncodedEntity(GRANT_TYPE);
-        }
-        return new XWwwFormUrlEncodedEntity(GRANT_TYPE, new ImmutableEntry("scope", mScope.toString()));
+        ParameterList parameters = new BasicParameterList(GRANT_TYPE.parameter("client_credentials"));
+        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
     }
 }

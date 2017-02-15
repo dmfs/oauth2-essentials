@@ -39,8 +39,7 @@ import java.io.UnsupportedEncodingException;
 public final class BasicAuthHeaderDecoration implements Decoration<Headers>
 {
     // TODO: use a generic authorization header instead (once we have one)
-    private final HeaderType<String> AUTHORIZATION_HEADER_TYPE = new BasicSingletonHeaderType<String>("Authorization",
-            new PlainStringHeaderConverter());
+    private final HeaderType<String> AUTHORIZATION_HEADER_TYPE = new BasicSingletonHeaderType<String>("Authorization", new PlainStringHeaderConverter());
 
     private final String mUsername;
     private final String mPassword;

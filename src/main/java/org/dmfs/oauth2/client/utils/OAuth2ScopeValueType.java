@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package org.dmfs.oauth2.client.pkce;
+package org.dmfs.oauth2.client.utils;
 
-import org.dmfs.httpessentials.types.Token;
+import org.dmfs.oauth2.client.OAuth2Scope;
+import org.dmfs.oauth2.client.scope.StringScope;
+import org.dmfs.rfc3986.parameters.ValueType;
 
 
 /**
- * A PKCE Code Challenge as per <a href="https://tools.ietf.org/html/rfc7636#section-4.2">RFC 7636, section 4.2</a>
+ * The {@link ValueType} {@link OAuth2Scope} parameters.
  *
  * @author Marten Gajda
  */
-public interface PkceCodeChallenge
+public final class OAuth2ScopeValueType implements ValueType<OAuth2Scope>
 {
-    /**
-     * Returns a {@link Token} that identifies the method this code challenge uses.
-     *
-     * @return A {@link Token} containing the method name.
-     */
-    Token method();
+    @Override
+    public OAuth2Scope parsedValue(CharSequence valueText)
+    {
+        return new StringScope(valueText.toString());
+    }
 
-    /**
-     * Returns the value of the code challenge.
-     *
-     * @return
-     */
-    CharSequence challenge();
+
+    @Override
+    public CharSequence serializedValue(OAuth2Scope value)
+    {
+        return value.toString();
+    }
 }

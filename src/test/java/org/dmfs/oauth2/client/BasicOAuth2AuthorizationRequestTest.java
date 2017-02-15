@@ -18,7 +18,8 @@ package org.dmfs.oauth2.client;
 
 import org.dmfs.oauth2.client.scope.BasicScope;
 import org.dmfs.oauth2.client.scope.EmptyScope;
-import org.dmfs.rfc3986.uris.StringUri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
 import org.junit.Test;
 
 import java.net.URI;
@@ -98,7 +99,7 @@ public class BasicOAuth2AuthorizationRequestTest
                 new BasicOAuth2AuthorizationRequest("code",
                         EmptyScope.INSTANCE, "1234")
                         .withClientId("abcd")
-                        .withRedirectUri(new StringUri("http://localhost:1234"))
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
                         .authorizationUri(URI.create("http://example.com/auth")));
         assertEquals(URI.create(
                 "http://example.com/auth?response_type=code&scope=calendar&state=1234&client_id=xyz&redirect_uri=http%3A%2F%2Flocalhost%3A1234"),
@@ -106,7 +107,7 @@ public class BasicOAuth2AuthorizationRequestTest
                         "code", new BasicScope("calendar"), "1234")
                         .withClientId("abcd")
                         .withClientId("xyz")
-                        .withRedirectUri(new StringUri("http://localhost:1234"))
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
                         .authorizationUri(URI.create("http://example.com/auth")));
         assertEquals(
                 URI.create(
@@ -114,7 +115,7 @@ public class BasicOAuth2AuthorizationRequestTest
                 new BasicOAuth2AuthorizationRequest("code",
                         new BasicScope("calendar", "test", "http://example.com/contacts"), "1234")
                         .withClientId("ab:d")
-                        .withRedirectUri(new StringUri("http://localhost:1234"))
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
                         .authorizationUri(URI.create("http://example.com/auth")));
     }
 }

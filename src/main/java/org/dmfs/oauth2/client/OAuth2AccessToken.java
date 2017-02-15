@@ -36,7 +36,7 @@ public interface OAuth2AccessToken
      *
      * @throws ProtocolException
      */
-    public String accessToken() throws ProtocolException;
+    public CharSequence accessToken() throws ProtocolException;
 
     /**
      * Returns the access token type.
@@ -45,7 +45,7 @@ public interface OAuth2AccessToken
      *
      * @throws ProtocolException
      */
-    public String tokenType() throws ProtocolException;
+    public CharSequence tokenType() throws ProtocolException;
 
     /**
      * Returns whether the response also contained a refresh token.
@@ -63,7 +63,7 @@ public interface OAuth2AccessToken
      *         If the token doesn't contain a refresh token.
      * @throws ProtocolException
      */
-    public String refreshToken() throws ProtocolException;
+    public CharSequence refreshToken() throws ProtocolException;
 
     /**
      * Returns the expected expiration date of the access token.

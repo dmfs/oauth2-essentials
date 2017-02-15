@@ -67,11 +67,12 @@ public interface OAuth2Client
     URI authorizationUrl(OAuth2AuthorizationRequest authorizationRequest);
 
     /**
-     * Generates a random state String to be used in interactive grants.
+     * Generates a random {@link CharSequence} to be used for security measures. The length of the result is implementation specific. Implementations must make
+     * sure the result contains a sufficient amount of entropy.
      *
-     * @return A random {@link String}.
+     * @return A random {@link CharSequence}.
      */
-    String generatedRandomState();
+    CharSequence randomChars();
 
     /**
      * The redirect URI of this client as registered with the server.

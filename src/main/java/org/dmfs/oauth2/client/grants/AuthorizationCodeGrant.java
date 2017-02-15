@@ -46,8 +46,8 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
 {
     private final OAuth2Client mClient;
     private final OAuth2Scope mScope;
-    private final String mState;
-    private final String mCodeVerifier;
+    private final CharSequence mState;
+    private final CharSequence mCodeVerifier;
 
 
     /**
@@ -60,11 +60,11 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      */
     public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope)
     {
-        this(client, scope, client.generatedRandomState(), client.generatedRandomState());
+        this(client, scope, client.randomChars(), client.randomChars());
     }
 
 
-    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, String state, String codeVerifier)
+    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, CharSequence state, CharSequence codeVerifier)
     {
         mClient = client;
         mScope = scope;
@@ -99,8 +99,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     @Override
     public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
     {
-        throw new IllegalStateException(
-                "first use withRedirectUri(URI) to pass the redirect URI returned by the authorization endpoint.");
+        throw new IllegalStateException("first use withRedirectUri(URI) to pass the redirect URI returned by the authorization endpoint.");
     }
 
 
@@ -122,11 +121,11 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final OAuth2Client mClient;
         private final Uri mRedirectUri;
         private final OAuth2Scope mScope;
-        private final String mState;
-        private final String mCodeVerifier;
+        private final CharSequence mState;
+        private final CharSequence mCodeVerifier;
 
 
-        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, String state, String codeVerifier)
+        private AuthorizedAuthorizationCodeGrant(OAuth2Client client, Uri redirectUri, OAuth2Scope scope, CharSequence state, CharSequence codeVerifier)
         {
             mClient = client;
             mRedirectUri = redirectUri;
@@ -156,8 +155,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         @Override
         public OAuth2InteractiveGrant withRedirect(Uri redirectUri)
         {
-            throw new IllegalStateException(
-                    "This grant has already been completed. You can't feed another redirect URI.");
+            throw new IllegalStateException("This grant has already been completed. You can't feed another redirect URI.");
         }
 
 
@@ -182,11 +180,12 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final String mCodeVerifier;
 
 
-        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, String state, String codeVerifier)
+        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, CharSequence state, CharSequence codeVerifier)
         {
             mScopeString = scope.toString();
-            mState = state;
-            mCodeVerifier = codeVerifier;
+            // convert state and codeVerifier to String, because a CharSequence may not be serializable
+            mState = state.toString();
+            mCodeVerifier = codeVerifier.toString();
         }
 
 
@@ -212,12 +211,13 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final String mCodeVerifier;
 
 
-        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, Uri redirectUri, String state, String codeVerifier)
+        public AuthorizedAuthorizationCodeGrantState(OAuth2Scope scope, Uri redirectUri, CharSequence state, CharSequence codeVerifier)
         {
             mScopeString = scope.toString();
             mRedirectUri = redirectUri;
-            mState = state;
-            mCodeVerifier = codeVerifier;
+            // convert state and codeVerifier to String, because a CharSequence may not be serializable
+            mState = state.toString();
+            mCodeVerifier = codeVerifier.toString();
         }
 
 

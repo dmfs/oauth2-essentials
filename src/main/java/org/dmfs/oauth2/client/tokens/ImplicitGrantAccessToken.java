@@ -16,21 +16,24 @@
 
 package org.dmfs.oauth2.client.tokens;
 
-import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.httpessentials.parameters.BasicParameterType;
-import org.dmfs.httpessentials.parameters.ParameterType;
-import org.dmfs.httpessentials.parameters.Parametrized;
-import org.dmfs.httpessentials.typedentity.EntityConverter;
-import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
-import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.adapters.OptionalParameter;
+import org.dmfs.rfc3986.parameters.adapters.TextParameter;
+import org.dmfs.rfc3986.parameters.adapters.XwfueParameterList;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
 
 import java.util.NoSuchElementException;
+
+import static org.dmfs.oauth2.client.utils.Parameters.ACCESS_TOKEN;
+import static org.dmfs.oauth2.client.utils.Parameters.EXPIRES_IN;
+import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
+import static org.dmfs.oauth2.client.utils.Parameters.STATE;
+import static org.dmfs.oauth2.client.utils.Parameters.TOKEN_TYPE;
 
 
 /**
@@ -40,45 +43,8 @@ import java.util.NoSuchElementException;
  */
 public final class ImplicitGrantAccessToken implements OAuth2AccessToken
 {
-    private static final ParameterType<OAuth2Scope> SCOPE = new BasicParameterType<OAuth2Scope>("scope",
-            new EntityConverter<OAuth2Scope>()
-            {
-                @Override
-                public OAuth2Scope value(String valueString)
-                {
-                    return new StringScope(valueString);
-                }
-
-
-                public String valueString(OAuth2Scope value)
-                {
-                    return value.toString();
-                }
-            });
-    private static final ParameterType<String> ACCESS_TOKEN = new BasicParameterType<String>("access_token",
-            PlainStringHeaderConverter.INSTANCE);
-    private static final ParameterType<String> TOKEN_TYPE = new BasicParameterType<String>("token_type",
-            PlainStringHeaderConverter.INSTANCE);
-    private static final ParameterType<String> STATE = new BasicParameterType<String>("state",
-            PlainStringHeaderConverter.INSTANCE);
-    private static final ParameterType<Duration> EXPIRES_IN = new BasicParameterType<Duration>("expires_in",
-            new EntityConverter<Duration>()
-            {
-                @Override
-                public Duration value(String valueString)
-                {
-                    return new Duration(1, 0, Integer.parseInt(valueString));
-                }
-
-
-                @Override
-                public String valueString(Duration value)
-                {
-                    return value.toString();
-                }
-            });
-
-    private final Parametrized mRedirectUriFragment;
+    private final Uri mRedirectUri;
+    private final ParameterList mRedirectUriParameters;
     private final DateTime mIssueDate;
     private final OAuth2Scope mScope;
     private final Duration mDefaultExpiresIn;
@@ -99,10 +65,11 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
      * @throws ProtocolException
      *         If the state doesn't match the one returned by the server.
      */
-    public ImplicitGrantAccessToken(Uri redirectUri, OAuth2Scope scope, String state, Duration defaultExpiresIn) throws ProtocolException
+    public ImplicitGrantAccessToken(Uri redirectUri, OAuth2Scope scope, CharSequence state, Duration defaultExpiresIn) throws ProtocolException
     {
-        mRedirectUriFragment = new UrlFormEncodedKeyValues(redirectUri.fragment().toString());
-        if (!state.equals(mRedirectUriFragment.firstParameter(STATE, "")))
+        mRedirectUri = redirectUri;
+        mRedirectUriParameters = new XwfueParameterList(redirectUri.fragment().value());
+        if (!state.toString().equals(new TextParameter(STATE, mRedirectUriParameters).toString()))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");
         }
@@ -114,26 +81,26 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public String accessToken() throws ProtocolException
+    public CharSequence accessToken() throws ProtocolException
     {
-        if (!mRedirectUriFragment.hasParameter(ACCESS_TOKEN))
+        OptionalParameter<CharSequence> accessToken = new OptionalParameter<>(ACCESS_TOKEN, mRedirectUriParameters);
+        if (!accessToken.isPresent())
         {
-            throw new ProtocolException(
-                    String.format("Missing access_token in fragment '%s'", mRedirectUriFragment.toString()));
+            throw new ProtocolException(String.format("Missing access_token in fragment '%s'", mRedirectUri.fragment().value()));
         }
-        return mRedirectUriFragment.firstParameter(ACCESS_TOKEN, "").value();
+        return accessToken.value("");
     }
 
 
     @Override
-    public String tokenType() throws ProtocolException
+    public CharSequence tokenType() throws ProtocolException
     {
-        if (!mRedirectUriFragment.hasParameter(TOKEN_TYPE))
+        OptionalParameter<CharSequence> tokenType = new OptionalParameter<>(TOKEN_TYPE, mRedirectUriParameters);
+        if (!tokenType.isPresent())
         {
-            throw new ProtocolException(
-                    String.format("Missing token_type in fragment '%s'", mRedirectUriFragment.toString()));
+            throw new ProtocolException(String.format("Missing token_type in fragment '%s'", mRedirectUri.fragment().value()));
         }
-        return mRedirectUriFragment.firstParameter(TOKEN_TYPE, "").value();
+        return tokenType.value("");
     }
 
 
@@ -146,7 +113,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public String refreshToken() throws ProtocolException
+    public CharSequence refreshToken() throws ProtocolException
     {
         throw new NoSuchElementException("Implicit grants do no issue refresh tokens");
     }
@@ -155,13 +122,13 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
     @Override
     public DateTime expirationDate() throws ProtocolException
     {
-        return mIssueDate.addDuration(mRedirectUriFragment.firstParameter(EXPIRES_IN, mDefaultExpiresIn).value());
+        return mIssueDate.addDuration(new OptionalParameter<>(EXPIRES_IN, mRedirectUriParameters).value(mDefaultExpiresIn));
     }
 
 
     @Override
     public OAuth2Scope scope() throws ProtocolException
     {
-        return mRedirectUriFragment.firstParameter(SCOPE, mScope).value();
+        return new OptionalParameter<>(SCOPE, mRedirectUriParameters).value(mScope);
     }
 }

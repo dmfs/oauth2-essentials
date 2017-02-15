@@ -19,18 +19,18 @@ package org.dmfs.oauth2.client.http.entities;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.httpessentials.types.MediaType;
 import org.dmfs.httpessentials.types.StructuredMediaType;
+import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
+import org.dmfs.rfc3986.parameters.Parameter;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map.Entry;
 
 
 /**
  * An {@link HttpRequestEntity} that encodes key-value pairs using <code>application/x-www-form-urlencoded</code> encoding.
- * <p>
- * This implementation will just ignore any {@link Entry}s with a <code>null</code> key or value or empty key.
  *
  * @author Marten Gajda
  */
@@ -39,12 +39,18 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
     private static final MediaType CONTENT_TYPE = new StructuredMediaType("application", "x-www-form-urlencoded");
     private static final String ENCODING = "UTF-8";
 
-    private final Entry<String, String>[] mValues;
+    private final ParameterList mValues;
 
 
-    public XWwwFormUrlEncodedEntity(Entry<String, String>... values)
+    public XWwwFormUrlEncodedEntity(Parameter... values)
     {
-        mValues = values.clone();
+        mValues = new BasicParameterList(values);
+    }
+
+
+    public XWwwFormUrlEncodedEntity(ParameterList values)
+    {
+        mValues = values;
     }
 
 
@@ -72,39 +78,6 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
     @Override
     public String toString()
     {
-        final StringBuilder builder = new StringBuilder(mValues.length * 32);
-        boolean first = true;
-        for (Entry<String, String> value : mValues)
-        {
-            if (value != null && value.getKey() != null && !value.getKey().isEmpty() && value.getValue() != null)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    builder.append('&');
-                }
-
-                builder.append(urlEncode(value.getKey()));
-                builder.append('=');
-                builder.append(urlEncode(value.getValue()));
-            }
-        }
-        return builder.toString();
-    }
-
-
-    private String urlEncode(String valueToEncode)
-    {
-        try
-        {
-            return URLEncoder.encode(valueToEncode, ENCODING);
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new RuntimeException(String.format("Runtime doesn't support required encoding %s", ENCODING), e);
-        }
+        return new XWwwFormUrlEncoded(mValues).toString();
     }
 }
