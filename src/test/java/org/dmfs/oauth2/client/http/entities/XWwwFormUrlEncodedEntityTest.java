@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 dmfs GmbH
+ * Copyright 2017 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,48 +17,27 @@
 package org.dmfs.oauth2.client.http.entities;
 
 import org.dmfs.httpessentials.client.HttpRequestEntity;
-import org.dmfs.oauth2.client.utils.ImmutableEntry;
+import org.dmfs.rfc3986.parameters.ParameterType;
+import org.dmfs.rfc3986.parameters.parametertypes.BasicParameterType;
+import org.dmfs.rfc3986.parameters.valuetypes.TextValueType;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 
 /**
- * Unit test for {@link XWwwFormUrlEncodedEntity}.
- *
- * @author Gabor Keszthelyi
+ * @author marten
  */
 public class XWwwFormUrlEncodedEntityTest
 {
-
-    @Test
-    public void testImmutability_whenInputEntryArrayIsChanged_entityObjectShouldNotChange()
-    {
-        // ARRANGE
-        Map.Entry<String, String>[] inputValues = new Map.Entry[2];
-        ImmutableEntry entry0 = new ImmutableEntry("key0", "value0");
-        ImmutableEntry entry1 = new ImmutableEntry("key1", "value1");
-        inputValues[0] = entry0;
-        inputValues[1] = entry1;
-
-        // ACT
-        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(inputValues);
-        ImmutableEntry entry2 = new ImmutableEntry("key1-changed", "value1-changed");
-        inputValues[1] = entry2;
-
-        // ASSERT
-        assertEquals("key0=value0&key1=value1", entity.toString());
-    }
-
-
     @Test
     public void testContentType()
     {
-        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(new ImmutableEntry("key", "value"));
+        ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
+        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("value"));
         assertEquals("application", entity.contentType().mainType());
         assertEquals("x-www-form-urlencoded", entity.contentType().subType());
     }
@@ -67,7 +46,8 @@ public class XWwwFormUrlEncodedEntityTest
     @Test
     public void testContentLength() throws IOException
     {
-        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(new ImmutableEntry("key", "val"));
+        ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
+        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("val"));
         assertEquals(7, entity.contentLength());
 
         HttpRequestEntity emptyEntity = new XWwwFormUrlEncodedEntity();
@@ -78,35 +58,33 @@ public class XWwwFormUrlEncodedEntityTest
     @Test
     public void testToString()
     {
+        ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
+        ParameterType<CharSequence> key1 = new BasicParameterType<>("key1", TextValueType.INSTANCE);
+        ParameterType<CharSequence> key2 = new BasicParameterType<>("key2", TextValueType.INSTANCE);
+
         assertEquals("", new XWwwFormUrlEncodedEntity().toString());
 
-        assertEquals("key=value", new XWwwFormUrlEncodedEntity(new ImmutableEntry("key", "value")).toString());
+        assertEquals("key=value", new XWwwFormUrlEncodedEntity(key.parameter("value")).toString());
 
-        assertEquals("key=value&key1=value1", new XWwwFormUrlEncodedEntity(
-                new ImmutableEntry("key", "value"),
-                new ImmutableEntry("key1", "value1")).toString());
+        assertEquals("key=value&key1=value1", new XWwwFormUrlEncodedEntity(key.parameter("value"), key1.parameter("value1")).toString());
 
         assertEquals("key=value&key1=value1&key2=value2", new XWwwFormUrlEncodedEntity(
-                new ImmutableEntry("key", "value"),
-                new ImmutableEntry("key1", "value1"),
-                new ImmutableEntry("key2", "value2")).toString());
-    }
-
-
-    @Test(expected = Exception.class)
-    public void testConstructorWithNull_shouldThrowException()
-    {
-        new XWwwFormUrlEncodedEntity(null);
+                key.parameter("value"),
+                key1.parameter("value1"),
+                key2.parameter("value2")).toString());
     }
 
 
     @Test
     public void testWriteToOutputStream() throws IOException
     {
+        ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
+        ParameterType<CharSequence> key1 = new BasicParameterType<>("key1", TextValueType.INSTANCE);
+
         // ARRANGE
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(
-                new ImmutableEntry("key", "value"),
-                new ImmutableEntry("key1", "value1"));
+                key.parameter("value"),
+                key1.parameter("value1"));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // ACT
@@ -121,40 +99,27 @@ public class XWwwFormUrlEncodedEntityTest
     @Test
     public void testUrlEncodingWithAFewSpecialCharacters()
     {
+
+        ParameterType<CharSequence> keyWithSpaces = new BasicParameterType<>("key and space", TextValueType.INSTANCE);
         assertEquals("key+and+space=value+with+spaces",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key and space", "value with spaces")).toString());
+                new XWwwFormUrlEncodedEntity(keyWithSpaces.parameter("value with spaces")).toString());
 
+        ParameterType<CharSequence> keyWithQuotes = new BasicParameterType<>("key\"doublequote", TextValueType.INSTANCE);
         assertEquals("key%22doublequote=",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key\"doublequote", "")).toString());
+                new XWwwFormUrlEncodedEntity(keyWithQuotes.parameter("")).toString());
 
+        ParameterType<CharSequence> keyaa = new BasicParameterType<>("aa", TextValueType.INSTANCE);
         assertEquals("aa=%7B",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("aa", "{")).toString());
+                new XWwwFormUrlEncodedEntity(keyaa.parameter("{")).toString());
 
         // equals ('=')
+        ParameterType<CharSequence> keyWithEquals = new BasicParameterType<>("key=with=equals", TextValueType.INSTANCE);
         assertEquals("key%3Dwith%3Dequals=value%3Dwith%3Dequals",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key=with=equals", "value=with=equals")).toString());
+                new XWwwFormUrlEncodedEntity(keyWithEquals.parameter("value=with=equals")).toString());
 
         // and ('&')
+        ParameterType<CharSequence> keyWithAmpersand = new BasicParameterType<>("key&with&and", TextValueType.INSTANCE);
         assertEquals("key%26with%26and=value%26with%26and",
-                new XWwwFormUrlEncodedEntity(new ImmutableEntry("key&with&and", "value&with&and")).toString());
+                new XWwwFormUrlEncodedEntity(keyWithAmpersand.parameter("value&with&and")).toString());
     }
-
-
-    @Test
-    public void testIgnoreEntries_whenEntryIsNull_orKeyIsNullOrEmpty_orValueIsNull()
-    {
-        HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(
-                new ImmutableEntry("key0", "value0"),
-                new ImmutableEntry(null, "value1"),
-                new ImmutableEntry("key2", null),
-                new ImmutableEntry(null, null),
-                new ImmutableEntry("key4", "value4"),
-                new ImmutableEntry("", "value5"),
-                null,
-                new ImmutableEntry("key7", "value7")
-        );
-
-        assertEquals("key0=value0&key4=value4&key7=value7", entity.toString());
-    }
-
 }

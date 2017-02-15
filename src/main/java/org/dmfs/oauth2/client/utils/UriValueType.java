@@ -14,29 +14,32 @@
  * limitations under the License.
  */
 
-package org.dmfs.oauth2.client.pkce;
+package org.dmfs.oauth2.client.utils;
 
-import org.dmfs.httpessentials.types.Token;
+import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.parameters.ValueType;
+import org.dmfs.rfc3986.uris.LazyUri;
+import org.dmfs.rfc3986.uris.Text;
 
 
 /**
- * A PKCE Code Challenge as per <a href="https://tools.ietf.org/html/rfc7636#section-4.2">RFC 7636, section 4.2</a>
+ * The {@link ValueType} of {@link Uri} parameters.
  *
  * @author Marten Gajda
  */
-public interface PkceCodeChallenge
+public final class UriValueType implements ValueType<Uri>
 {
-    /**
-     * Returns a {@link Token} that identifies the method this code challenge uses.
-     *
-     * @return A {@link Token} containing the method name.
-     */
-    Token method();
+    @Override
+    public Uri parsedValue(CharSequence valueText)
+    {
+        return new LazyUri(new Precoded(valueText));
+    }
 
-    /**
-     * Returns the value of the code challenge.
-     *
-     * @return
-     */
-    CharSequence challenge();
+
+    @Override
+    public CharSequence serializedValue(Uri value)
+    {
+        return new Text(value);
+    }
 }

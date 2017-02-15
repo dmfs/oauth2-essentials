@@ -32,10 +32,10 @@ import java.security.NoSuchAlgorithmException;
  */
 public final class S256CodeChallenge implements PkceCodeChallenge
 {
-    private final String mCodeVerifier;
+    private final CharSequence mCodeVerifier;
 
 
-    public S256CodeChallenge(String codeVerifier)
+    public S256CodeChallenge(CharSequence codeVerifier)
     {
         mCodeVerifier = codeVerifier;
     }
@@ -53,7 +53,7 @@ public final class S256CodeChallenge implements PkceCodeChallenge
     {
         try
         {
-            String result = Base64.encodeBytes(MessageDigest.getInstance("SHA-256").digest(mCodeVerifier.getBytes()), Base64.URL_SAFE);
+            String result = Base64.encodeBytes(MessageDigest.getInstance("SHA-256").digest(mCodeVerifier.toString().getBytes()), Base64.URL_SAFE);
             // Note, the code challenge parameter doesn't support equals chars, so we have to remove any padding
             if (result.endsWith("=="))
             {

@@ -28,7 +28,7 @@ public interface OAuth2AuthCodeAuthorization
      *
      * @return
      */
-    public String code();
+    public CharSequence code();
 
     /**
      * Returns the scope that this authorization has been granted for.

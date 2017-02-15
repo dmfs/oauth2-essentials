@@ -20,7 +20,13 @@ import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.oauth2.client.utils.ImmutableEntry;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.Appending;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
+
+import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
+import static org.dmfs.oauth2.client.utils.Parameters.REFRESH_TOKEN;
+import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
 
 
 /**
@@ -30,8 +36,7 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
  */
 public final class RefreshTokenRequest extends AbstractAccessTokenRequest
 {
-    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "refresh_token");
-    private final String mRefreshToken;
+    private final CharSequence mRefreshToken;
     private final OAuth2Scope mScope;
 
 
@@ -43,7 +48,7 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
      * @param scope
      *         An {@link OAuth2Scope}.
      */
-    public RefreshTokenRequest(String refreshToken, OAuth2Scope scope)
+    public RefreshTokenRequest(CharSequence refreshToken, OAuth2Scope scope)
     {
         super(scope);
         mRefreshToken = refreshToken;
@@ -54,8 +59,7 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
-                new ImmutableEntry("refresh_token", mRefreshToken),
-                new ImmutableEntry("scope", mScope.toString()));
+        ParameterList parameters = new BasicParameterList(GRANT_TYPE.parameter("refresh_token"), REFRESH_TOKEN.parameter(mRefreshToken));
+        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
     }
 }

@@ -48,7 +48,7 @@ public final class JsonAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public String accessToken() throws ProtocolException
+    public CharSequence accessToken() throws ProtocolException
     {
         try
         {
@@ -62,7 +62,7 @@ public final class JsonAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public String tokenType() throws ProtocolException
+    public CharSequence tokenType() throws ProtocolException
     {
         try
         {
@@ -83,7 +83,7 @@ public final class JsonAccessToken implements OAuth2AccessToken
 
 
     @Override
-    public String refreshToken() throws ProtocolException
+    public CharSequence refreshToken() throws ProtocolException
     {
         if (!hasRefreshToken())
         {

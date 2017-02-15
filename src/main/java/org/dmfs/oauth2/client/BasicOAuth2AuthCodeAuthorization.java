@@ -16,13 +16,15 @@
 
 package org.dmfs.oauth2.client;
 
-import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.httpessentials.parameters.BasicParameterType;
-import org.dmfs.httpessentials.parameters.ParameterType;
-import org.dmfs.httpessentials.parameters.Parametrized;
-import org.dmfs.httpessentials.types.UrlFormEncodedKeyValues;
 import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.adapters.OptionalParameter;
+import org.dmfs.rfc3986.parameters.adapters.TextParameter;
+import org.dmfs.rfc3986.parameters.adapters.XwfueParameterList;
+
+import static org.dmfs.oauth2.client.utils.Parameters.AUTH_CODE;
+import static org.dmfs.oauth2.client.utils.Parameters.STATE;
 
 
 /**
@@ -34,35 +36,30 @@ import org.dmfs.rfc3986.Uri;
  */
 public final class BasicOAuth2AuthCodeAuthorization implements OAuth2AuthCodeAuthorization
 {
-    private static final ParameterType<String> AUTH_CODE = new BasicParameterType<String>("code",
-            PlainStringHeaderConverter.INSTANCE);
-    private static final ParameterType<String> STATE = new BasicParameterType<String>("state",
-            PlainStringHeaderConverter.INSTANCE);
-
-    private final Parametrized mFragment;
+    private final ParameterList mQueryParameters;
     private final OAuth2Scope mScope;
 
 
-    public BasicOAuth2AuthCodeAuthorization(Uri redirectUri, OAuth2Scope requestedScope, String state) throws ProtocolException
+    public BasicOAuth2AuthCodeAuthorization(Uri redirectUri, OAuth2Scope requestedScope, CharSequence state) throws ProtocolException
     {
-        mFragment = new UrlFormEncodedKeyValues(redirectUri.query().toString());
-        if (!state.equals(mFragment.firstParameter(STATE, "").value()))
+        mQueryParameters = new XwfueParameterList(redirectUri.query().value());
+        if (!state.toString().equals(new TextParameter(STATE, mQueryParameters).toString()))
         {
             throw new ProtocolException("State in redirect uri doesn't match the original state!");
         }
-        if (!mFragment.hasParameter(AUTH_CODE))
+        if (!new OptionalParameter<CharSequence>(AUTH_CODE, mQueryParameters).isPresent())
         {
-            // fail early, because we can't do that in #code()
-            throw new ProtocolException(String.format("Missing access_token in fragment '%s'", mFragment.toString()));
+            // fail early, because we can't do that in code()
+            throw new ProtocolException(String.format("Missing auth code in fragment '%s'", redirectUri.query().value()));
         }
         mScope = requestedScope;
     }
 
 
     @Override
-    public String code()
+    public CharSequence code()
     {
-        return mFragment.firstParameter(AUTH_CODE, "").value();
+        return new TextParameter(AUTH_CODE, mQueryParameters);
     }
 
 

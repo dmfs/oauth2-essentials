@@ -20,7 +20,14 @@ import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.oauth2.client.utils.ImmutableEntry;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.Appending;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
+
+import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
+import static org.dmfs.oauth2.client.utils.Parameters.PASSWORD;
+import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
+import static org.dmfs.oauth2.client.utils.Parameters.USERNAME;
 
 
 /**
@@ -32,9 +39,8 @@ import org.dmfs.oauth2.client.utils.ImmutableEntry;
  */
 public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessTokenRequest
 {
-    private final ImmutableEntry GRANT_TYPE = new ImmutableEntry("grant_type", "password");
-    private final String mUsername;
-    private final String mPassword;
+    private final CharSequence mUsername;
+    private final CharSequence mPassword;
     private final OAuth2Scope mScope;
 
 
@@ -48,7 +54,7 @@ public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessToken
      * @param password
      *         The password of the resource owner.
      */
-    public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, String username, String password)
+    public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, CharSequence username, CharSequence password)
     {
         super(scope);
         mUsername = username;
@@ -60,8 +66,10 @@ public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessToken
     @Override
     public HttpRequestEntity requestEntity()
     {
-        return new XWwwFormUrlEncodedEntity(GRANT_TYPE,
-                new ImmutableEntry("username", mUsername),
-                new ImmutableEntry("password", mPassword), new ImmutableEntry("scope", mScope.toString()));
+        ParameterList parameters = new BasicParameterList(
+                GRANT_TYPE.parameter("password"),
+                USERNAME.parameter(mUsername),
+                PASSWORD.parameter(mPassword));
+        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
     }
 }

@@ -38,8 +38,8 @@ public final class ResourceOwnerPasswordGrant implements OAuth2Grant
 {
     private final OAuth2Client mClient;
     private final OAuth2Scope mScope;
-    private final String mUsername;
-    private final String mPassword;
+    private final CharSequence mUsername;
+    private final CharSequence mPassword;
 
 
     /**
@@ -54,7 +54,7 @@ public final class ResourceOwnerPasswordGrant implements OAuth2Grant
      * @param password
      *         The resource owner's password.
      */
-    public ResourceOwnerPasswordGrant(OAuth2Client client, OAuth2Scope scope, String username, String password)
+    public ResourceOwnerPasswordGrant(OAuth2Client client, OAuth2Scope scope, CharSequence username, CharSequence password)
     {
         mClient = client;
         mScope = scope;

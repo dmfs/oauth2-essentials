@@ -18,7 +18,8 @@ package org.dmfs.oauth2.client;
 
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.scope.BasicScope;
-import org.dmfs.rfc3986.uris.StringUri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +34,7 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void invalidState() throws Exception
     {
         new BasicOAuth2AuthCodeAuthorization(
-                new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
                 new BasicScope("scope"),
                 "abc");
     }
@@ -44,9 +45,9 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     {
         assertEquals("SplxlOBeZQQYbYS6WxSbIA",
                 new BasicOAuth2AuthCodeAuthorization(
-                        new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                        new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
                         new BasicScope("scope"),
-                        "xyz").code());
+                        "xyz").code().toString());
     }
 
 
@@ -55,7 +56,7 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     {
         assertEquals(new BasicScope("scope"),
                 new BasicOAuth2AuthCodeAuthorization(
-                        new StringUri("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz"),
+                        new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
                         new BasicScope("scope"),
                         "xyz").scope());
     }

@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-package org.dmfs.oauth2.client.pkce;
+package org.dmfs.oauth2.client.utils;
 
-import org.dmfs.httpessentials.types.Token;
+import org.dmfs.rfc3986.parameters.ValueType;
+import org.dmfs.rfc5545.Duration;
 
 
 /**
- * A PKCE Code Challenge as per <a href="https://tools.ietf.org/html/rfc7636#section-4.2">RFC 7636, section 4.2</a>
+ * The {@link ValueType} of {@link Duration} parameters.
  *
  * @author Marten Gajda
  */
-public interface PkceCodeChallenge
+public final class DurationValueType implements ValueType<Duration>
 {
-    /**
-     * Returns a {@link Token} that identifies the method this code challenge uses.
-     *
-     * @return A {@link Token} containing the method name.
-     */
-    Token method();
+    @Override
+    public Duration parsedValue(CharSequence valueText)
+    {
+        return new Duration(1, 0, Integer.parseInt(valueText.toString()));
+    }
 
-    /**
-     * Returns the value of the code challenge.
-     *
-     * @return
-     */
-    CharSequence challenge();
+
+    @Override
+    public CharSequence serializedValue(Duration value)
+    {
+        return value.toString();
+    }
 }
