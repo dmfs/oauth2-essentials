@@ -30,6 +30,11 @@ import org.dmfs.oauth2.client.http.requests.AuthorizationCodeTokenRequest;
 import org.dmfs.oauth2.client.pkce.S256CodeChallenge;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.adapters.XwfueParameterList;
+import org.dmfs.rfc3986.parameters.parametersets.EmptyParameterList;
 
 import java.io.IOException;
 import java.net.URI;
@@ -48,6 +53,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     private final OAuth2Scope mScope;
     private final CharSequence mState;
     private final CharSequence mCodeVerifier;
+    private final ParameterList mCustomParameters;
 
 
     /**
@@ -60,16 +66,34 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      */
     public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope)
     {
-        this(client, scope, client.randomChars(), client.randomChars());
+        this(client, scope, client.randomChars(), client.randomChars(), EmptyParameterList.INSTANCE);
     }
 
 
-    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, CharSequence state, CharSequence codeVerifier)
+    /**
+     * Launches a new Authorization Code Grant for the given {@link OAuth2Client}, {@link OAuth2Scope} and custom {@link ParameterList}. The given {@link
+     * ParameterList} must not contain any OAuth2 specific parameters. Any such parameter might be overridden by this grant.
+     *
+     * @param client
+     *         The {@link OAuth2Client}.
+     * @param scope
+     *         An {@link OAuth2Scope}.
+     * @param customParameters
+     *         Custom parameters to send to the authorization endpoint.
+     */
+    public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope, ParameterList customParameters)
+    {
+        this(client, scope, client.randomChars(), client.randomChars(), customParameters);
+    }
+
+
+    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, CharSequence state, CharSequence codeVerifier, ParameterList customParameters)
     {
         mClient = client;
         mScope = scope;
         mState = state;
         mCodeVerifier = codeVerifier;
+        mCustomParameters = customParameters;
     }
 
 
@@ -79,11 +103,11 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         OAuth2AuthorizationRequest authorizationRequest;
         if (mScope.isEmpty())
         {
-            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mState);
+            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mState, mCustomParameters);
         }
         else
         {
-            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mScope, mState);
+            authorizationRequest = new BasicOAuth2AuthorizationRequest("code", mScope, mState, mCustomParameters);
         }
         return mClient.authorizationUrl(authorizationRequest.withCodeChallenge(new S256CodeChallenge(mCodeVerifier)));
     }
@@ -106,7 +130,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     @Override
     public OAuth2InteractiveGrant.OAuth2GrantState state()
     {
-        return new InitialAuthorizationCodeGrantState(mScope, mState, mCodeVerifier);
+        return new InitialAuthorizationCodeGrantState(mScope, mState, mCodeVerifier, new XWwwFormUrlEncoded(mCustomParameters));
     }
 
 
@@ -178,21 +202,27 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         private final String mScopeString;
         private final String mState;
         private final String mCodeVerifier;
+        private final String mCustomQueryParams;
 
 
-        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, CharSequence state, CharSequence codeVerifier)
+        public InitialAuthorizationCodeGrantState(OAuth2Scope scope, CharSequence state, CharSequence codeVerifier, CharSequence customQuery)
         {
             mScopeString = scope.toString();
             // convert state and codeVerifier to String, because a CharSequence may not be serializable
             mState = state.toString();
             mCodeVerifier = codeVerifier.toString();
+            mCustomQueryParams = customQuery.toString();
         }
 
 
         @Override
         public AuthorizationCodeGrant grant(OAuth2Client client)
         {
-            return new AuthorizationCodeGrant(client, new StringScope(mScopeString), mState, mCodeVerifier);
+            return new AuthorizationCodeGrant(client,
+                    new StringScope(mScopeString),
+                    mState,
+                    mCodeVerifier,
+                    new XwfueParameterList(new Precoded(mCustomQueryParams)));
         }
 
     }

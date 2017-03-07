@@ -20,8 +20,10 @@ import org.dmfs.oauth2.client.pkce.PkceCodeChallenge;
 import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
 import org.dmfs.rfc3986.parameters.FluentParameterList;
+import org.dmfs.rfc3986.parameters.ParameterList;
 import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
 import org.dmfs.rfc3986.parameters.parametersets.Fluent;
+import org.dmfs.rfc3986.parameters.parametersets.Replacing;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,9 +55,21 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
     }
 
 
+    public BasicOAuth2AuthorizationRequest(String responseType, CharSequence state, ParameterList customParameters)
+    {
+        this(new Fluent(new Replacing(customParameters, RESPONSE_TYPE.parameter(responseType), STATE.parameter(state))));
+    }
+
+
     public BasicOAuth2AuthorizationRequest(String responseType, OAuth2Scope scope, CharSequence state)
     {
         this(new Fluent(new BasicParameterList(RESPONSE_TYPE.parameter(responseType), SCOPE.parameter(scope), STATE.parameter(state))));
+    }
+
+
+    public BasicOAuth2AuthorizationRequest(String responseType, OAuth2Scope scope, CharSequence state, ParameterList customParameters)
+    {
+        this(new Fluent(new Replacing(customParameters, RESPONSE_TYPE.parameter(responseType), SCOPE.parameter(scope), STATE.parameter(state))));
     }
 
 
