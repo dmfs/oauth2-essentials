@@ -19,6 +19,11 @@ package org.dmfs.oauth2.client;
 import org.dmfs.oauth2.client.scope.BasicScope;
 import org.dmfs.oauth2.client.scope.EmptyScope;
 import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.parameters.ParameterList;
+import org.dmfs.rfc3986.parameters.ParameterType;
+import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
+import org.dmfs.rfc3986.parameters.parametertypes.BasicParameterType;
+import org.dmfs.rfc3986.parameters.valuetypes.TextValueType;
 import org.dmfs.rfc3986.uris.LazyUri;
 import org.junit.Test;
 
@@ -117,5 +122,38 @@ public class BasicOAuth2AuthorizationRequestTest
                         .withClientId("ab:d")
                         .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
                         .authorizationUri(URI.create("http://example.com/auth")));
+    }
+
+
+    @Test
+    public void testWithCustomParameters()
+    {
+        ParameterType<CharSequence> parameterType = new BasicParameterType<>("custom", TextValueType.INSTANCE);
+        ParameterList parameters = new BasicParameterList(parameterType.parameter("customvalue"));
+
+        assertEquals(URI.create(
+                "http://example.com/auth?custom=customvalue&response_type=code&scope=&state=1234&client_id=abcd&redirect_uri=http%3A%2F%2Flocalhost%3A1234"),
+                new BasicOAuth2AuthorizationRequest("code",
+                        EmptyScope.INSTANCE, "1234", parameters)
+                        .withClientId("abcd")
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
+                        .authorizationUri(URI.create("http://example.com/auth")));
+        assertEquals(URI.create(
+                "http://example.com/auth?custom=customvalue&response_type=code&scope=calendar&state=1234&client_id=xyz&redirect_uri=http%3A%2F%2Flocalhost%3A1234"),
+                new BasicOAuth2AuthorizationRequest(
+                        "code", new BasicScope("calendar"), "1234", parameters)
+                        .withClientId("abcd")
+                        .withClientId("xyz")
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
+                        .authorizationUri(URI.create("http://example.com/auth")));
+        assertEquals(
+                URI.create(
+                        "http://example.com/auth?custom=customvalue&response_type=code&scope=calendar+test+http%3A%2F%2Fexample.com%2Fcontacts&state=1234&client_id=ab%3Ad&redirect_uri=http%3A%2F%2Flocalhost%3A1234"),
+                new BasicOAuth2AuthorizationRequest("code",
+                        new BasicScope("calendar", "test", "http://example.com/contacts"), "1234", parameters)
+                        .withClientId("ab:d")
+                        .withRedirectUri(new LazyUri(new Precoded("http://localhost:1234")))
+                        .authorizationUri(URI.create("http://example.com/auth")));
+
     }
 }
