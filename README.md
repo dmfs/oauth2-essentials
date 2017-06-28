@@ -13,7 +13,7 @@ http-client-essentials abstraction framework for HTTP clients.
 
 ## Supported Grants
 
-* [Authorization Code Grant (requires a webwiev)](https://tools.ietf.org/html/rfc6749#section-4.1)
+* [Authorization Code Grant (requires a webview)](https://tools.ietf.org/html/rfc6749#section-4.1)
 * [Implicit Grant (requires a webview)](https://tools.ietf.org/html/rfc6749#section-4.2)
 * [Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3)
 * [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4)
