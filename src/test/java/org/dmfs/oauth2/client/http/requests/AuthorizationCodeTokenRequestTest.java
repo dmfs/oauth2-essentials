@@ -18,7 +18,9 @@ package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.HttpMethod;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.types.MediaType;
 import org.dmfs.httpessentials.types.StringMediaType;
+import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.BasicScope;
@@ -35,6 +37,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 
@@ -71,7 +74,7 @@ public class AuthorizationCodeTokenRequestTest
         ParameterList params = new XwfueParameterList(new Precoded(new String(out.toByteArray())));
 
         // test content type
-        assertEquals(new StringMediaType("application/x-www-form-urlencoded"), entity.contentType());
+        assertThat(entity.contentType(), PresentMatcher.<MediaType>isPresent(new StringMediaType("application/x-www-form-urlencoded")));
 
         // test data
         assertEquals("123", new TextParameter(new BasicParameterType<CharSequence>("code_verifier", TextValueType.INSTANCE), params).toString());

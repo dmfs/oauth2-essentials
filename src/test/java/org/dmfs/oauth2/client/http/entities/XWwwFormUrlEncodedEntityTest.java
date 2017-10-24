@@ -17,6 +17,9 @@
 package org.dmfs.oauth2.client.http.entities;
 
 import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.types.MediaType;
+import org.dmfs.httpessentials.types.StringMediaType;
+import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
 import org.dmfs.rfc3986.parameters.ParameterType;
 import org.dmfs.rfc3986.parameters.parametertypes.BasicParameterType;
 import org.dmfs.rfc3986.parameters.valuetypes.TextValueType;
@@ -25,7 +28,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static org.dmfs.jems.hamcrest.matchers.PresentMatcher.isPresent;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 
 /**
@@ -38,8 +43,7 @@ public class XWwwFormUrlEncodedEntityTest
     {
         ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("value"));
-        assertEquals("application", entity.contentType().mainType());
-        assertEquals("x-www-form-urlencoded", entity.contentType().subType());
+        assertThat(entity.contentType(), PresentMatcher.<MediaType>isPresent(new StringMediaType("application/x-www-form-urlencoded")));
     }
 
 
@@ -48,10 +52,10 @@ public class XWwwFormUrlEncodedEntityTest
     {
         ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("val"));
-        assertEquals(7, entity.contentLength());
+        assertThat(entity.contentLength(), isPresent(7L));
 
         HttpRequestEntity emptyEntity = new XWwwFormUrlEncodedEntity();
-        assertEquals(0, emptyEntity.contentLength());
+        assertThat(emptyEntity.contentLength(), isPresent(0L));
     }
 
 

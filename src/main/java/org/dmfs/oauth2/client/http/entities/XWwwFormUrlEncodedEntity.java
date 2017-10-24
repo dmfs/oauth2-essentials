@@ -19,6 +19,8 @@ package org.dmfs.oauth2.client.http.entities;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.httpessentials.types.MediaType;
 import org.dmfs.httpessentials.types.StructuredMediaType;
+import org.dmfs.optional.Optional;
+import org.dmfs.optional.Present;
 import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
 import org.dmfs.rfc3986.parameters.Parameter;
 import org.dmfs.rfc3986.parameters.ParameterList;
@@ -26,7 +28,8 @@ import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Map.Entry;
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 
 
 /**
@@ -36,7 +39,7 @@ import java.util.Map.Entry;
  */
 public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
 {
-    private static final MediaType CONTENT_TYPE = new StructuredMediaType("application", "x-www-form-urlencoded");
+    private static final Optional<MediaType> CONTENT_TYPE = new Present<MediaType>(new StructuredMediaType("application", "x-www-form-urlencoded"));
     private static final String ENCODING = "UTF-8";
 
     private final ParameterList mValues;
@@ -55,16 +58,23 @@ public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
 
 
     @Override
-    public MediaType contentType()
+    public Optional<MediaType> contentType()
     {
         return CONTENT_TYPE;
     }
 
 
     @Override
-    public long contentLength() throws IOException
+    public Optional<Long> contentLength()
     {
-        return toString().getBytes(ENCODING).length;
+        try
+        {
+            return new Present<>((long) toString().getBytes(ENCODING).length);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException(String.format(Locale.ENGLISH, "%s encoding not supported by runtime", ENCODING));
+        }
     }
 
 

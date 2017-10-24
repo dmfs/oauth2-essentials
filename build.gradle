@@ -73,6 +73,8 @@ dependencies {
     compile 'org.dmfs:rfc5545-datetime:0.2.4'
     compile 'org.json:json:20160212'
     compile 'org.dmfs:rfc3986-uri:0.7'
+    compile 'org.dmfs:jems:' + JEMS_VERSION
+    testCompile 'org.dmfs:jems-testing:' + JEMS_VERSION
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile 'org.dmfs:http-client-mockutils:' + HTTP_CLIENT_ESSENTIALS_VERSION
     testCompile 'org.jmockit:jmockit:1.27'
