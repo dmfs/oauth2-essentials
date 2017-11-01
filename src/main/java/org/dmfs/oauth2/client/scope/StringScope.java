@@ -16,6 +16,7 @@
 
 package org.dmfs.oauth2.client.scope;
 
+import org.dmfs.iterables.Split;
 import org.dmfs.iterators.CsvIterator;
 import org.dmfs.oauth2.client.OAuth2Scope;
 
@@ -61,9 +62,12 @@ public final class StringScope implements OAuth2Scope
     @Override
     public int tokenCount()
     {
+        if (mScope.isEmpty())
+        {
+            return 0;
+        }
         int count = 0;
-        Iterator<String> tokenIterator = new CsvIterator(mScope, ' ');
-        while (tokenIterator.hasNext())
+        for (CharSequence token : new Split(mScope, ' '))
         {
             count += 1;
         }
