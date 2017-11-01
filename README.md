@@ -8,7 +8,7 @@ An OAuth2 client implementation based on http-client-essentials-suite.
 
 [OAuth2](https://tools.ietf.org/html/rfc6749) is an authentication frameworks that's standardized in RFC 6749. There are a couple of Java implementations for OAuth2 clients available,
 but most of them either depend on a specific platform (e.g. Android), pull in large dependencies (usually a specific HTTP client implementation) or are incomplete.
-This library aims to provide a complete, platform independent Java implementation of RFC 6749 that can be used with any HTTP client implementation. The later is achieved by using the
+This library aims to provide a complete, platform independent Java implementation of RFC 6749 which can be used with any HTTP client implementation. The later is achieved by using the
 http-client-essentials abstraction framework for HTTP clients.
 
 ## Supported Grants
@@ -138,14 +138,14 @@ Or add it to your build.gradle:
 
     dependencies {
         // oauth2-essentials
-        compile 'org.dmfs:oauth2-essentials:0.5.1'
+        compile 'org.dmfs:oauth2-essentials:0.8'
         // optional to use httpurlconnection-executor, any other HttpRequestExecutor
         // implementation will do
-        compile 'org.dmfs:httpurlconnection-executor:0.10'
+        compile 'org.dmfs:httpurlconnection-executor:0.13'
     }
 
 
 ## License
 
-Copyright dmfs GmbH 2016, licensed under Apache2.
+Copyright dmfs GmbH 2017, licensed under Apache2.
 
