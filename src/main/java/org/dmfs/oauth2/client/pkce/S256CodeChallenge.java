@@ -17,12 +17,12 @@
 package org.dmfs.oauth2.client.pkce;
 
 import net.iharder.Base64;
-import org.dmfs.httpessentials.types.StringToken;
+import org.dmfs.httpessentials.types.CharToken;
 import org.dmfs.httpessentials.types.Token;
+import org.dmfs.jems.messagedigest.elementary.Sha256;
+import org.dmfs.jems.single.elementary.Digest;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 /**
@@ -44,7 +44,7 @@ public final class S256CodeChallenge implements PkceCodeChallenge
     @Override
     public Token method()
     {
-        return new StringToken("S256");
+        return new CharToken("S256");
     }
 
 
@@ -53,7 +53,7 @@ public final class S256CodeChallenge implements PkceCodeChallenge
     {
         try
         {
-            String result = Base64.encodeBytes(MessageDigest.getInstance("SHA-256").digest(mCodeVerifier.toString().getBytes()), Base64.URL_SAFE);
+            String result = Base64.encodeBytes(new Digest(new Sha256(), mCodeVerifier).value(), Base64.URL_SAFE);
             // Note, the code challenge parameter doesn't support equals chars, so we have to remove any padding
             if (result.endsWith("=="))
             {
@@ -64,10 +64,6 @@ public final class S256CodeChallenge implements PkceCodeChallenge
                 return result.substring(0, result.length() - 1);
             }
             return result;
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            throw new RuntimeException("SHA-256 not supported by runtime");
         }
         catch (IOException e)
         {
