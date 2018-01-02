@@ -45,7 +45,7 @@ OAuth2ClientCredentials credentials = new BasicOAuth2ClientCredentials(
 OAuth2Client client = new BasicOAuth2Client(
     provider,
     credentials,
-    URI.create("http://localhost") /* Redirect URL */);
+    new LazyUri(new Precoded("http://localhost")) /* Redirect URL */);
 ```
 
 ### Authorization Code Grant
