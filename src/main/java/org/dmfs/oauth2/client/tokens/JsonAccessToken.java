@@ -125,6 +125,11 @@ public final class JsonAccessToken implements OAuth2AccessToken
         return new Mapped<>(new OAuth2ScopeFunction(), new NullSafe<>(mTokenResponse.optString("scope", null))).value(mScope);
     }
 
+    public JSONObject tokenResponse()
+    {
+        return this.mTokenResponse;
+    }
+
 
     /**
      * A {@link Function} which converts a String into an {@link OAuth2Scope}.

@@ -51,4 +51,14 @@ public class JsonAccessTokenTest
         assertThat(new JsonAccessToken(jsonObject, dummyScope).scope(), Matchers.<OAuth2Scope>is(new StringScope("scope1 scope2")));
     }
 
+    @Test
+    public void testCustomPayload() throws Exception
+    {
+        OAuth2Scope dummyScope = dummy(OAuth2Scope.class);
+        JSONObject jsonObject = new JSONObject("{\"idToken\":\"id_token_value\"}");
+
+        String idToken = new JsonAccessToken(jsonObject, dummyScope).tokenResponse().getString("idToken");
+        assertThat(idToken, Matchers.is("id_token_value"));
+    }
+
 }
