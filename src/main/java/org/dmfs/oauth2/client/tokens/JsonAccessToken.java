@@ -22,6 +22,7 @@ import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.optional.NullSafe;
+import org.dmfs.optional.Optional;
 import org.dmfs.optional.decorators.Mapped;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
@@ -125,9 +126,10 @@ public final class JsonAccessToken implements OAuth2AccessToken
         return new Mapped<>(new OAuth2ScopeFunction(), new NullSafe<>(mTokenResponse.optString("scope", null))).value(mScope);
     }
 
-    public JSONObject tokenResponse()
+    @Override
+    public Optional<CharSequence> extraParameter(final String parameterName) throws ProtocolException
     {
-        return this.mTokenResponse;
+        return new NullSafe<CharSequence>(mTokenResponse.optString(parameterName, null));
     }
 
 

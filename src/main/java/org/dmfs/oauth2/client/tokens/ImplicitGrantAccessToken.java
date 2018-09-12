@@ -19,11 +19,14 @@ package org.dmfs.oauth2.client.tokens;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
+import org.dmfs.optional.Optional;
 import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc3986.parameters.ParameterList;
 import org.dmfs.rfc3986.parameters.adapters.OptionalParameter;
 import org.dmfs.rfc3986.parameters.adapters.TextParameter;
 import org.dmfs.rfc3986.parameters.adapters.XwfueParameterList;
+import org.dmfs.rfc3986.parameters.parametertypes.BasicParameterType;
+import org.dmfs.rfc3986.parameters.valuetypes.TextValueType;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
 
@@ -130,5 +133,11 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
     public OAuth2Scope scope() throws ProtocolException
     {
         return new OptionalParameter<>(SCOPE, mRedirectUriParameters).value(mScope);
+    }
+
+    @Override
+    public Optional<CharSequence> extraParameter(final String parameterName) throws ProtocolException
+    {
+        return new OptionalParameter<>(new BasicParameterType<>(parameterName, TextValueType.INSTANCE), mRedirectUriParameters);
     }
 }
