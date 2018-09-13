@@ -16,9 +16,10 @@
 
 package org.dmfs.oauth2.client.tokens;
 
+import org.dmfs.jems.hamcrest.matchers.AbsentMatcher;
+import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
-import org.dmfs.optional.Optional;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -55,23 +56,15 @@ public class JsonAccessTokenTest
     @Test
     public void testCustomPayload() throws Exception
     {
-        OAuth2Scope dummyScope = dummy(OAuth2Scope.class);
-        JSONObject jsonObject = new JSONObject("{\"idToken\":\"id_token_value\"}");
-
-        Optional<CharSequence> parameter = new JsonAccessToken(jsonObject, dummyScope).extraParameter("idToken");
-        assertThat(parameter.isPresent(), Matchers.is(true));
-        assertThat(parameter.value().toString(), Matchers.is("id_token_value"));
+        assertThat(new JsonAccessToken(new JSONObject("{\"idToken\":\"id_token_value\"}"), dummy(OAuth2Scope.class))
+                .extraParameter("idToken"), PresentMatcher.<CharSequence>isPresent("id_token_value"));
     }
 
     @Test
     public void testCustomPayloadWithNonExistingParameter() throws Exception
     {
-        OAuth2Scope dummyScope = dummy(OAuth2Scope.class);
-        JSONObject jsonObject = new JSONObject("{}");
-
-        Optional<CharSequence> parameter = new JsonAccessToken(jsonObject, dummyScope).extraParameter("idToken");
-        assertThat(parameter.isPresent(), Matchers.is(false));
-        assertThat(parameter.value("default").toString(), Matchers.is("default"));
+        assertThat(new JsonAccessToken(new JSONObject("{}"), dummy(OAuth2Scope.class)).extraParameter("idToken"),
+                AbsentMatcher.<CharSequence>isAbsent());
     }
 
 }
