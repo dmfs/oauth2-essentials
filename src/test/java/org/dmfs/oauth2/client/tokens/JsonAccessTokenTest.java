@@ -16,6 +16,8 @@
 
 package org.dmfs.oauth2.client.tokens;
 
+import org.dmfs.jems.hamcrest.matchers.AbsentMatcher;
+import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.hamcrest.Matchers;
@@ -49,6 +51,20 @@ public class JsonAccessTokenTest
         JSONObject jsonObject = new JSONObject("{\"scope\": \"scope1 scope2\"}");
 
         assertThat(new JsonAccessToken(jsonObject, dummyScope).scope(), Matchers.<OAuth2Scope>is(new StringScope("scope1 scope2")));
+    }
+
+    @Test
+    public void testCustomPayload() throws Exception
+    {
+        assertThat(new JsonAccessToken(new JSONObject("{\"idToken\":\"id_token_value\"}"), dummy(OAuth2Scope.class))
+                .extraParameter("idToken"), PresentMatcher.<CharSequence>isPresent("id_token_value"));
+    }
+
+    @Test
+    public void testCustomPayloadWithNonExistingParameter() throws Exception
+    {
+        assertThat(new JsonAccessToken(new JSONObject("{}"), dummy(OAuth2Scope.class)).extraParameter("idToken"),
+                AbsentMatcher.<CharSequence>isAbsent());
     }
 
 }
