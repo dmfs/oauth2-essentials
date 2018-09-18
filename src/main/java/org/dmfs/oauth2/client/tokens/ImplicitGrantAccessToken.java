@@ -136,7 +136,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
     }
 
     @Override
-    public Optional<CharSequence> extraParameter(final String parameterName) throws ProtocolException
+    public Optional<CharSequence> extraParameter(final String parameterName)
     {
         return new OptionalParameter<>(new BasicParameterType<>(parameterName, TextValueType.INSTANCE), mRedirectUriParameters);
     }

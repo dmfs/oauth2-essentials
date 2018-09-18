@@ -127,7 +127,7 @@ public final class JsonAccessToken implements OAuth2AccessToken
     }
 
     @Override
-    public Optional<CharSequence> extraParameter(final String parameterName) throws ProtocolException
+    public Optional<CharSequence> extraParameter(final String parameterName)
     {
         return new NullSafe<CharSequence>(mTokenResponse.optString(parameterName, null));
     }

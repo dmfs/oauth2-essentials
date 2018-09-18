@@ -88,8 +88,6 @@ public interface OAuth2AccessToken
      * Returns a value stored in the token response under the {@code parameterName}.
      *
      * @param parameterName the key under which the value is stored in the response
-     *
-     * @throws ProtocolException
      */
-    public Optional<CharSequence> extraParameter(final String parameterName) throws ProtocolException;
+    public Optional<CharSequence> extraParameter(final String parameterName);
 }
