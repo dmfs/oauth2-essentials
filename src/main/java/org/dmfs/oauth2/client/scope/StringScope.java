@@ -17,7 +17,7 @@
 package org.dmfs.oauth2.client.scope;
 
 import org.dmfs.iterables.Split;
-import org.dmfs.iterators.CsvIterator;
+import org.dmfs.iterators.UnquotedSplit;
 import org.dmfs.oauth2.client.OAuth2Scope;
 
 import java.util.Iterator;
@@ -47,10 +47,10 @@ public final class StringScope implements OAuth2Scope
     @Override
     public boolean hasToken(String token)
     {
-        Iterator<String> tokenIterator = new CsvIterator(mScope, ' ');
+        Iterator<CharSequence> tokenIterator = new UnquotedSplit(mScope, ' ');
         while (tokenIterator.hasNext())
         {
-            if (tokenIterator.next().equals(token))
+            if (tokenIterator.next().toString().equals(token))
             {
                 return true;
             }
@@ -108,10 +108,10 @@ public final class StringScope implements OAuth2Scope
             return false;
         }
 
-        Iterator<String> tokens = new CsvIterator(mScope, ' ');
+        Iterator<CharSequence> tokens = new UnquotedSplit(mScope, ' ');
         while (tokens.hasNext())
         {
-            if (!other.hasToken(tokens.next()))
+            if (!other.hasToken(tokens.next().toString()))
             {
                 return false;
             }
