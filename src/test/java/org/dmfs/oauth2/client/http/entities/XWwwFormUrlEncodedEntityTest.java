@@ -19,7 +19,7 @@ package org.dmfs.oauth2.client.http.entities;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.httpessentials.types.MediaType;
 import org.dmfs.httpessentials.types.StringMediaType;
-import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
+import org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher;
 import org.dmfs.rfc3986.parameters.ParameterType;
 import org.dmfs.rfc3986.parameters.parametertypes.BasicParameterType;
 import org.dmfs.rfc3986.parameters.valuetypes.TextValueType;
@@ -28,7 +28,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.dmfs.jems.hamcrest.matchers.PresentMatcher.isPresent;
+import static org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher.present;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -43,7 +44,7 @@ public class XWwwFormUrlEncodedEntityTest
     {
         ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("value"));
-        assertThat(entity.contentType(), PresentMatcher.<MediaType>isPresent(new StringMediaType("application/x-www-form-urlencoded")));
+        assertThat(entity.contentType(), is(PresentMatcher.<MediaType>present(new StringMediaType("application/x-www-form-urlencoded"))));
     }
 
 
@@ -52,10 +53,10 @@ public class XWwwFormUrlEncodedEntityTest
     {
         ParameterType<CharSequence> key = new BasicParameterType<>("key", TextValueType.INSTANCE);
         HttpRequestEntity entity = new XWwwFormUrlEncodedEntity(key.parameter("val"));
-        assertThat(entity.contentLength(), isPresent(7L));
+        assertThat(entity.contentLength(), is(present(7L)));
 
         HttpRequestEntity emptyEntity = new XWwwFormUrlEncodedEntity();
-        assertThat(emptyEntity.contentLength(), isPresent(0L));
+        assertThat(emptyEntity.contentLength(), is(present(0L)));
     }
 
 

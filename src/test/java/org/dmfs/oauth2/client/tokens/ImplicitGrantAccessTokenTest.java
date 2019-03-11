@@ -16,17 +16,21 @@
 
 package org.dmfs.oauth2.client.tokens;
 
-import org.dmfs.jems.hamcrest.matchers.AbsentMatcher;
-import org.dmfs.jems.hamcrest.matchers.PresentMatcher;
+import org.dmfs.jems.hamcrest.matchers.optional.AbsentMatcher;
 import org.dmfs.oauth2.client.scope.EmptyScope;
 import org.dmfs.rfc3986.encoding.Precoded;
 import org.dmfs.rfc3986.uris.LazyUri;
 import org.dmfs.rfc5545.Duration;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import static org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher.present;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ImplicitGrantAccessTokenTest {
+
+public class ImplicitGrantAccessTokenTest
+{
 
     @Test
     public void testExtraParameter() throws Exception
@@ -36,8 +40,9 @@ public class ImplicitGrantAccessTokenTest {
                         new EmptyScope(),
                         "1",
                         new Duration(1, 1, 0)).extraParameter("key"),
-                PresentMatcher.<CharSequence>isPresent("value"));
+                is(present(Matchers.<CharSequence>hasToString("value"))));
     }
+
 
     @Test
     public void testExtraParameterDoesNotExist() throws Exception
@@ -47,7 +52,7 @@ public class ImplicitGrantAccessTokenTest {
                         new EmptyScope(),
                         "1",
                         new Duration(1, 1, 0)).extraParameter("idToken"),
-                AbsentMatcher.<CharSequence>isAbsent());
+                is(AbsentMatcher.<CharSequence>absent()));
     }
 
 }

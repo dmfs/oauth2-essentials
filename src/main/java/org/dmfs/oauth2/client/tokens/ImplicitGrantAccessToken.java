@@ -17,9 +17,9 @@
 package org.dmfs.oauth2.client.tokens;
 
 import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.jems.optional.Optional;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
-import org.dmfs.optional.Optional;
 import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc3986.parameters.ParameterList;
 import org.dmfs.rfc3986.parameters.adapters.OptionalParameter;
@@ -134,6 +134,7 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
     {
         return new OptionalParameter<>(SCOPE, mRedirectUriParameters).value(mScope);
     }
+
 
     @Override
     public Optional<CharSequence> extraParameter(final String parameterName)

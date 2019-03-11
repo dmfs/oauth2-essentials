@@ -17,7 +17,7 @@
 package org.dmfs.oauth2.client;
 
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.optional.Optional;
+import org.dmfs.jems.optional.Optional;
 import org.dmfs.rfc5545.DateTime;
 
 import java.util.NoSuchElementException;
@@ -87,7 +87,8 @@ public interface OAuth2AccessToken
     /**
      * Returns a value stored in the token response under the {@code parameterName}.
      *
-     * @param parameterName the key under which the value is stored in the response
+     * @param parameterName
+     *         the key under which the value is stored in the response
      */
     public Optional<CharSequence> extraParameter(final String parameterName);
 }
