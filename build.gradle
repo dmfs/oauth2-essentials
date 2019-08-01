@@ -18,7 +18,7 @@ plugins {
     id 'de.fuerstenau.buildconfig' version '1.1.7'
 }
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 
 sourceSets {
     main {
@@ -64,18 +64,22 @@ repositories {
 }
 
 dependencies {
-    compile 'net.iharder:base64:2.3.9'
-    compile 'org.dmfs:http-client-essentials:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    compile 'org.dmfs:http-client-headers:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    compile 'org.dmfs:http-client-types:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    compile 'org.dmfs:http-client-basics:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    compile 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    compile 'org.dmfs:rfc5545-datetime:0.2.4'
-    compile 'org.json:json:20160212'
-    compile 'org.dmfs:rfc3986-uri:0.7'
-    compile 'org.dmfs:jems:' + JEMS_VERSION
-    testCompile 'org.dmfs:jems-testing:' + JEMS_VERSION
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile 'org.dmfs:http-client-mockutils:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    testCompile 'org.jmockit:jmockit:1.27'
+    api 'org.dmfs:jems:' + JEMS_VERSION
+    api 'org.dmfs:rfc3986-uri:0.8.1'
+    api 'org.dmfs:rfc5545-datetime:0.2.4'
+    api 'org.dmfs:http-client-essentials:' + HTTP_CLIENT_ESSENTIALS_VERSION
+
+    implementation 'net.iharder:base64:2.3.9'
+    implementation 'org.dmfs:http-client-headers:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    implementation 'org.dmfs:http-client-types:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    implementation 'org.dmfs:http-client-basics:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    implementation 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    implementation 'org.json:json:20160212'
+
+    testImplementation 'org.dmfs:jems-testing:' + JEMS_VERSION
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.0.0'
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    testImplementation 'org.dmfs:http-client-mockutils:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    testImplementation 'org.jmockit:jmockit:1.41'
 }
