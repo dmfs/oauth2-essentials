@@ -25,6 +25,7 @@ import org.dmfs.httpessentials.exceptions.UnexpectedStatusException;
 import org.dmfs.httpessentials.executors.useragent.Branded;
 import org.dmfs.httpessentials.types.Product;
 import org.dmfs.httpessentials.types.VersionedProduct;
+import org.dmfs.oauth2.client.utils.LazyCharSequence;
 import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc3986.encoding.Precoded;
 import org.dmfs.rfc3986.uris.LazyUri;
@@ -52,7 +53,7 @@ public final class BasicOAuth2Client implements OAuth2Client
 
     public BasicOAuth2Client(OAuth2AuthorizationProvider provider, OAuth2ClientCredentials credentials, URI redirectUri)
     {
-        this(provider, credentials, new LazyUri(new Precoded(redirectUri.toString())));
+        this(provider, credentials, new LazyUri(new Precoded(new LazyCharSequence(redirectUri))));
     }
 
 
