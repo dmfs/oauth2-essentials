@@ -28,7 +28,7 @@ def gitVersion = { ->
 group 'org.dmfs'
 version gitVersion()
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 configurations {
     pom
