@@ -17,17 +17,15 @@
 package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.client.HttpRequest;
-import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.iterables.elementary.PresentValues;
+import org.dmfs.jems.iterable.composite.Joined;
+import org.dmfs.jems.iterable.elementary.Seq;
 import org.dmfs.oauth2.client.OAuth2Scope;
-import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.rfc3986.parameters.ParameterList;
-import org.dmfs.rfc3986.parameters.parametersets.Appending;
-import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
-
-import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
-import static org.dmfs.oauth2.client.utils.Parameters.PASSWORD;
-import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
-import static org.dmfs.oauth2.client.utils.Parameters.USERNAME;
+import org.dmfs.oauth2.client.http.requests.parameters.GrantTypeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.OptionalScopeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.PasswordParam;
+import org.dmfs.oauth2.client.http.requests.parameters.UsernameParam;
 
 
 /**
@@ -39,11 +37,6 @@ import static org.dmfs.oauth2.client.utils.Parameters.USERNAME;
  */
 public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessTokenRequest
 {
-    private final CharSequence mUsername;
-    private final CharSequence mPassword;
-    private final OAuth2Scope mScope;
-
-
     /**
      * Creates a {@link ResourceOwnerPasswordTokenRequest} with the given scopes.
      *
@@ -56,20 +49,13 @@ public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessToken
      */
     public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, CharSequence username, CharSequence password)
     {
-        super(scope);
-        mUsername = username;
-        mPassword = password;
-        mScope = scope;
-    }
-
-
-    @Override
-    public HttpRequestEntity requestEntity()
-    {
-        ParameterList parameters = new BasicParameterList(
-                GRANT_TYPE.parameter("password"),
-                USERNAME.parameter(mUsername),
-                PASSWORD.parameter(mPassword));
-        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
+        super(scope,
+                new XWwwFormUrlEncodedEntity(
+                        new Joined<>(
+                                new Seq<>(
+                                        new GrantTypeParam("password"),
+                                        new UsernameParam(username),
+                                        new PasswordParam(password)),
+                                new PresentValues<>(new OptionalScopeParam(scope)))));
     }
 }

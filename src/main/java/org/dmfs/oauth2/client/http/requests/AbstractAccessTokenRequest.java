@@ -19,19 +19,18 @@ package org.dmfs.oauth2.client.http.requests;
 import org.dmfs.httpessentials.HttpMethod;
 import org.dmfs.httpessentials.HttpStatus;
 import org.dmfs.httpessentials.client.HttpRequest;
+import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.httpessentials.client.HttpResponse;
 import org.dmfs.httpessentials.client.HttpResponseHandler;
-import org.dmfs.httpessentials.exceptions.ProtocolError;
-import org.dmfs.httpessentials.exceptions.ProtocolException;
+import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
 import org.dmfs.httpessentials.headers.EmptyHeaders;
 import org.dmfs.httpessentials.headers.Headers;
 import org.dmfs.httpessentials.responsehandlers.FailResponseHandler;
+import org.dmfs.jems.pair.Pair;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.responsehandlers.TokenErrorResponseHandler;
 import org.dmfs.oauth2.client.http.responsehandlers.TokenResponseHandler;
-
-import java.io.IOException;
 
 
 /**
@@ -42,11 +41,19 @@ import java.io.IOException;
 public abstract class AbstractAccessTokenRequest implements HttpRequest<OAuth2AccessToken>
 {
     private final OAuth2Scope mScope;
+    private final HttpRequestEntity mEntity;
 
 
-    public AbstractAccessTokenRequest(OAuth2Scope scope)
+    public AbstractAccessTokenRequest(OAuth2Scope scope, Iterable<Pair<CharSequence, CharSequence>> parameters)
+    {
+        this(scope, new XWwwFormUrlEncodedEntity(parameters, "UTF-8"));
+    }
+
+
+    public AbstractAccessTokenRequest(OAuth2Scope scope, HttpRequestEntity entityGenerator)
     {
         mScope = scope;
+        mEntity = entityGenerator;
     }
 
 
@@ -65,7 +72,14 @@ public abstract class AbstractAccessTokenRequest implements HttpRequest<OAuth2Ac
 
 
     @Override
-    public final HttpResponseHandler<OAuth2AccessToken> responseHandler(HttpResponse response) throws IOException, ProtocolError, ProtocolException
+    public final HttpRequestEntity requestEntity()
+    {
+        return mEntity;
+    }
+
+
+    @Override
+    public final HttpResponseHandler<OAuth2AccessToken> responseHandler(HttpResponse response)
     {
         if (!HttpStatus.OK.equals(response.status()))
         {

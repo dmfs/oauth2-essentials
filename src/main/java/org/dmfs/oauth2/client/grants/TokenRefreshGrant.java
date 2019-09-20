@@ -58,6 +58,6 @@ public final class TokenRefreshGrant implements OAuth2Grant
     @Override
     public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
     {
-        return mClient.accessToken(new RefreshTokenRequest(mAccessToken.refreshToken(), mAccessToken.scope()), executor);
+        return mClient.accessToken(new RefreshTokenRequest(mAccessToken.scope(), mAccessToken.refreshToken()), executor);
     }
 }
