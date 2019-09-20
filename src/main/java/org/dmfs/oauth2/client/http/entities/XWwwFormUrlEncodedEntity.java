@@ -39,8 +39,8 @@ import java.util.Locale;
  */
 public final class XWwwFormUrlEncodedEntity implements HttpRequestEntity
 {
-    private static final Optional<MediaType> CONTENT_TYPE = new Present<MediaType>(new StructuredMediaType("application", "x-www-form-urlencoded"));
     private static final String ENCODING = "UTF-8";
+    private static final Optional<MediaType> CONTENT_TYPE = new Present<MediaType>(new StructuredMediaType("application", "x-www-form-urlencoded", ENCODING));
 
     private final ParameterList mValues;
 
