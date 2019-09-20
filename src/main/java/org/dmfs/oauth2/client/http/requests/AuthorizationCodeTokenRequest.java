@@ -16,15 +16,14 @@
 
 package org.dmfs.oauth2.client.http.requests;
 
-import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.jems.iterable.elementary.Seq;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
-import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.oauth2.client.http.requests.parameters.AuthCodeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.CodeVerifierParam;
+import org.dmfs.oauth2.client.http.requests.parameters.GrantTypeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.RedirectUriParam;
 import org.dmfs.rfc3986.Uri;
-
-import static org.dmfs.oauth2.client.utils.Parameters.AUTH_CODE;
-import static org.dmfs.oauth2.client.utils.Parameters.CODE_VERIFIER;
-import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
-import static org.dmfs.oauth2.client.utils.Parameters.REDIRECT_URI;
 
 
 /**
@@ -34,36 +33,24 @@ import static org.dmfs.oauth2.client.utils.Parameters.REDIRECT_URI;
  */
 public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequest
 {
-    private final OAuth2AuthCodeAuthorization mAuthorization;
-    private final Uri mRedirectUri;
-    private final CharSequence mCodeVerifier;
-
-
     /**
      * Creates a token request for an authorization code flow.
      *
      * @param authorization
      *         The authorization code as returned by the authorization endpoint.
      * @param redirectUri
+     *         The client's redirect URI.
      * @param codeVerifier
      *         The code verifier that was send with the authorization request.
      */
     public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, Uri redirectUri, CharSequence codeVerifier)
     {
-        super(authorization.scope());
-        mAuthorization = authorization;
-        mRedirectUri = redirectUri;
-        mCodeVerifier = codeVerifier;
-    }
-
-
-    @Override
-    public HttpRequestEntity requestEntity()
-    {
-        return new XWwwFormUrlEncodedEntity(
-                GRANT_TYPE.parameter("authorization_code"),
-                AUTH_CODE.parameter(mAuthorization.code()),
-                REDIRECT_URI.parameter(mRedirectUri),
-                CODE_VERIFIER.parameter(mCodeVerifier));
+        super(authorization.scope(),
+                new XWwwFormUrlEncodedEntity(
+                        new Seq<>(
+                                new GrantTypeParam("authorization_code"),
+                                new AuthCodeParam(authorization),
+                                new RedirectUriParam(redirectUri),
+                                new CodeVerifierParam(codeVerifier))));
     }
 }

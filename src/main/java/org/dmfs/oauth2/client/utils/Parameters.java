@@ -41,17 +41,9 @@ public final class Parameters
 
     public final static ParameterType<CharSequence> CODE_CHALLENGE_METHOD = new BasicParameterType<>("code_challenge_method", TextValueType.INSTANCE);
 
-    public final static ParameterType<CharSequence> CODE_VERIFIER = new BasicParameterType<>("code_verifier", TextValueType.INSTANCE);
-
     public final static ParameterType<Duration> EXPIRES_IN = new BasicParameterType<>("expires_in", new DurationValueType());
 
-    public final static ParameterType<CharSequence> GRANT_TYPE = new BasicParameterType<>("grant_type", TextValueType.INSTANCE);
-
-    public final static ParameterType<CharSequence> PASSWORD = new BasicParameterType<>("password", TextValueType.INSTANCE);
-
     public final static ParameterType<Uri> REDIRECT_URI = new BasicParameterType<>("redirect_uri", new UriValueType());
-
-    public final static ParameterType<CharSequence> REFRESH_TOKEN = new BasicParameterType<>("refresh_token", TextValueType.INSTANCE);
 
     public final static ParameterType<CharSequence> RESPONSE_TYPE = new BasicParameterType<>("response_type", TextValueType.INSTANCE);
 
@@ -60,8 +52,6 @@ public final class Parameters
     public final static ParameterType<CharSequence> STATE = new BasicParameterType<>("state", TextValueType.INSTANCE);
 
     public final static ParameterType<CharSequence> TOKEN_TYPE = new BasicParameterType<>("token_type", TextValueType.INSTANCE);
-
-    public final static ParameterType<CharSequence> USERNAME = new BasicParameterType<>("username", TextValueType.INSTANCE);
 
 
     private Parameters()

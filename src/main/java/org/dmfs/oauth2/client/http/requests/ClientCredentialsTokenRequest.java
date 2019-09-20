@@ -17,16 +17,14 @@
 package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.client.HttpRequest;
-import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.iterables.SingletonIterable;
+import org.dmfs.iterables.elementary.PresentValues;
+import org.dmfs.jems.iterable.composite.Joined;
 import org.dmfs.oauth2.client.OAuth2Scope;
-import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.oauth2.client.http.requests.parameters.GrantTypeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.OptionalScopeParam;
 import org.dmfs.oauth2.client.scope.EmptyScope;
-import org.dmfs.rfc3986.parameters.ParameterList;
-import org.dmfs.rfc3986.parameters.parametersets.Appending;
-import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
-
-import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
-import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
 
 
 /**
@@ -38,9 +36,6 @@ import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
  */
 public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequest
 {
-    private final OAuth2Scope mScope;
-
-
     /**
      * Creates a {@link ClientCredentialsTokenRequest} without a specific scope.
      */
@@ -58,15 +53,12 @@ public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequ
      */
     public ClientCredentialsTokenRequest(OAuth2Scope scope)
     {
-        super(scope);
-        mScope = scope;
-    }
-
-
-    @Override
-    public HttpRequestEntity requestEntity()
-    {
-        ParameterList parameters = new BasicParameterList(GRANT_TYPE.parameter("client_credentials"));
-        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
+        super(scope,
+                new XWwwFormUrlEncodedEntity(
+                        new Joined<>(
+                                new SingletonIterable<>(
+                                        new GrantTypeParam("client_credentials")),
+                                new PresentValues<>(
+                                        new OptionalScopeParam(scope)))));
     }
 }

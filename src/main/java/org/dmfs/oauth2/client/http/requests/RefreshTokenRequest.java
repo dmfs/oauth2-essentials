@@ -17,16 +17,14 @@
 package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.client.HttpRequest;
-import org.dmfs.httpessentials.client.HttpRequestEntity;
+import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
+import org.dmfs.iterables.elementary.PresentValues;
+import org.dmfs.jems.iterable.composite.Joined;
+import org.dmfs.jems.iterable.elementary.Seq;
 import org.dmfs.oauth2.client.OAuth2Scope;
-import org.dmfs.oauth2.client.http.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.rfc3986.parameters.ParameterList;
-import org.dmfs.rfc3986.parameters.parametersets.Appending;
-import org.dmfs.rfc3986.parameters.parametersets.BasicParameterList;
-
-import static org.dmfs.oauth2.client.utils.Parameters.GRANT_TYPE;
-import static org.dmfs.oauth2.client.utils.Parameters.REFRESH_TOKEN;
-import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
+import org.dmfs.oauth2.client.http.requests.parameters.GrantTypeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.OptionalScopeParam;
+import org.dmfs.oauth2.client.http.requests.parameters.RefreshTokenParam;
 
 
 /**
@@ -36,10 +34,6 @@ import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
  */
 public final class RefreshTokenRequest extends AbstractAccessTokenRequest
 {
-    private final CharSequence mRefreshToken;
-    private final OAuth2Scope mScope;
-
-
     /**
      * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
      *
@@ -47,19 +41,32 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
      *         The refresh token.
      * @param scope
      *         An {@link OAuth2Scope}.
+     *
+     * @deprecated in favour of {@link #RefreshTokenRequest(OAuth2Scope, CharSequence)}
      */
+    @Deprecated
     public RefreshTokenRequest(CharSequence refreshToken, OAuth2Scope scope)
     {
-        super(scope);
-        mRefreshToken = refreshToken;
-        mScope = scope;
+        this(scope, refreshToken);
     }
 
 
-    @Override
-    public HttpRequestEntity requestEntity()
+    /**
+     * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
+     *
+     * @param scope
+     *         An {@link OAuth2Scope}.
+     * @param refreshToken
+     *         The refresh token.
+     */
+    public RefreshTokenRequest(OAuth2Scope scope, CharSequence refreshToken)
     {
-        ParameterList parameters = new BasicParameterList(GRANT_TYPE.parameter("refresh_token"), REFRESH_TOKEN.parameter(mRefreshToken));
-        return new XWwwFormUrlEncodedEntity(mScope.isEmpty() ? parameters : new Appending(parameters, SCOPE.parameter(mScope)));
+        super(scope,
+                new XWwwFormUrlEncodedEntity(
+                        new Joined<>(
+                                new Seq<>(
+                                        new GrantTypeParam("refresh_token"),
+                                        new RefreshTokenParam(refreshToken)),
+                                new PresentValues<>(new OptionalScopeParam(scope)))));
     }
 }
