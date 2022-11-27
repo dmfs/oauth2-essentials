@@ -1,30 +1,10 @@
-/*
- * Copyright 2016 dmfs GmbH
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-plugins {
-    id 'de.fuerstenau.buildconfig' version '1.1.7'
-}
-
 apply plugin: 'java-library'
 
 sourceSets {
     main {
         java {
             srcDirs 'src/main/java'
-            srcDirs 'build/gen/buildconfig/src/main'
+            srcDirs 'build/generated/java'
         }
     }
 }
@@ -40,10 +20,6 @@ def gitVersion = { ->
 
 group 'org.dmfs'
 version gitVersion()
-
-buildConfig {
-    packageName = 'org.dmfs.oauth2.client'
-}
 
 tasks.withType(Jar) {
     eachFile {
@@ -63,10 +39,24 @@ repositories {
     mavenCentral()
 }
 
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task generateSources(type: Copy) {
+    from 'src/templates/java'
+    into "${buildDir}/generated/java"
+    filter(ReplaceTokens, tokens: [
+            'NAME'   : "${project.name}".toString(),
+            'VERSION': "${project.version}".toString()
+    ])
+
+}
+compileJava.dependsOn generateSources
+
+
 dependencies {
     api 'org.dmfs:jems:' + JEMS_VERSION
     api 'org.dmfs:rfc3986-uri:0.8.1'
-    api 'org.dmfs:rfc5545-datetime:0.2.4'
+    api 'org.dmfs:rfc5545-datetime:0.3'
     api 'org.dmfs:http-client-essentials:' + HTTP_CLIENT_ESSENTIALS_VERSION
 
     implementation 'net.iharder:base64:2.3.9'
@@ -74,12 +64,12 @@ dependencies {
     implementation 'org.dmfs:http-client-types:' + HTTP_CLIENT_ESSENTIALS_VERSION
     implementation 'org.dmfs:http-client-basics:' + HTTP_CLIENT_ESSENTIALS_VERSION
     implementation 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    implementation 'org.json:json:20160212'
+    implementation 'org.json:json:20220924'
 
     testImplementation 'org.dmfs:jems-testing:' + JEMS_VERSION
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:3.0.0'
-    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
     testImplementation 'org.dmfs:http-client-mockutils:' + HTTP_CLIENT_ESSENTIALS_VERSION
-    testImplementation 'org.jmockit:jmockit:1.41'
+    testImplementation 'org.jmockit:jmockit:1.49'
 }

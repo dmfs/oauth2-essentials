@@ -147,5 +147,5 @@ Or add it to your build.gradle:
 
 ## License
 
-Copyright dmfs GmbH 2019, licensed under Apache2.
+Copyright dmfs GmbH 2022, licensed under Apache2.
 
