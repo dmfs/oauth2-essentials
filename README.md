@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/dmfs/oauth2-essentials.svg?branch=master)](https://travis-ci.org/dmfs/oauth2-essentials)
-
+[![Build](https://github.com/dmfs/oauth2-essentials/actions/workflows/main.yml/badge.svg?label=main)](https://github.com/dmfs/oauth2-essentials/actions/workflows/main.yml)
 # oauth2-essentials
 
 An OAuth2 client implementation based on http-client-essentials-suite.
