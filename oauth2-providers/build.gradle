@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile rootProject
-    testCompile 'org.dmfs:httpurlconnection-executor:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
+    implementation rootProject
+    testImplementation 'org.dmfs:httpurlconnection-executor:' + HTTP_CLIENT_ESSENTIALS_VERSION
 }
