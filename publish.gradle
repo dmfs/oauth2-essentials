@@ -14,17 +14,6 @@ if (project.hasProperty('SONATYPE_USERNAME') && project.hasProperty('SONATYPE_PA
     }
 
     publishing {
-        repositories {
-            maven {
-                name 'release'
-                url RELEASE_REPOSITORY
-                credentials {
-                    username SONATYPE_USERNAME
-                    password SONATYPE_PASSWORD
-                }
-            }
-        }
-
         publications {
             jar(MavenPublication) {
                 from components.java
