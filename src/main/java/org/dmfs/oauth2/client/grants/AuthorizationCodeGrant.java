@@ -16,6 +16,9 @@
 
 package org.dmfs.oauth2.client.grants;
 
+import net.iharder.Base64;
+
+import org.dmfs.express.json.elementary.JsonText;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
@@ -23,15 +26,20 @@ import org.dmfs.oauth2.client.*;
 import org.dmfs.oauth2.client.http.requests.AuthorizationCodeTokenRequest;
 import org.dmfs.oauth2.client.pkce.S256CodeChallenge;
 import org.dmfs.oauth2.client.scope.StringScope;
+import org.dmfs.oauth2.client.utils.GrantState;
 import org.dmfs.rfc3986.Uri;
 import org.dmfs.rfc3986.encoding.Precoded;
 import org.dmfs.rfc3986.encoding.XWwwFormUrlEncoded;
 import org.dmfs.rfc3986.parameters.ParameterList;
 import org.dmfs.rfc3986.parameters.adapters.XwfueParameterList;
 import org.dmfs.rfc3986.parameters.parametersets.EmptyParameterList;
+import org.dmfs.rfc3986.uris.LazyUri;
+import org.dmfs.rfc3986.uris.Text;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -125,10 +133,41 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     }
 
 
+    @Deprecated
     @Override
     public OAuth2InteractiveGrant.OAuth2GrantState state()
     {
         return new InitialAuthorizationCodeGrantState(mScope, mState, mCodeVerifier, new XWwwFormUrlEncoded(mCustomParameters));
+    }
+
+
+    @Override
+    public String encodedState()
+    {
+        return Base64.encodeBytes(
+            new JsonText(new GrantState(InitialAuthorizationCodeGrantFactory.class,
+                mScope.toString(), mState.toString(), mCodeVerifier.toString(), new XWwwFormUrlEncoded(mCustomParameters).toString()))
+                .value()
+                .getBytes(StandardCharsets.UTF_8));
+    }
+
+
+    private final static class InitialAuthorizationCodeGrantFactory implements OAuth2InteractiveGrantFactory
+    {
+
+        @Override
+        public OAuth2InteractiveGrant grant(OAuth2Client client, JSONArray arguments)
+        {
+            if (arguments.length() != 4)
+            {
+                throw new IllegalArgumentException("Can't restore grant from invalid state.");
+            }
+            return new AuthorizationCodeGrant(client,
+                new StringScope(arguments.getString(0)),
+                arguments.getString(1),
+                arguments.getString(2),
+                new XwfueParameterList(new Precoded(arguments.getString(3))));
+        }
     }
 
 
@@ -181,10 +220,41 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         }
 
 
+        @Deprecated
         @Override
         public OAuth2GrantState state()
         {
             return new AuthorizedAuthorizationCodeGrantState(mScope, mRedirectUri, mState, mCodeVerifier);
+        }
+
+
+        @Override
+        public String encodedState()
+        {
+            return Base64.encodeBytes(
+                new JsonText(new GrantState(AuthenticatedAuthorizationCodeGrantFactory.class,
+                    new Text(mRedirectUri).toString(), mScope.toString(), mState.toString(), mCodeVerifier.toString()))
+                    .value()
+                    .getBytes(StandardCharsets.UTF_8));
+        }
+
+
+        private final static class AuthenticatedAuthorizationCodeGrantFactory implements OAuth2InteractiveGrantFactory
+        {
+
+            @Override
+            public OAuth2InteractiveGrant grant(OAuth2Client client, JSONArray arguments)
+            {
+                if (arguments.length() != 4)
+                {
+                    throw new IllegalArgumentException("Can't restore grant from invalid state.");
+                }
+                return new AuthorizedAuthorizationCodeGrant(client,
+                    new LazyUri(new Precoded(arguments.getString(0))),
+                    new StringScope(arguments.getString(1)),
+                    arguments.getString(2),
+                    arguments.getString(3));
+            }
         }
     }
 
@@ -192,6 +262,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     /**
      * An {@link OAuth2GrantState} that represents the state of an Authorization Code Grant that was not confirmed by the user so far.
      */
+    @Deprecated
     private final static class InitialAuthorizationCodeGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {
 
@@ -229,6 +300,7 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     /**
      * An {@link OAuth2GrantState} that represents the state of an Authorization Code Grant that got user consent.
      */
+    @Deprecated
     private final static class AuthorizedAuthorizationCodeGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {
         private static final long serialVersionUID = 1L;

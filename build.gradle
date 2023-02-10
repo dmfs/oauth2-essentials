@@ -96,7 +96,7 @@ if (project.hasProperty('SONATYPE_USERNAME') && project.hasProperty('SONATYPE_PA
 }
 
 dependencies {
-    api 'org.dmfs:jems:' + JEMS_VERSION
+    api 'org.dmfs:jems:1.44'
     api 'org.dmfs:rfc3986-uri:0.8.1'
     api 'org.dmfs:rfc5545-datetime:0.3'
     api 'org.dmfs:http-client-essentials:' + HTTP_CLIENT_ESSENTIALS_VERSION
@@ -106,9 +106,13 @@ dependencies {
     implementation 'org.dmfs:http-client-types:' + HTTP_CLIENT_ESSENTIALS_VERSION
     implementation 'org.dmfs:http-client-basics:' + HTTP_CLIENT_ESSENTIALS_VERSION
     implementation 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
+    implementation 'org.dmfs:express-json:0.2.0'
+    implementation 'org.dmfs:jems2:' + JEMS2_VERSION
     implementation 'org.json:json:20220924'
 
-    testImplementation 'org.dmfs:jems-testing:' + JEMS_VERSION
+    testImplementation 'org.saynotobugs:confidence-core:0.8.0'
+    testImplementation 'org.saynotobugs:confidence-mockito4:0.8.0'
+    testImplementation 'org.dmfs:jems2-testing:' + JEMS2_VERSION
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:4.8.0'
     testImplementation 'org.hamcrest:hamcrest-library:2.2'

@@ -18,9 +18,9 @@ package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.client.HttpRequest;
 import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.iterables.SingletonIterable;
-import org.dmfs.iterables.elementary.PresentValues;
-import org.dmfs.jems.iterable.composite.Joined;
+import org.dmfs.jems2.iterable.Joined;
+import org.dmfs.jems2.iterable.PresentValues;
+import org.dmfs.jems2.iterable.SingletonIterable;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.http.requests.parameters.GrantTypeParam;
 import org.dmfs.oauth2.client.http.requests.parameters.OptionalScopeParam;

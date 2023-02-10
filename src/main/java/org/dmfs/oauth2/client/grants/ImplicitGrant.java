@@ -16,16 +16,25 @@
 
 package org.dmfs.oauth2.client.grants;
 
+import net.iharder.Base64;
+
+import org.dmfs.express.json.elementary.JsonText;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.*;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.oauth2.client.tokens.ImplicitGrantAccessToken;
+import org.dmfs.oauth2.client.utils.GrantState;
 import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
+import org.dmfs.rfc3986.uris.Text;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -90,10 +99,37 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
     }
 
 
+    @Deprecated
     @Override
     public OAuth2InteractiveGrant.OAuth2GrantState state()
     {
         return new InitialImplicitGrantState(mScope, mState);
+    }
+
+
+    @Override
+    public String encodedState()
+    {
+        return Base64.encodeBytes(
+            new JsonText(new GrantState(InitialImplicitGrantFactory.class, mScope.toString(), mState.toString()))
+                .value()
+                .getBytes(StandardCharsets.UTF_8));
+    }
+
+
+    private final static class InitialImplicitGrantFactory implements OAuth2InteractiveGrantFactory
+    {
+
+        @Override
+        public OAuth2InteractiveGrant grant(OAuth2Client client, JSONArray arguments)
+        {
+            if (arguments.length() != 2)
+            {
+                throw new IllegalArgumentException("Can't restore grant from invalid state.");
+            }
+            return new ImplicitGrant(client, new StringScope(arguments.getString(0)), arguments.getString(1));
+
+        }
     }
 
 
@@ -141,17 +177,50 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
         }
 
 
+        @Deprecated
         @Override
         public OAuth2GrantState state()
         {
             return new AuthorizedImplicitGrantState(mRedirectUri, mScope, mState);
         }
+
+
+        @Override
+        public String encodedState()
+        {
+            return Base64.encodeBytes(
+                new JsonText(new GrantState(AuthenticatedImplicitGrantFactory.class, new Text(mRedirectUri).toString(), mScope.toString(), mState.toString()))
+                    .value()
+                    .getBytes(StandardCharsets.UTF_8));
+        }
+
+
+        private final static class AuthenticatedImplicitGrantFactory implements OAuth2InteractiveGrantFactory
+        {
+
+            @Override
+            public OAuth2InteractiveGrant grant(OAuth2Client client, JSONArray arguments)
+            {
+                if (arguments.length() != 3)
+                {
+                    throw new IllegalArgumentException("Can't restore grant from invalid state.");
+                }
+                return new AuthorizedImplicitGrant(client,
+                    new LazyUri(new Precoded(arguments.getString(0))),
+                    new StringScope(arguments.getString(1)),
+                    arguments.getString(2));
+            }
+        }
+
     }
 
 
     /**
      * An {@link OAuth2GrantState} that represents the state of an Implicit Grant that was not confirmed by the user so far.
+     *
+     * @deprecated
      */
+    @Deprecated
     private final static class InitialImplicitGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {
 
@@ -179,7 +248,10 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
 
     /**
      * An {@link OAuth2GrantState} that represents the state of an authorized Implicit Grant.
+     *
+     * @deprecated
      */
+    @Deprecated
     private final static class AuthorizedImplicitGrantState implements OAuth2InteractiveGrant.OAuth2GrantState
     {
         private static final long serialVersionUID = 1L;

@@ -124,6 +124,19 @@ String authorization = String.format("Bearer %s", token.accessToken());
 myConnection.setRequestProperty("Authorization", authorization);
 ```
 
+### Preserving state
+
+By design, an interactive grant (Authorization Code Grant and Implicit Grant) may require multiple round trips. Sometimes an application
+needs to preserve the state between these round trips. For instance, an Android app may be suspended while the browser is in the foreground, and it may
+have to preserve the grant state in order to receive the access token when it's resumed.
+
+This can be achieved by calling `encodedState()` on the `OAuth2InteractiveGrant` instance. This method returns a String that can later be used
+to restore the grant state with
+
+```java
+OAuth2InteractiveGrant grant = new InteractiveGrantFactory(oauth2Client).value(encodedState);
+```
+
 ## Choice of HTTP client
 
 This library doesn't depend on any specific HTTP client implementation. Instead it builds upon [http-client-essentials-suite](https://github.com/dmfs/http-client-essentials-suite) to allow any 3rd party HTTP client to be used.

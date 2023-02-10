@@ -17,7 +17,7 @@
 package org.dmfs.oauth2.client.http.requests;
 
 import org.dmfs.httpessentials.entities.XWwwFormUrlEncodedEntity;
-import org.dmfs.jems.iterable.elementary.Seq;
+import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.http.requests.parameters.AuthCodeParam;
 import org.dmfs.oauth2.client.http.requests.parameters.CodeVerifierParam;
