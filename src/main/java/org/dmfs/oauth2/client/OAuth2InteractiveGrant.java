@@ -20,6 +20,7 @@ import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.rfc3986.Uri;
+import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -39,7 +40,7 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      *
      * @return A {@link URI}.
      */
-    public URI authorizationUrl();
+    URI authorizationUrl();
 
     /**
      * Update the authentication flow with the redirect URI that was returned by the user agent. Unless this throws an Exception, the caller can assume that
@@ -55,7 +56,7 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      * @throws ProtocolException
      *     If the redirectUri is invalid.
      */
-    public OAuth2InteractiveGrant withRedirect(Uri redirectUri) throws ProtocolError, ProtocolException;
+    OAuth2InteractiveGrant withRedirect(Uri redirectUri) throws ProtocolError, ProtocolException;
 
     /**
      * Return a {@link Serializable} state object that can be used to retain the current authentication flow state whenever the original {@link
@@ -68,13 +69,34 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      *
      * @throws UnsupportedOperationException
      *     if this grant type does not support exporting the current state.
+     * @deprecated in favour of {@link #encodedState()}.
      */
-    public OAuth2GrantState state() throws UnsupportedOperationException;
+    @Deprecated
+    OAuth2GrantState state() throws UnsupportedOperationException;
+
+    /**
+     * Returns a {@link String} that can be later used to retrieve an {@link OAuth2InteractiveGrant} with the same state.
+     * <p>
+     * Note, the format of the String may be changed without further notice and may be incompatible with future versions of this library.
+     * <p>
+     * Also note, the resulting String may contain secrets used during the interactive grant. Do not persist the result in its plain
+     * text form. Make sure to encrypt it with a secure cipher.
+     * <p>
+     * Retrieve the original {@link OAuth2InteractiveGrant} like this:
+     * <pre>{@code
+     * InteractiveGrant grant = new InteractiveGrantFactory(oauth2Client).value(encodedState);
+     * }
+     * </pre>
+     */
+    String encodedState();
 
     /**
      * The interface of a simple {@link Serializable} object that represents the state of an interactive grant.
+     *
+     * @deprecated in favour of {@link OAuth2InteractiveGrant#encodedState()}.
      */
-    public interface OAuth2GrantState extends Serializable
+    @Deprecated
+    interface OAuth2GrantState extends Serializable
     {
         /**
          * Creates an {@link OAuth2InteractiveGrant} from this state for the given client.
@@ -86,6 +108,12 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
          *
          * @return An {@link OAuth2InteractiveGrant} that can be used to continue the authentication flow.
          */
-        public OAuth2InteractiveGrant grant(OAuth2Client client);
+        OAuth2InteractiveGrant grant(OAuth2Client client);
+    }
+
+
+    interface OAuth2InteractiveGrantFactory
+    {
+        OAuth2InteractiveGrant grant(OAuth2Client client, JSONArray arguments);
     }
 }

@@ -16,7 +16,7 @@
 
 package org.dmfs.oauth2.client.tokens;
 
-import org.dmfs.jems.hamcrest.matchers.optional.AbsentMatcher;
+import org.dmfs.jems2.hamcrest.matchers.optional.AbsentMatcher;
 import org.dmfs.oauth2.client.scope.EmptyScope;
 import org.dmfs.rfc3986.encoding.Precoded;
 import org.dmfs.rfc3986.uris.LazyUri;
@@ -24,7 +24,7 @@ import org.dmfs.rfc5545.Duration;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import static org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher.present;
+import static org.dmfs.jems2.hamcrest.matchers.optional.PresentMatcher.present;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

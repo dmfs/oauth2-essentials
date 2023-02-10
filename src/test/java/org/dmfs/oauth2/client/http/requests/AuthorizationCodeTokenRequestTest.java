@@ -20,7 +20,7 @@ import org.dmfs.httpessentials.HttpMethod;
 import org.dmfs.httpessentials.client.HttpRequestEntity;
 import org.dmfs.httpessentials.types.MediaType;
 import org.dmfs.httpessentials.types.StringMediaType;
-import org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher;
+import org.dmfs.jems2.hamcrest.matchers.optional.PresentMatcher;
 import org.dmfs.oauth2.client.OAuth2AuthCodeAuthorization;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.BasicScope;

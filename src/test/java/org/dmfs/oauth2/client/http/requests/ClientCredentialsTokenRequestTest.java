@@ -30,8 +30,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.dmfs.jems.hamcrest.matchers.LambdaMatcher.having;
-import static org.dmfs.jems.hamcrest.matchers.optional.PresentMatcher.present;
+import static org.dmfs.jems2.hamcrest.matchers.LambdaMatcher.having;
+import static org.dmfs.jems2.hamcrest.matchers.optional.PresentMatcher.present;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
