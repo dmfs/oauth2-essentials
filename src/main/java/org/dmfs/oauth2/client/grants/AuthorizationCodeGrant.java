@@ -19,13 +19,7 @@ package org.dmfs.oauth2.client.grants;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.oauth2.client.BasicOAuth2AuthCodeAuthorization;
-import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
-import org.dmfs.oauth2.client.OAuth2AccessToken;
-import org.dmfs.oauth2.client.OAuth2AuthorizationRequest;
-import org.dmfs.oauth2.client.OAuth2Client;
-import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
-import org.dmfs.oauth2.client.OAuth2Scope;
+import org.dmfs.oauth2.client.*;
 import org.dmfs.oauth2.client.http.requests.AuthorizationCodeTokenRequest;
 import org.dmfs.oauth2.client.pkce.S256CodeChallenge;
 import org.dmfs.oauth2.client.scope.StringScope;
@@ -60,9 +54,9 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      * Launches a new Authorization Code Grant for the given {@link OAuth2Client} and {@link OAuth2Scope}.
      *
      * @param client
-     *         The {@link OAuth2Client}.
+     *     The {@link OAuth2Client}.
      * @param scope
-     *         An {@link OAuth2Scope}.
+     *     An {@link OAuth2Scope}.
      */
     public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope)
     {
@@ -75,11 +69,11 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
      * ParameterList} must not contain any OAuth2 specific parameters. Any such parameter might be overridden by this grant.
      *
      * @param client
-     *         The {@link OAuth2Client}.
+     *     The {@link OAuth2Client}.
      * @param scope
-     *         An {@link OAuth2Scope}.
+     *     An {@link OAuth2Scope}.
      * @param customParameters
-     *         Custom parameters to send to the authorization endpoint.
+     *     Custom parameters to send to the authorization endpoint.
      */
     public AuthorizationCodeGrant(OAuth2Client client, OAuth2Scope scope, ParameterList customParameters)
     {
@@ -87,7 +81,11 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
     }
 
 
-    private AuthorizationCodeGrant(final OAuth2Client client, final OAuth2Scope scope, CharSequence state, CharSequence codeVerifier, ParameterList customParameters)
+    private AuthorizationCodeGrant(final OAuth2Client client,
+        final OAuth2Scope scope,
+        CharSequence state,
+        CharSequence codeVerifier,
+        ParameterList customParameters)
     {
         mClient = client;
         mScope = scope;
@@ -163,9 +161,9 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         public OAuth2AccessToken accessToken(HttpRequestExecutor executor) throws IOException, ProtocolError, ProtocolException
         {
             return mClient.accessToken(
-                    new AuthorizationCodeTokenRequest(
-                            new BasicOAuth2AuthCodeAuthorization(mRedirectUri, mScope, mState), mClient.redirectUri(), mCodeVerifier),
-                    executor);
+                new AuthorizationCodeTokenRequest(
+                    new BasicOAuth2AuthCodeAuthorization(mRedirectUri, mScope, mState), mClient.redirectUri(), mCodeVerifier),
+                executor);
         }
 
 
@@ -219,10 +217,10 @@ public final class AuthorizationCodeGrant implements OAuth2InteractiveGrant
         public AuthorizationCodeGrant grant(OAuth2Client client)
         {
             return new AuthorizationCodeGrant(client,
-                    new StringScope(mScopeString),
-                    mState,
-                    mCodeVerifier,
-                    new XwfueParameterList(new Precoded(mCustomQueryParams)));
+                new StringScope(mScopeString),
+                mState,
+                mCodeVerifier,
+                new XwfueParameterList(new Precoded(mCustomQueryParams)));
         }
 
     }

@@ -33,7 +33,7 @@ public final class BasicScope implements OAuth2Scope
      * Creates a new {@link OAuth2Scope} that contains the given tokens.
      *
      * @param tokens
-     *         The scope tokens in this scope. Must not contain <code>null</code> or empty {@link String}s.
+     *     The scope tokens in this scope. Must not contain <code>null</code> or empty {@link String}s.
      */
     public BasicScope(String... tokens)
     {

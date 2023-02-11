@@ -66,7 +66,7 @@ public final class BasicOAuth2Client implements OAuth2Client
 
     @Override
     public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-            UnexpectedStatusException, IOException, ProtocolError, ProtocolException
+        UnexpectedStatusException, IOException, ProtocolError, ProtocolException
     {
         return mProvider.accessToken(mCredentials.authenticatedRequest(tokenRequest), new Branded(executor, PRODUCT));
     }

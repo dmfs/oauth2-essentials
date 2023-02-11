@@ -49,16 +49,16 @@ public final class ClientCredentialsTokenRequest extends AbstractAccessTokenRequ
      * Creates a {@link ClientCredentialsTokenRequest} with the given scopes.
      *
      * @param scope
-     *         The {@link OAuth2Scope} to request.
+     *     The {@link OAuth2Scope} to request.
      */
     public ClientCredentialsTokenRequest(OAuth2Scope scope)
     {
         super(scope,
-                new XWwwFormUrlEncodedEntity(
-                        new Joined<>(
-                                new SingletonIterable<>(
-                                        new GrantTypeParam("client_credentials")),
-                                new PresentValues<>(
-                                        new OptionalScopeParam(scope)))));
+            new XWwwFormUrlEncodedEntity(
+                new Joined<>(
+                    new SingletonIterable<>(
+                        new GrantTypeParam("client_credentials")),
+                    new PresentValues<>(
+                        new OptionalScopeParam(scope)))));
     }
 }

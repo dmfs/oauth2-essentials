@@ -28,13 +28,7 @@ import org.dmfs.rfc3986.parameters.parametersets.Replacing;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.dmfs.oauth2.client.utils.Parameters.CLIENT_ID;
-import static org.dmfs.oauth2.client.utils.Parameters.CODE_CHALLENGE;
-import static org.dmfs.oauth2.client.utils.Parameters.CODE_CHALLENGE_METHOD;
-import static org.dmfs.oauth2.client.utils.Parameters.REDIRECT_URI;
-import static org.dmfs.oauth2.client.utils.Parameters.RESPONSE_TYPE;
-import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
-import static org.dmfs.oauth2.client.utils.Parameters.STATE;
+import static org.dmfs.oauth2.client.utils.Parameters.*;
 
 
 /**
@@ -97,8 +91,8 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
     public OAuth2AuthorizationRequest withCodeChallenge(PkceCodeChallenge codeChallenge)
     {
         return new BasicOAuth2AuthorizationRequest(mParameters.ratherWith(
-                CODE_CHALLENGE_METHOD.parameter(codeChallenge.method()),
-                CODE_CHALLENGE.parameter(codeChallenge.challenge())));
+            CODE_CHALLENGE_METHOD.parameter(codeChallenge.method()),
+            CODE_CHALLENGE.parameter(codeChallenge.challenge())));
     }
 
 
@@ -109,7 +103,7 @@ public final class BasicOAuth2AuthorizationRequest implements OAuth2Authorizatio
         try
         {
             return URI.create(new URI(authorizationEndpoint.getScheme(), authorizationEndpoint.getAuthority(),
-                    authorizationEndpoint.getPath(), null, null) + "?" + new XWwwFormUrlEncoded(mParameters).toString());
+                authorizationEndpoint.getPath(), null, null) + "?" + new XWwwFormUrlEncoded(mParameters).toString());
         }
         catch (URISyntaxException e)
         {

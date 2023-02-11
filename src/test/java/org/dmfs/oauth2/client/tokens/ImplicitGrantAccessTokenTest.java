@@ -36,11 +36,11 @@ public class ImplicitGrantAccessTokenTest
     public void testExtraParameter() throws Exception
     {
         assertThat(new ImplicitGrantAccessToken(
-                        new LazyUri(new Precoded("http://localhost#state=1&key=value")),
-                        new EmptyScope(),
-                        "1",
-                        new Duration(1, 1, 0)).extraParameter("key"),
-                is(present(Matchers.<CharSequence>hasToString("value"))));
+                new LazyUri(new Precoded("http://localhost#state=1&key=value")),
+                new EmptyScope(),
+                "1",
+                new Duration(1, 1, 0)).extraParameter("key"),
+            is(present(Matchers.<CharSequence>hasToString("value"))));
     }
 
 
@@ -48,11 +48,11 @@ public class ImplicitGrantAccessTokenTest
     public void testExtraParameterDoesNotExist() throws Exception
     {
         assertThat(new ImplicitGrantAccessToken(
-                        new LazyUri(new Precoded("http://localhost#state=1&key=value")),
-                        new EmptyScope(),
-                        "1",
-                        new Duration(1, 1, 0)).extraParameter("idToken"),
-                is(AbsentMatcher.<CharSequence>absent()));
+                new LazyUri(new Precoded("http://localhost#state=1&key=value")),
+                new EmptyScope(),
+                "1",
+                new Duration(1, 1, 0)).extraParameter("idToken"),
+            is(AbsentMatcher.<CharSequence>absent()));
     }
 
 }

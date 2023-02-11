@@ -34,7 +34,7 @@ public interface OAuth2Scope
      * Returns whether this scope contains the given scope token or not.
      *
      * @param token
-     *         The scope token to check for.
+     *     The scope token to check for.
      *
      * @return <code>true</code> if the scope token is contained in this scope, <code>false</code> otherwise.
      */

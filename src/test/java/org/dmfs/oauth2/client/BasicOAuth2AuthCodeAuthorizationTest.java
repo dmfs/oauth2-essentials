@@ -34,9 +34,9 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void invalidState() throws Exception
     {
         new BasicOAuth2AuthCodeAuthorization(
-                new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
-                new BasicScope("scope"),
-                "abc");
+            new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
+            new BasicScope("scope"),
+            "abc");
     }
 
 
@@ -44,10 +44,10 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void code() throws Exception
     {
         assertEquals("SplxlOBeZQQYbYS6WxSbIA",
-                new BasicOAuth2AuthCodeAuthorization(
-                        new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
-                        new BasicScope("scope"),
-                        "xyz").code().toString());
+            new BasicOAuth2AuthCodeAuthorization(
+                new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
+                new BasicScope("scope"),
+                "xyz").code().toString());
     }
 
 
@@ -55,10 +55,10 @@ public class BasicOAuth2AuthCodeAuthorizationTest
     public void scope() throws Exception
     {
         assertEquals(new BasicScope("scope"),
-                new BasicOAuth2AuthCodeAuthorization(
-                        new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
-                        new BasicScope("scope"),
-                        "xyz").scope());
+            new BasicOAuth2AuthCodeAuthorization(
+                new LazyUri(new Precoded("https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz")),
+                new BasicScope("scope"),
+                "xyz").scope());
     }
 
 }

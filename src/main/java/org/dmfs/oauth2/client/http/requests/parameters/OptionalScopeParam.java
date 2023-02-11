@@ -34,7 +34,7 @@ public final class OptionalScopeParam extends DelegatingOptional<Pair<CharSequen
     public OptionalScopeParam(OAuth2Scope scope)
     {
         super(new Mapped<>(
-                s -> new ValuePair<>("scope", s.toString()),
-                new Conditional<>(s -> !s.isEmpty(), scope)));
+            s -> new ValuePair<>("scope", s.toString()),
+            new Conditional<>(s -> !s.isEmpty(), scope)));
     }
 }

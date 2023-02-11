@@ -50,7 +50,7 @@ public final class BasicOAuth2AuthorizationProvider implements OAuth2Authorizati
 
     @Override
     public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-            UnexpectedStatusException, IOException, ProtocolError, ProtocolException
+        UnexpectedStatusException, IOException, ProtocolError, ProtocolException
     {
         return executor.execute(mTokenEndpoint, tokenRequest);
     }

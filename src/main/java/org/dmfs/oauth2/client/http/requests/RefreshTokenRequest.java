@@ -38,9 +38,9 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
      * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
      *
      * @param refreshToken
-     *         The refresh token.
+     *     The refresh token.
      * @param scope
-     *         An {@link OAuth2Scope}.
+     *     An {@link OAuth2Scope}.
      *
      * @deprecated in favour of {@link #RefreshTokenRequest(OAuth2Scope, CharSequence)}
      */
@@ -55,18 +55,18 @@ public final class RefreshTokenRequest extends AbstractAccessTokenRequest
      * Creates an {@link RefreshTokenRequest} using the given refresh token and scopes.
      *
      * @param scope
-     *         An {@link OAuth2Scope}.
+     *     An {@link OAuth2Scope}.
      * @param refreshToken
-     *         The refresh token.
+     *     The refresh token.
      */
     public RefreshTokenRequest(OAuth2Scope scope, CharSequence refreshToken)
     {
         super(scope,
-                new XWwwFormUrlEncodedEntity(
-                        new Joined<>(
-                                new Seq<>(
-                                        new GrantTypeParam("refresh_token"),
-                                        new RefreshTokenParam(refreshToken)),
-                                new PresentValues<>(new OptionalScopeParam(scope)))));
+            new XWwwFormUrlEncodedEntity(
+                new Joined<>(
+                    new Seq<>(
+                        new GrantTypeParam("refresh_token"),
+                        new RefreshTokenParam(refreshToken)),
+                    new PresentValues<>(new OptionalScopeParam(scope)))));
     }
 }

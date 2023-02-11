@@ -19,11 +19,7 @@ package org.dmfs.oauth2.client.grants;
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.oauth2.client.BasicOAuth2AuthorizationRequest;
-import org.dmfs.oauth2.client.OAuth2AccessToken;
-import org.dmfs.oauth2.client.OAuth2Client;
-import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
-import org.dmfs.oauth2.client.OAuth2Scope;
+import org.dmfs.oauth2.client.*;
 import org.dmfs.oauth2.client.scope.StringScope;
 import org.dmfs.oauth2.client.tokens.ImplicitGrantAccessToken;
 import org.dmfs.rfc3986.Uri;
@@ -48,9 +44,9 @@ public final class ImplicitGrant implements OAuth2InteractiveGrant
      * Creates a new {@link ImplicitGrant} for the given {@link OAuth2Client} and {@link OAuth2Scope}.
      *
      * @param client
-     *         The {@link OAuth2Client} that requests access.
+     *     The {@link OAuth2Client} that requests access.
      * @param scope
-     *         The {@link OAuth2Scope} to request access to.
+     *     The {@link OAuth2Scope} to request access to.
      */
     public ImplicitGrant(OAuth2Client client, OAuth2Scope scope)
     {

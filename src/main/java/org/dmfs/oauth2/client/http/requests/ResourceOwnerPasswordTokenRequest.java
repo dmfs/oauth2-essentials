@@ -41,21 +41,21 @@ public final class ResourceOwnerPasswordTokenRequest extends AbstractAccessToken
      * Creates a {@link ResourceOwnerPasswordTokenRequest} with the given scopes.
      *
      * @param scope
-     *         An {@link OAuth2Scope}.
+     *     An {@link OAuth2Scope}.
      * @param username
-     *         The user name of the resource owner.
+     *     The user name of the resource owner.
      * @param password
-     *         The password of the resource owner.
+     *     The password of the resource owner.
      */
     public ResourceOwnerPasswordTokenRequest(OAuth2Scope scope, CharSequence username, CharSequence password)
     {
         super(scope,
-                new XWwwFormUrlEncodedEntity(
-                        new Joined<>(
-                                new Seq<>(
-                                        new GrantTypeParam("password"),
-                                        new UsernameParam(username),
-                                        new PasswordParam(password)),
-                                new PresentValues<>(new OptionalScopeParam(scope)))));
+            new XWwwFormUrlEncodedEntity(
+                new Joined<>(
+                    new Seq<>(
+                        new GrantTypeParam("password"),
+                        new UsernameParam(username),
+                        new PasswordParam(password)),
+                    new PresentValues<>(new OptionalScopeParam(scope)))));
     }
 }

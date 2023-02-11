@@ -35,8 +35,6 @@ public final class StringScope implements OAuth2Scope
 
     /**
      * Creates an {@link OAuth2Scope} from the given space separated token list.
-     *
-     * @param scope
      */
     public StringScope(String scope)
     {

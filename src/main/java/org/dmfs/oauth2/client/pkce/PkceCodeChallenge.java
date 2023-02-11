@@ -35,8 +35,6 @@ public interface PkceCodeChallenge
 
     /**
      * Returns the value of the code challenge.
-     *
-     * @return
      */
     CharSequence challenge();
 }

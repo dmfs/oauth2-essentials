@@ -41,26 +41,20 @@ public interface OAuth2Client
      * Executes the given {@link HttpRequest} and returns an {@link OAuth2AccessToken}.
      *
      * @param tokenRequest
-     *         An {@link HttpRequest} to execute.
+     *     An {@link HttpRequest} to execute.
      * @param executor
-     *         An {@link HttpRequestExecutor} to execute the request.
+     *     An {@link HttpRequestExecutor} to execute the request.
      *
      * @return An {@link OAuth2AccessToken}
-     *
-     * @throws RedirectionException
-     * @throws UnexpectedStatusException
-     * @throws IOException
-     * @throws ProtocolError
-     * @throws ProtocolException
      */
     OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-            UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
+        UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
 
     /**
      * Constructs the initial URL for an interactive authorization grant.
      *
      * @param authorizationRequest
-     *         The {@link OAuth2AuthorizationRequest} to launch.
+     *     The {@link OAuth2AuthorizationRequest} to launch.
      *
      * @return The URL that needs to be opened in a user agent.
      */
