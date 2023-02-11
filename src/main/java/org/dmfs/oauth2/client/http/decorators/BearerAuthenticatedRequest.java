@@ -35,7 +35,7 @@ import java.io.IOException;
  * An {@link HttpRequest} decorator that adds a Bearer authorization header.
  *
  * @param <T>
- *         The type of the expected response.
+ *     The type of the expected response.
  *
  * @author Marten Gajda
  */
@@ -43,8 +43,8 @@ public final class BearerAuthenticatedRequest<T> implements HttpRequest<T>
 {
     // TODO: use a generic authorization header instead (once we have one)
     private final static BasicSingletonHeaderType<String> AUTHORIZATION_HEADER = new BasicSingletonHeaderType<String>(
-            "Authorization",
-            new PlainStringHeaderConverter());
+        "Authorization",
+        new PlainStringHeaderConverter());
 
     private final OAuth2AccessToken mAccessToken;
     private final HttpRequest<T> mDecorated;

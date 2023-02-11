@@ -48,12 +48,12 @@ public class TokenResponseHandlerTest
     public void testHandleResponse() throws UnsupportedEncodingException, IOException, ProtocolError, ProtocolException
     {
         final String accessTokenResponse = "{" + "\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\"," + "\"token_type\":\"example\"," + "\"expires_in\":3600,"
-                + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\"," + "\"example_parameter\":\"example_value\"" + "}";
+            + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\"," + "\"example_parameter\":\"example_value\"" + "}";
 
         OAuth2AccessToken token = new TokenResponseHandler(EmptyScope.INSTANCE).handleResponse(
-                new StaticMockResponse(HttpStatus.OK, EmptyHeaders.INSTANCE,
-                        new StaticMockResponseEntity(new StructuredMediaType("application", "json", "utf-8"),
-                                accessTokenResponse)));
+            new StaticMockResponse(HttpStatus.OK, EmptyHeaders.INSTANCE,
+                new StaticMockResponseEntity(new StructuredMediaType("application", "json", "utf-8"),
+                    accessTokenResponse)));
         assertEquals("2YotnFZFEjr1zCsicMWpAA", token.accessToken());
         assertEquals("tGzv3JOkF0XG5Qx2TlKWIA", token.refreshToken());
         assertTrue(token.hasRefreshToken());

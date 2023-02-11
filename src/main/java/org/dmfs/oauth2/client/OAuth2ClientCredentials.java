@@ -31,7 +31,7 @@ public interface OAuth2ClientCredentials
      * Authenticates the given request using the <code>Basic</code> authentication scheme.
      *
      * @param request
-     *         The {@link HttpRequest} to authenticate.
+     *     The {@link HttpRequest} to authenticate.
      *
      * @return An authenticated {@link HttpRequest}.
      */

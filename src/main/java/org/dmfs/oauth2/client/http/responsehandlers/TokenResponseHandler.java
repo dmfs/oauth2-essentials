@@ -56,8 +56,8 @@ public final class TokenResponseHandler implements HttpResponseHandler<OAuth2Acc
         if (!APPLICATION_JSON.equals(response.responseEntity().contentType().value()))
         {
             throw new ProtocolException(
-                    String.format("Illegal response content-type %s, exected %s",
-                            response.responseEntity().contentType().value(), APPLICATION_JSON));
+                String.format("Illegal response content-type %s, exected %s",
+                    response.responseEntity().contentType().value(), APPLICATION_JSON));
         }
 
         String responseString = new StringResponseHandler("UTF-8").handleResponse(response);

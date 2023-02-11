@@ -17,6 +17,7 @@
 package org.dmfs.oauth2.client.pkce;
 
 import net.iharder.Base64;
+
 import org.dmfs.httpessentials.types.CharToken;
 import org.dmfs.httpessentials.types.Token;
 import org.dmfs.jems.messagedigest.elementary.Sha256;

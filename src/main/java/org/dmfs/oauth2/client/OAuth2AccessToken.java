@@ -32,46 +32,29 @@ public interface OAuth2AccessToken
 {
     /**
      * Returns the actual access token String.
-     *
-     * @return
-     *
-     * @throws ProtocolException
      */
     public CharSequence accessToken() throws ProtocolException;
 
     /**
      * Returns the access token type.
-     *
-     * @return
-     *
-     * @throws ProtocolException
      */
     public CharSequence tokenType() throws ProtocolException;
 
     /**
      * Returns whether the response also contained a refresh token.
-     *
-     * @return
      */
     public boolean hasRefreshToken();
 
     /**
      * Returns the refresh token. Before calling this use {@link #hasRefreshToken()} to check if there actually is a refresh token.
      *
-     * @return
-     *
      * @throws NoSuchElementException
-     *         If the token doesn't contain a refresh token.
-     * @throws ProtocolException
+     *     If the token doesn't contain a refresh token.
      */
     public CharSequence refreshToken() throws ProtocolException;
 
     /**
      * Returns the expected expiration date of the access token.
-     *
-     * @return
-     *
-     * @throws ProtocolException
      */
     public DateTime expirationDate() throws ProtocolException;
 
@@ -79,8 +62,6 @@ public interface OAuth2AccessToken
      * The scope this {@link OAuth2AccessToken} was issued for. May be an empty scope if the scope is not known.
      *
      * @return An {@link OAuth2Scope}.
-     *
-     * @throws ProtocolException
      */
     public OAuth2Scope scope() throws ProtocolException;
 
@@ -88,7 +69,7 @@ public interface OAuth2AccessToken
      * Returns a value stored in the token response under the {@code parameterName}.
      *
      * @param parameterName
-     *         the key under which the value is stored in the response
+     *     the key under which the value is stored in the response
      */
     public Optional<CharSequence> extraParameter(final String parameterName);
 }

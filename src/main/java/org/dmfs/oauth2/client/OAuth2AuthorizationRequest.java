@@ -34,7 +34,7 @@ public interface OAuth2AuthorizationRequest
      * Creates a new {@link OAuth2AuthorizationRequest} using the given client id.
      *
      * @param clientId
-     *         The client id of the client application that requests authorization.
+     *     The client id of the client application that requests authorization.
      *
      * @return A new {@link OAuth2AuthorizationRequest} with the updated value.
      */
@@ -44,7 +44,7 @@ public interface OAuth2AuthorizationRequest
      * Creates a new {@link OAuth2AuthorizationRequest} using the given redirect {@link URI}.
      *
      * @param redirectUri
-     *         The redirect URI the server is expected to redirect the user agent to.
+     *     The redirect URI the server is expected to redirect the user agent to.
      *
      * @return A new {@link OAuth2AuthorizationRequest} with the updated value.
      */
@@ -52,8 +52,6 @@ public interface OAuth2AuthorizationRequest
 
     /**
      * Creates a new {@link OAuth2AuthorizationRequest} using the given {@link PkceCodeChallenge}.
-     *
-     * @param codeChallenge
      *
      * @return A new {@link OAuth2AuthorizationRequest} with a code challenge.
      */
@@ -63,12 +61,10 @@ public interface OAuth2AuthorizationRequest
      * Constructs the initial request URL using the given authorization endpoint URI.
      *
      * @param authorizationEndpoint
-     *         A {@link URI} that represents the authorization endpoint URL.
-     *
-     * @return
+     *     A {@link URI} that represents the authorization endpoint URL.
      *
      * @throws IllegalStateException
-     *         if a required value has not been passed yet.
+     *     if a required value has not been passed yet.
      */
     URI authorizationUri(URI authorizationEndpoint);
 }

@@ -25,15 +25,11 @@ public interface OAuth2AuthCodeAuthorization
 {
     /**
      * Returns the actual authorization code.
-     *
-     * @return
      */
     public CharSequence code();
 
     /**
      * Returns the scope that this authorization has been granted for.
-     *
-     * @return
      */
     public OAuth2Scope scope();
 }

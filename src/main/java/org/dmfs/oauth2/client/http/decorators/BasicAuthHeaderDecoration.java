@@ -17,6 +17,7 @@
 package org.dmfs.oauth2.client.http.decorators;
 
 import net.iharder.Base64;
+
 import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
 import org.dmfs.httpessentials.decoration.Decoration;
 import org.dmfs.httpessentials.headers.BasicSingletonHeaderType;

@@ -59,7 +59,7 @@ public class JsonAccessTokenTest
     public void testCustomPayload() throws Exception
     {
         assertThat(new JsonAccessToken(new JSONObject("{\"idToken\":\"id_token_value\"}"), dummy(OAuth2Scope.class))
-                .extraParameter("idToken"), is(present(Matchers.<CharSequence>hasToString("id_token_value"))));
+            .extraParameter("idToken"), is(present(Matchers.<CharSequence>hasToString("id_token_value"))));
     }
 
 
@@ -67,7 +67,7 @@ public class JsonAccessTokenTest
     public void testCustomPayloadWithNonExistingParameter() throws Exception
     {
         assertThat(new JsonAccessToken(new JSONObject("{}"), dummy(OAuth2Scope.class)).extraParameter("idToken"),
-                is(AbsentMatcher.<CharSequence>absent()));
+            is(AbsentMatcher.<CharSequence>absent()));
     }
 
 }

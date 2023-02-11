@@ -32,11 +32,7 @@ import org.dmfs.rfc5545.Duration;
 
 import java.util.NoSuchElementException;
 
-import static org.dmfs.oauth2.client.utils.Parameters.ACCESS_TOKEN;
-import static org.dmfs.oauth2.client.utils.Parameters.EXPIRES_IN;
-import static org.dmfs.oauth2.client.utils.Parameters.SCOPE;
-import static org.dmfs.oauth2.client.utils.Parameters.STATE;
-import static org.dmfs.oauth2.client.utils.Parameters.TOKEN_TYPE;
+import static org.dmfs.oauth2.client.utils.Parameters.*;
 
 
 /**
@@ -57,16 +53,16 @@ public final class ImplicitGrantAccessToken implements OAuth2AccessToken
      * Represents the {@link OAuth2AccessToken} that's contained in the provided redirect URI.
      *
      * @param redirectUri
-     *         The URI the user agent was redirected to.
+     *     The URI the user agent was redirected to.
      * @param scope
-     *         The scope that has been requested from the server.
+     *     The scope that has been requested from the server.
      * @param state
-     *         The state that was provided to the authorization endpoint.
+     *     The state that was provided to the authorization endpoint.
      * @param defaultExpiresIn
-     *         The default expiration duration to assume if no expiration duration was provided with the response.
+     *     The default expiration duration to assume if no expiration duration was provided with the response.
      *
      * @throws ProtocolException
-     *         If the state doesn't match the one returned by the server.
+     *     If the state doesn't match the one returned by the server.
      */
     public ImplicitGrantAccessToken(Uri redirectUri, OAuth2Scope scope, CharSequence state, Duration defaultExpiresIn) throws ProtocolException
     {

@@ -17,12 +17,9 @@
 package org.dmfs.oauth2.client.http.decorators;
 
 import net.iharder.Base64;
+
 import org.dmfs.httpessentials.converters.PlainStringHeaderConverter;
-import org.dmfs.httpessentials.headers.BasicSingletonHeaderType;
-import org.dmfs.httpessentials.headers.EmptyHeaders;
-import org.dmfs.httpessentials.headers.Headers;
-import org.dmfs.httpessentials.headers.HttpHeaders;
-import org.dmfs.httpessentials.headers.SingletonHeaderType;
+import org.dmfs.httpessentials.headers.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,8 +35,8 @@ public class BasicAuthHeaderDecorationTest
 {
     // TODO: use a generic authorization header instead (once we have one)
     private final SingletonHeaderType<String> AUTHORIZATION_HEADER_TYPE = new BasicSingletonHeaderType<String>(
-            "Authorization",
-            new PlainStringHeaderConverter());
+        "Authorization",
+        new PlainStringHeaderConverter());
 
 
     @Test

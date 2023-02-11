@@ -40,26 +40,20 @@ public interface OAuth2AuthorizationProvider
      * Executes the given {@link HttpRequest} for this provider and returns an {@link OAuth2AccessToken}.
      *
      * @param tokenRequest
-     *         The {@link HttpRequest} to execute.
+     *     The {@link HttpRequest} to execute.
      * @param executor
-     *         An {@link HttpRequestExecutor} to execute the request.
+     *     An {@link HttpRequestExecutor} to execute the request.
      *
      * @return An {@link OAuth2AccessToken}
-     *
-     * @throws RedirectionException
-     * @throws UnexpectedStatusException
-     * @throws IOException
-     * @throws ProtocolError
-     * @throws ProtocolException
      */
     public OAuth2AccessToken accessToken(HttpRequest<OAuth2AccessToken> tokenRequest, HttpRequestExecutor executor) throws RedirectionException,
-            UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
+        UnexpectedStatusException, IOException, ProtocolError, ProtocolException;
 
     /**
      * Constructs the initial authorization URL for the given {@link OAuth2AuthorizationRequest}.
      *
      * @param authorizationRequest
-     *         The {@link OAuth2AuthorizationRequest} to launch.
+     *     The {@link OAuth2AuthorizationRequest} to launch.
      *
      * @return A URI that represents the URL to be opened in the user agent.
      */

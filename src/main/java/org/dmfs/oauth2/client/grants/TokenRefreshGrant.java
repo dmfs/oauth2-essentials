@@ -42,11 +42,9 @@ public final class TokenRefreshGrant implements OAuth2Grant
      * Creates an {@link OAuth2Grant} to refresh an {@link OAuth2AccessToken}.
      *
      * @param client
-     *         The {@link OAuth2Client}.
+     *     The {@link OAuth2Client}.
      * @param accessToken
-     *         An {@link OAuth2AccessToken} that has a refresh token.
-     *
-     * @throws ProtocolException
+     *     An {@link OAuth2AccessToken} that has a refresh token.
      */
     public TokenRefreshGrant(OAuth2Client client, OAuth2AccessToken accessToken) throws ProtocolException
     {

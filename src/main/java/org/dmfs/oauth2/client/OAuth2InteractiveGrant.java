@@ -46,14 +46,14 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      * it's safe to call {@link #accessToken(HttpRequestExecutor)} on the returned object.
      *
      * @param redirectUri
-     *         The redirect {@link URI} as returned by the user agent.
+     *     The redirect {@link URI} as returned by the user agent.
      *
      * @return A new {@link OAuth2InteractiveGrant} object that represents the new state.
      *
      * @throws ProtocolError
-     *         If the server returned an error.
+     *     If the server returned an error.
      * @throws ProtocolException
-     *         If the redirectUri is invalid.
+     *     If the redirectUri is invalid.
      */
     public OAuth2InteractiveGrant withRedirect(Uri redirectUri) throws ProtocolError, ProtocolException;
 
@@ -67,7 +67,7 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
      * @return An {@link OAuth2GrantState}.
      *
      * @throws UnsupportedOperationException
-     *         if this grant type does not support exporting the current state.
+     *     if this grant type does not support exporting the current state.
      */
     public OAuth2GrantState state() throws UnsupportedOperationException;
 
@@ -82,7 +82,7 @@ public interface OAuth2InteractiveGrant extends OAuth2Grant
          * Note: you must provide the same client that was provided to the {@link OAuth2InteractiveGrant} that returned this {@link OAuth2GrantState}.
          *
          * @param client
-         *         The {@link OAuth2Client} that was used by the {@link OAuth2InteractiveGrant} that issued this {@link OAuth2GrantState}.
+         *     The {@link OAuth2Client} that was used by the {@link OAuth2InteractiveGrant} that issued this {@link OAuth2GrantState}.
          *
          * @return An {@link OAuth2InteractiveGrant} that can be used to continue the authentication flow.
          */

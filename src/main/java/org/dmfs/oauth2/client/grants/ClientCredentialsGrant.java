@@ -43,9 +43,9 @@ public final class ClientCredentialsGrant implements OAuth2Grant
      * Creates a {@link ClientCredentialsGrant} for the given {@link OAuth2Client}.
      *
      * @param client
-     *         The {@link OAuth2Client} that is requesting access.
+     *     The {@link OAuth2Client} that is requesting access.
      * @param scope
-     *         The requested {@link OAuth2Scope}.
+     *     The requested {@link OAuth2Scope}.
      */
     public ClientCredentialsGrant(OAuth2Client client, OAuth2Scope scope)
     {

@@ -30,9 +30,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 
 /**
@@ -53,8 +51,8 @@ public class TokenErrorResponseHandlerTest
         try
         {
             new TokenErrorResponseHandler().handleResponse(
-                    new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
-                            new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
+                new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
+                    new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
             fail("No exception thrown");
         }
         catch (TokenRequestError e)
@@ -78,8 +76,8 @@ public class TokenErrorResponseHandlerTest
         try
         {
             new TokenErrorResponseHandler().handleResponse(
-                    new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
-                            new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
+                new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
+                    new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
             fail("No exception thrown");
         }
         catch (TokenRequestError e)
@@ -99,13 +97,13 @@ public class TokenErrorResponseHandlerTest
     public void testHandleResponse() throws UnsupportedEncodingException, IOException, ProtocolError, ProtocolException
     {
         final String accessTokenResponse = "{" + "\"error\":\"invalid_grant\"," + "\"error_description\":\"DESCRIPTION\","
-                + "\"error_uri\":\"http://example.com\"" + "}";
+            + "\"error_uri\":\"http://example.com\"" + "}";
 
         try
         {
             new TokenErrorResponseHandler().handleResponse(
-                    new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
-                            new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
+                new StaticMockResponse(HttpStatus.BAD_REQUEST, EmptyHeaders.INSTANCE, new StaticMockResponseEntity(
+                    new StructuredMediaType("application", "json", "utf-8"), accessTokenResponse)));
             fail("No exception thrown");
         }
         catch (TokenRequestError e)

@@ -37,20 +37,20 @@ public final class AuthorizationCodeTokenRequest extends AbstractAccessTokenRequ
      * Creates a token request for an authorization code flow.
      *
      * @param authorization
-     *         The authorization code as returned by the authorization endpoint.
+     *     The authorization code as returned by the authorization endpoint.
      * @param redirectUri
-     *         The client's redirect URI.
+     *     The client's redirect URI.
      * @param codeVerifier
-     *         The code verifier that was send with the authorization request.
+     *     The code verifier that was send with the authorization request.
      */
     public AuthorizationCodeTokenRequest(OAuth2AuthCodeAuthorization authorization, Uri redirectUri, CharSequence codeVerifier)
     {
         super(authorization.scope(),
-                new XWwwFormUrlEncodedEntity(
-                        new Seq<>(
-                                new GrantTypeParam("authorization_code"),
-                                new AuthCodeParam(authorization),
-                                new RedirectUriParam(redirectUri),
-                                new CodeVerifierParam(codeVerifier))));
+            new XWwwFormUrlEncodedEntity(
+                new Seq<>(
+                    new GrantTypeParam("authorization_code"),
+                    new AuthCodeParam(authorization),
+                    new RedirectUriParam(redirectUri),
+                    new CodeVerifierParam(codeVerifier))));
     }
 }

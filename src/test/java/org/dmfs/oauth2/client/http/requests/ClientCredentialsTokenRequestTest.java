@@ -58,9 +58,9 @@ public class ClientCredentialsTokenRequestTest
 
         // test content type
         assertThat(entity.contentType(), is(present(
-                allOf(
-                        is(new StringMediaType("application/x-www-form-urlencoded")),
-                        having(t -> t.charset("any"), is("UTF-8"))))));
+            allOf(
+                is(new StringMediaType("application/x-www-form-urlencoded")),
+                having(t -> t.charset("any"), is("UTF-8"))))));
 
         // test data
         assertEquals("client_credentials", new TextParameter(new BasicParameterType<CharSequence>("grant_type", TextValueType.INSTANCE), params).toString());
