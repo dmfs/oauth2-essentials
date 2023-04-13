@@ -17,11 +17,11 @@
 package org.dmfs.oauth2.client.tokens;
 
 import org.dmfs.httpessentials.exceptions.ProtocolException;
-import org.dmfs.jems.function.Function;
 import org.dmfs.jems.optional.Optional;
-import org.dmfs.jems.optional.decorators.Mapped;
 import org.dmfs.jems.optional.elementary.NullSafe;
-import org.dmfs.jems.single.combined.Backed;
+import org.dmfs.jems2.Function;
+import org.dmfs.jems2.optional.Mapped;
+import org.dmfs.jems2.single.Backed;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Scope;
 import org.dmfs.oauth2.client.scope.StringScope;
@@ -124,14 +124,15 @@ public final class JsonAccessToken implements OAuth2AccessToken
     @Override
     public OAuth2Scope scope() throws ProtocolException
     {
-        return new Backed<>(new Mapped<>(new OAuth2ScopeFunction(), new NullSafe<>(mTokenResponse.optString("scope", null))), mScope).value();
+        return new Backed<>(new Mapped<>(new OAuth2ScopeFunction(),
+            new org.dmfs.jems2.optional.NullSafe<>(mTokenResponse.optString("scope", null))), mScope).value();
     }
 
 
     @Override
     public Optional<CharSequence> extraParameter(final String parameterName)
     {
-        return new NullSafe<CharSequence>(mTokenResponse.optString(parameterName, null));
+        return new NullSafe<>(mTokenResponse.optString(parameterName, null));
     }
 
 
