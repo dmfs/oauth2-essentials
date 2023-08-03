@@ -139,7 +139,7 @@ OAuth2InteractiveGrant grant = new InteractiveGrantFactory(oauth2Client).value(e
 
 ## Choice of HTTP client
 
-This library doesn't depend on any specific HTTP client implementation. Instead it builds upon [http-client-essentials-suite](https://github.com/dmfs/http-client-essentials-suite) to allow any 3rd party HTTP client to be used.
+This library doesn't depend on any specific HTTP client implementation. Instead, it builds upon [http-client-essentials-suite](https://github.com/dmfs/http-client-essentials-suite) to allow any 3rd party HTTP client to be used.
 
 ## Download
 
@@ -150,14 +150,14 @@ Or add it to your build.gradle:
 
     dependencies {
         // oauth2-essentials
-        implementation 'org.dmfs:oauth2-essentials:0.18'
+        implementation 'org.dmfs:oauth2-essentials:0.22.0'
         // optional to use httpurlconnection-executor, any other HttpRequestExecutor
         // implementation will do
-        implementation 'org.dmfs:httpurlconnection-executor:0.20'
+        implementation 'org.dmfs:httpurlconnection-executor:1.21.3'
     }
 
 
 ## License
 
-Copyright dmfs GmbH 2022, licensed under Apache2.
+Copyright dmfs GmbH 2023, licensed under Apache2.
 

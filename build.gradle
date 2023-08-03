@@ -1,10 +1,10 @@
 plugins {
     id 'java-library'
-    id 'org.dmfs.gitversion' version '0.7.0'
+    id 'org.dmfs.gver' version '0.18.0'
     id 'io.github.gradle-nexus.publish-plugin' version '1.1.0' apply false
 }
 
-gitVersion {
+gver {
     issueTracker GitHub {
         repo = "dmfs/oauth2-essentials"
         if (project.hasProperty("GITHUB_API_TOKEN")) {
@@ -12,31 +12,32 @@ gitVersion {
         }
     }
     changes {
-        are major when {
-            commitMessage contains("(?i)#major\\b")
+        are none when {
+            affects only(matches(~/.*\.md/))
         }
         are major when {
-            commitMessage contains("(?i)#break\\b")
+            commitMessage contains(~/(?i)#(major|break(ing)?)\b/)
         }
         are minor when {
-            commitMessage containsIssue { issue -> issue.labels?.every { it.name != "bug" } }
+            commitMessage contains(~/(?i)#(?<issue>\d+)\b/) {
+                where("issue") { isIssue { labeled "enhancement" } }
+            }
         }
         are patch when {
-            commitMessage containsIssue { issue -> issue.labels?.any { it.name == "bug" } }
+            commitMessage contains(~/(?i)#(?<issue>\d+)\b/) {
+                where("issue") { isIssue { labeled "bug" } }
+            }
         }
         are minor when {
-            commitMessage contains("(?i)\\b(implement(s|ed)?|close[sd]?) #\\d+\\b")
-        }
-        are patch when {
-            commitMessage contains("(?i)\\b(fix(e[sd])?|resolve[sd]?) #\\d+\\b")
+            commitMessage contains("#feature\\b")
         }
         otherwise patch
     }
     preReleases {
-        on ~/master|main/ use { "beta" }
+        on ~/main/ use { "beta" }
         on ~/(.*\/)?(?<name>.*)/ use { "alpha-${group('name')}.1" }
     }
-    releaseBranchPattern ~/master$|main$/
+    releaseBranchPattern ~/main$/
 }
 
 sourceSets {
@@ -108,7 +109,7 @@ dependencies {
     implementation 'org.dmfs:http-executor-decorators:' + HTTP_CLIENT_ESSENTIALS_VERSION
     implementation 'org.dmfs:express-json:0.2.0'
     implementation 'org.dmfs:jems2:' + JEMS2_VERSION
-    implementation 'org.json:json:20220924'
+    implementation 'org.json:json:20230227'
 
     testImplementation 'org.saynotobugs:confidence-core:0.8.0'
     testImplementation 'org.saynotobugs:confidence-mockito4:0.8.0'
