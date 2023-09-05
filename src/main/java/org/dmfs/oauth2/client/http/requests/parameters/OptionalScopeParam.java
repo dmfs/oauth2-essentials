@@ -16,11 +16,11 @@
 
 package org.dmfs.oauth2.client.http.requests.parameters;
 
-import org.dmfs.jems.optional.adapters.Conditional;
-import org.dmfs.jems.optional.decorators.DelegatingOptional;
-import org.dmfs.jems.optional.decorators.Mapped;
 import org.dmfs.jems.pair.Pair;
 import org.dmfs.jems.pair.elementary.ValuePair;
+import org.dmfs.jems2.optional.Conditional;
+import org.dmfs.jems2.optional.DelegatingOptional;
+import org.dmfs.jems2.optional.Mapped;
 import org.dmfs.oauth2.client.OAuth2Scope;
 
 
