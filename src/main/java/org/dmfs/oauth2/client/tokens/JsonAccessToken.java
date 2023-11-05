@@ -135,6 +135,19 @@ public final class JsonAccessToken implements OAuth2AccessToken
         return new NullSafe<>(mTokenResponse.optString(parameterName, null));
     }
 
+    /**
+     * Returns the raw token response given by OAuth provider.
+     *
+     * @param executor
+     *     An {@link HttpRequestExecutor} to execute the request.
+     *
+     * @return An {@link org.json.JSONObject}.
+     *
+     */
+    public JSONObject rawResponse()
+    {
+        return new JSONObject(mTokenResponse.toMap());
+    }
 
     /**
      * A {@link Function} which converts a String into an {@link OAuth2Scope}.
