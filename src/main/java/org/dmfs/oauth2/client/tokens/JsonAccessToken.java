@@ -138,9 +138,6 @@ public final class JsonAccessToken implements OAuth2AccessToken
     /**
      * Returns the raw token response given by OAuth provider.
      *
-     * @param executor
-     *     An {@link HttpRequestExecutor} to execute the request.
-     *
      * @return An {@link org.json.JSONObject}.
      *
      */
