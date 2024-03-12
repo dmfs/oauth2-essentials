@@ -62,6 +62,15 @@ public class JsonAccessTokenTest
             .extraParameter("idToken"), is(present(Matchers.<CharSequence>hasToString("id_token_value"))));
     }
 
+    @Test
+    public void testRawResponse() throws Exception
+    {
+        JSONObject originalJsonObject = new JSONObject("{\"idToken\":\"id_token_value\"}");
+        assertThat(new JsonAccessToken(originalJsonObject, dummy(OAuth2Scope.class))
+            .rawResponse(), is(originalJsonObject)));
+    }
+
+
 
     @Test
     public void testCustomPayloadWithNonExistingParameter() throws Exception
